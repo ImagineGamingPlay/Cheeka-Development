@@ -4,7 +4,8 @@
   "description": "The source code of Cheeku.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node .",
+    "test": "nodemon index.js -e js,json"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/ImagineGamingPlay/Cheeku-Development/issues"
   },
-  "homepage": "https://github.com/ImagineGamingPlay/Cheeku-Development#readme"
+  "homepage": "https://github.com/ImagineGamingPlay/Cheeku-Development#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
