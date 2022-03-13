@@ -11,7 +11,7 @@ module.exports= {
      */
     run:async(client,message,args)=>{
         try {
-            if(!message.member.permissions.has('TIMEOUT_MEMBERS') || !message.guild.me.permissions.has('TIMEOUT_MEMBERS')) return;
+            if(!message.member.permissions.has('MODERATE_MEMBERS') || !message.guild.me.permissions.has('MODERATE_MEMBERS')) return;
             let member = message.mentions.members.first();
             if(!member) await message.reply("No user was given.");
             const time = args[1]
