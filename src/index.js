@@ -1,23 +1,28 @@
-require('dotenv').config()
 //for env
+require('dotenv').config()
 
-const {Client} = require('discord.js')
 
-const client = new Client({intents: 32767})
+const {Client, Collection} = require('discord.js')
+
+const client = global.client = new Client({intents: 32767})
 
 //Keep config files which are allowed to public like prefix in config.json
 const config = global.config = require('../config.json')
 
+//Making commands
+client.commands = new Collection()
+
+//Exporting client object
+module.exports = {client}
+
+//requiring handler
+const handler = require('./commandHandler')
+handler(client)
+
 //Ready Event
 client.on('ready', async()=>{
     console.log(`${client.user.username} is online.`)
-})
-
-//MessageCreate
-client.on('messageCreate',async(message)=>{
-    const prefix = config.prefix
-    //handler i guess, we will discuss it later
-        
+    // client.user.setPresence({})
 })
 
 

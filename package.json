@@ -19,7 +19,10 @@
   "homepage": "https://github.com/ImagineGamingPlay/Cheeku-Development#readme",
   "dependencies": {
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "glob": "^7.2.0",
+    "mongoose": "^6.2.6",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
