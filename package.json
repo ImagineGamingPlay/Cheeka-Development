@@ -4,8 +4,8 @@
   "description": "The source code of Cheeku.",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "test": "nodemon index.js -e js,json"
+    "start": "node src/index.js",
+    "test": "nodemon src/index.js -e js,json"
   },
   "repository": {
     "type": "git",
