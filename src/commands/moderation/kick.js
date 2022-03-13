@@ -15,8 +15,8 @@ module.exports= {
             if (!member) await message.reply("You need to mention someone to ban!");
             const reason = args.slice(1).join(' ')
             if(!reason) await message.reply("No reason was given");
-            await member.kick();
             await member.send(`You were kicked of ${message.guild.name} for **${reason}**`)
+            await member.kick();
             await message.reply(`${member.user.tag} was kicked!`)
         } catch(e) {
             message.reply(`${e}`)
