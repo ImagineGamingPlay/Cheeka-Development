@@ -6,8 +6,8 @@ const {Client, Collection} = require('discord.js')
 
 const client = global.client = new Client({intents: 32767})
 
-//Keep config files which are allowed to public like prefix in config.json
-const config = global.config = require('../config.json')
+/* Config Files (public) */
+const config = global.config = require('./config.json')
 
 //Making commands
 client.commands = new Collection()
@@ -25,5 +25,4 @@ client.on('ready', async()=>{
     // client.user.setPresence({})
 })
 
-
-client.login(process.env.TOKEN)
+client.login(process.env.token)
