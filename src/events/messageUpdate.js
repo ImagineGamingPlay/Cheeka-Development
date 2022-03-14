@@ -16,7 +16,7 @@ module.exports = {
     let editedLogEmbed = new MessageEmbed()
       .setColor("#36393f")
       .setDescription(
-        `A [message](${newMessage.url}) has been edited!\n\n**Orginal:** \`\`\`${orginalMsg}\`\`\`\n**Edited:** \`\`\`${editedMsg}\`\`\``
+        `**A [message](${newMessage.url}) has been edited!**\n\n**Orginal:** \`\`\`${orginalMsg}\`\`\`\n**Edited:** \`\`\`${editedMsg}\`\`\``
       )
       .setAuthor({
         name: `${newMessage.author.tag}`,
