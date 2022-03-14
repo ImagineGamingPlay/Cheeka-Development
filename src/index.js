@@ -2,6 +2,7 @@
 require("dotenv").config();
 
 const { Client, Collection } = require("discord.js");
+const fs = require("fs");
 
 const client = (global.client = new Client({ intents: 32767 }));
 
@@ -20,10 +21,18 @@ require("./mongoose.js");
 const handler = require("./commandHandler");
 handler(client);
 
-//Ready Event
-client.on("ready", async () => {
-  console.log(`${client.user.username} is online.`);
-  // client.user.setPresence({})
-});
+//<------- EVENT HANDLER START ------->
+const eventFiles = fs
+  .readdirSync("./src/events")
+  .filter((file) => file.endsWith(".js"));
 
+for (const file of eventFiles) {
+  const event = require(`../src/events/${file}`);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args, client));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args, client));
+  }
+}
+//<------- EVENT HANDLER END ------->
 client.login(process.env.token);
