@@ -23,7 +23,7 @@ handler(client);
 //Ready Event
 client.on("ready", async () => {
   console.log(`${client.user.username} is online.`);
-  // client.user.setPresence({})
+  client.user.setPresence({ activities: [{name: 'Subscribe to IGP'}]});
 });
 
 client.login(process.env.token);
