@@ -6,13 +6,7 @@ module.exports = {
   name: "ban",
   description: "Bans a member",
   aliases: ["b"],
-  /**
-   *
-   * @param {Client} client
-   * @param {Message} message
-   * @param {String[]} args
-   */
-  run: async (client, message, args) => {
+  run: async ({ client, message, args }) => {
     try {
       if (
         !message.member.permissions.has("BAN_MEMBERS") ||

@@ -8,7 +8,7 @@ module.exports = {
    * @param {Message} message
    * @param {String[]} args
    */
-  run: async (client, message, args) => {
+  run: async ({ client, message, args }) => {
     try {
       if (
         !message.member.permissions.has("KICK_MEMBERS") ||

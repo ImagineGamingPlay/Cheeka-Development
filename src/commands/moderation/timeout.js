@@ -3,13 +3,7 @@ module.exports = {
   name: "timeout",
   description: "Timeouts a member",
   aliases: ["tm", "tmout"],
-  /**
-   *
-   * @param {Client} client
-   * @param {Message} message
-   * @param {String[]} args
-   */
-  run: async (client, message, args) => {
+  run: async ({ client, message, args }) => {
     try {
       if (
         !message.member.permissions.has("MODERATE_MEMBERS") ||

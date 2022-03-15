@@ -13,7 +13,7 @@ module.exports = {
   owner: true,
   description: "Evaluate a JavaScript code.",
 
-  run: async (client, message, args) => {
+  run: async ({ client, message, args }) => {
     const notowner = new MessageEmbed()
       .setDescription("Only the developers of cheeku can use this command!")
       .setColor("DARK_ORANGE");
