@@ -1,25 +1,21 @@
-//for env
-require("dotenv").config();
-
 const { Client, Collection } = require("discord.js");
 const fs = require("fs");
+require("dotenv").config();
 
 const client = (global.client = new Client({ intents: 32767 }));
 
+//functions
+function filesConfig(path, ending) {
+  return fs.readdirSync(path).filter((fileName) => fileName.endsWith(ending));
+}
+
 /* Config Files (public) */
 const config = (global.config = require("../config.json"));
-
-//Making commands
-client.commands = new Collection();
 
 //Exporting client object
 module.exports = { client };
 
 require("./mongoose.js");
-
-//requiring handler
-const handler = require("./commandHandler");
-handler(client);
 
 //<------- EVENT HANDLER START ------->
 const eventFiles = fs
@@ -35,4 +31,19 @@ for (const file of eventFiles) {
   }
 }
 //<------- EVENT HANDLER END ------->
+
+//<------- COMMAND HANDLER START ------->
+client.commands = new Collection();
+
+const commandFolders = fs.readdirSync("./src/commands").forEach((folder) => {
+  let commands = filesConfig(`./src/commands/${folder}`, ".js")
+
+  commands.forEach((f) => {
+    const command = require(`./commands/${folder}/${f}`)
+    client.commands.set(command.name, command)
+  })
+})
+
+console.log(`Successfully loaded ${client.commands.size} commands!`)
+//<------- COMMAND HANDLER END ------->
 client.login(process.env.token);
