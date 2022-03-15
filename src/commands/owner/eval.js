@@ -18,7 +18,7 @@ module.exports = {
       .setDescription("Only the developers of cheeku can use this command!")
       .setColor("DARK_ORANGE");
 
-    if (!config.developers.includes(message.author.id))
+    if (!config.devs.includes(message.author.id))
       return message.channel.send({ embeds: [notowner] });
 
     const clean = async (text) => {
