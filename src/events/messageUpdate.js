@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, WebhookClient } = require("discord.js");
 
 module.exports = {
   name: "messageUpdate",
@@ -14,15 +14,19 @@ module.exports = {
       (newMessage.content.length > division ? " ..." : ""); //does the same as above but for edited message
 
     let editedLogEmbed = new MessageEmbed()
-      .setColor("BLURPLE")
+      .setColor("#36393f")
       .setDescription(
-        `A [message](${newMessage.url}) has been edited!\n\n**Orginal:** \`\`\`${orginalMsg}\`\`\`\n**Edited:** \`\`\`${editedMsg}\`\`\``
+        `**A [message](${newMessage.url}) has been edited!**\n\n**Orginal:** \`\`\`${orginalMsg}\`\`\`\n**Edited:** \`\`\`${editedMsg}\`\`\``
       )
       .setAuthor({
-        name: `${newMessage.author.username}`,
+        name: `${newMessage.author.tag}`,
         iconURL: `${newMessage.author.displayAvatarURL({ dynamic: true })}`,
       })
-      .addFields({ name: "Channel", value: `${newMessage.channel}` });
+      .addFields({ name: "Channel", value: `${newMessage.channel}` })
+      .setFooter({
+        text: `User ID: ${newMessage.author.id}`,
+        iconURL: `${newMessage.author.displayAvatarURL({ dynamic: true })}`,
+      })
 
     if (newMessage.attachments.size > 0) {
       editedLogEmbed.addField(
@@ -32,8 +36,10 @@ module.exports = {
       );
     }
 
-    newMessage.guild.channels.cache
-      .get("952514063873761328")
-      .send({ embeds: [editedLogEmbed] });
+    new WebhookClient({
+      url: "https://discord.com/api/webhooks/952951404098646036/I_X0kZD4yGRCoAXuUOBwNPXScXiy-y4Y4R4MZPgI2MS_aDIGCAr87GnHWyM2OJULCo_0",
+    })
+      .send({ embeds: [editedLogEmbed] })
+      .catch((err) => console.log(err));
   },
 };
