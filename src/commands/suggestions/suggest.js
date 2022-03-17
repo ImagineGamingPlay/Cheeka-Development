@@ -29,7 +29,6 @@ module.exports = {
       });
 
     try {
-      suggestionChannel.send({ embeds: [suggestEmbed] });
       const suggestedMsg = await suggestionChannel.send({
         embeds: [suggestEmbed],
       });
