@@ -10,7 +10,7 @@ const {
 module.exports = {
   name: "eval",
   category: "owner",
-  owner: true,
+  devCmd: true,
   description: "Evaluate a JavaScript code.",
 
   run: async ({ client, message, args }) => {

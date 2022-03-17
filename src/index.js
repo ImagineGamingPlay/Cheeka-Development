@@ -47,3 +47,16 @@ const commandFolders = fs.readdirSync("./src/commands").forEach((folder) => {
 console.log(`Successfully loaded ${client.commands.size} commands!`)
 //<------- COMMAND HANDLER END ------->
 client.login(process.env.token);
+
+process.on("unhandledRejection", (reason, p) => {
+  console.log(reason, p);
+ });
+ process.on("uncaughtException", (err, origin) => {
+  console.log(err, origin);
+ });
+ process.on("uncaughtExceptionMonitor", (err, origin) => {
+  console.log(err, origin);
+ });
+ process.on("multipleResolves", (type, promise, reason) => {
+  console.log(type, promise, reason);
+ });
