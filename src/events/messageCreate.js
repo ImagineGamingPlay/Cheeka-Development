@@ -5,7 +5,7 @@ module.exports = {
   async execute(message, client) {
     if (message.author.bot || !message.guild || !message.content.startsWith(prefix)) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ + /g)
+    const args = message.content.slice(prefix.length).trim().split(" ")
     const cmd = args.shift().toLowerCase()
     const command = client.commands.get(cmd) ||client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
