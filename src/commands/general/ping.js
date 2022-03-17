@@ -6,6 +6,7 @@ module.exports = {
   description: "Check for the bots latency",
   aliases: ["pong"],
   permissions: ["ADMINSTRATOR"],
+  cooldown: 8,
   run: async ({ client, message, args }) => {
     let result = await message.reply("Calculating Ping...");
     let botPing = result.createdTimestamp - message.createdTimestamp;
