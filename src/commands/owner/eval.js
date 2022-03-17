@@ -13,12 +13,12 @@ module.exports = {
   devCmd: true,
   description: "Evaluate a JavaScript code.",
 
-  run: async (client, message, args) => {
+  run: async ({ client, message, args }) => {
     const notowner = new MessageEmbed()
       .setDescription("Only the developers of cheeku can use this command!")
       .setColor("DARK_ORANGE");
 
-    if (!config.developers.includes(message.author.id))
+    if (!config.devs.includes(message.author.id))
       return message.channel.send({ embeds: [notowner] });
 
     const clean = async (text) => {
