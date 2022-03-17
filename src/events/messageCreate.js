@@ -1,6 +1,6 @@
 const { prefix, devs } = require("../../config.json")
 //Create cooldowns map
-const { cooldowns } = new Map();
+const cooldowns = new Map();
 const { Collection } = require("discord.js")
 module.exports = {
   name: "messageCreate",
@@ -13,11 +13,10 @@ module.exports = {
       client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
     if (!command) return;
-
     //Cooldown system
     if (command.cooldown) {
       //If cooldowns map doesn't have a command.name key then create one.
-      if (cooldowns.has(command.name)) {
+      if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Collection())
       }
 
