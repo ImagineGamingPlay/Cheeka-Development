@@ -47,8 +47,8 @@ module.exports = {
         .setAuthor({ name: "Eval", iconURL: message.author.avatarURL() })
         .addField("Input", `\`\`\`js\n${code}\n\`\`\``)
         .addField("Output", `\`\`\`js\n` + evaled + `\n\`\`\``)
-        .setColor("#00ffee");
-
+        .setColor("#00ffee")
+        .setTimestamp();
       message.channel.send({ embeds: [embed] });
     } catch (err) {
       message.channel.send(`\`\`\`js\n${err}\n\`\`\``);
