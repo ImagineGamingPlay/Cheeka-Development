@@ -11,9 +11,9 @@ module.exports = {
             guilds.push(guild.name)
         })
         const a = new MessageEmbed()
-        .setAuthor('Servers i\'m in', client.user.displayAvatarURL())
-        .setDescription(guilds.join('\n'))
-        .setFooter(`Currently in ${client.guilds.cache.size} servers.`)
-        message.reply({embeds: [a]})
+            .setAuthor('Servers i\'m in', client.user.displayAvatarURL())
+            .setDescription(guilds.join('\n'))
+            .setFooter(`Currently in ${client.guilds.cache.size} servers.`)
+        message.reply({ embeds: [a] })
     },
 };
