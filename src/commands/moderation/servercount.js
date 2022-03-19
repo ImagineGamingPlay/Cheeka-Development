@@ -14,6 +14,6 @@ module.exports = {
             .setAuthor('Servers i\'m in', client.user.displayAvatarURL())
             .setDescription(guilds.join('\n'))
             .setFooter(`Currently in ${client.guilds.cache.size} servers.`)
-        message.reply({ embeds: [a] })
+        await message.reply({ embeds: [a] })
     },
 };
