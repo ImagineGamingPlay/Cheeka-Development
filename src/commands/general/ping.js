@@ -14,7 +14,7 @@ module.exports = {
 
     let pingEmbed = new MessageEmbed()
       .setColor("BLURPLE")
-      .setTitle(":ping_pong: Ping Information")
+      .setTitle(`:ping_pong: Ping Information:`)
       .addFields(
         { name: "Bot's Ping", value: `${botPing}ms`, inline: true },
         { name: "API's latency", value: `${apiPing}ms`, inline: true },
