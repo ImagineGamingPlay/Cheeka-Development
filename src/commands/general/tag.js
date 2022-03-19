@@ -14,9 +14,7 @@ module.exports = {
     
     const query = args[0]?.toLowerCase() ?? false;
     if (!query)
-      return message.reply(
-        'Please specify the tag name or use "create" , "delete" , "edit" to make changes'
-      );
+      return message.reply(incorrectUsage);
     if (query === "create") {
       //will be added soon
     } else if (query === "delete") {
