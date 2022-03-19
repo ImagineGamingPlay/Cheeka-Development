@@ -14,7 +14,6 @@ module.exports = {
       );
     if (isNaN(amount))
       return message.reply("Invalid amount given, amount must be a number!");
-
     try {
         await message.channel.bulkDelete(amount, true);
         await message.channel.bulkDelete(1)
