@@ -1,11 +1,13 @@
-const { prefix, devs } = require("../../config.json")
+const { prefix, devs } = require("../../config.json");
 //Create cooldowns map
 const cooldowns = new Map();
-const { Collection } = require("discord.js")
+const { Collection } = require("discord.js");
+//Blacklist system
+const Blacklist = require('../schema/blacklist.js');
 module.exports = {
   name: "messageCreate",
   async execute(message, client) {
-    if (message.author.bot || !message.guild || !message.content.startsWith(prefix)) return;
+    if (message.author?.bot || !message.guild || !message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).trim().split(" ")
     const cmd = args.shift().toLowerCase()
@@ -13,7 +15,14 @@ module.exports = {
       client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
     if (!command) return;
-    //Cooldown system
+    //Blacklist here
+   Blacklist.findOne({UserId:message.author?.id},async(error,data)=>{
+      if(error) console.log(error);
+      if(data) {
+        return message.reply('You are blacklisted from using any commands.')
+      } else {
+    //Normal code but placed in the else block
+   //Cooldown system
     if (command.cooldown) {
       //If cooldowns map doesn't have a command.name key then create one.
       if (!cooldowns.has(command.name)) {
@@ -56,5 +65,11 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
+    }
+      //the else block of blacklist ends here.
+    })
+
+
+
   },
 };
