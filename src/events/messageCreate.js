@@ -18,10 +18,9 @@ module.exports = {
     //Blacklist here
    Blacklist.findOne({UserId:message.author?.id},async(error,data)=>{
       if(error) console.log(error);
-      if(data) {
-        return message.reply('You are blacklisted from using any commands.')
-      } else {
-    //Normal code but placed in the else block
+      if(!data) {
+     
+    //Normal code but placed in the  block
    //Cooldown system
     if (command.cooldown) {
       //If cooldowns map doesn't have a command.name key then create one.
@@ -65,6 +64,8 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
+    } else {
+      return message.reply('Sorry you are blacklisted form running the commands.')
     }
       //the else block of blacklist ends here.
     })

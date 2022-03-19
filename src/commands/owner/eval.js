@@ -36,8 +36,10 @@ module.exports = {
         return message.channel.send("Please Provide A code to eval!");
       }
       clean(code);
+      let evalCode;
+      code.includes(`await`) ? evalCode = ";(async () => {" + code + "})()" :  evalCode = code;
 
-      let evaled = eval(";(async () => {" + code + "})()");
+      let evaled = eval(evalCode);
 
       if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
