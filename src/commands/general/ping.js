@@ -23,7 +23,8 @@ module.exports = {
       .setAuthor({
         name: `${message.author.tag}`,
         iconURL: `${message.author.displayAvatarURL({ dynamic: true })}`,
-      });
+      })
+      .setTimestamp();
 
     await result.edit({ content: "** **", embeds: [pingEmbed] });
   },
