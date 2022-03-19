@@ -1,12 +1,17 @@
 const TagSchema = require("../../schema/tags.js");
+const { MessageEmbed } = require('discord.js')
 
 module.exports = {
   name: "tag",
   description: "Tag system in modified form.",
   aliases: ["t"],
   run: async ({ client, message, args }) => {
-    console.log("works?");
-
+    let incorrectUsage = new MessageEmbed()
+    .setAuthor('Incorrect Tag Cmd Usage!', client.user.displayAvatarURL())
+    .setColor('RED')
+    .setDescription(`Please specify a tag name, or use **create**, **edit** or **delete**.
+    `)
+    
     const query = args[0]?.toLowerCase() ?? false;
     if (!query)
       return message.reply(
