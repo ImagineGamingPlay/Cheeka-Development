@@ -8,7 +8,7 @@ module.exports = {
   permissions: ["ADMINSTRATOR"],
   cooldown: 8,
   run: async ({ client, message, args }) => {
-    let result = await message.reply("Calculating Ping...");
+    let loading = await message.reply("Calculating Ping...");
     let botPing = result.createdTimestamp - message.createdTimestamp;
     let apiPing = client.ws.ping;
 
@@ -23,9 +23,7 @@ module.exports = {
       .setAuthor({
         name: `${message.author.tag}`,
         iconURL: `${message.author.displayAvatarURL({ dynamic: true })}`,
-      })
-      .setTimestamp();
-
-    await result.edit({ content: "** **", embeds: [pingEmbed] });
+      });
+    await loading.edit({ content: null, embeds: [pingEmbed] });
   },
 };
