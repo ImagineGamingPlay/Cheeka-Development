@@ -48,6 +48,8 @@ console.log(`Successfully loaded ${client.commands.size} commands!`)
 //<------- COMMAND HANDLER END ------->
 client.login(process.env.token);
 
+
+//<------------- PROCESS ERROR HANDLING -------------> 
 process.on("unhandledRejection", (reason, p) => {
   console.log(reason, p);
  });
@@ -60,3 +62,4 @@ process.on("unhandledRejection", (reason, p) => {
  process.on("multipleResolves", (type, promise, reason) => {
   console.log(type, promise, reason);
  });
+//<----------------PROCESS ERROR HANDLING END----------------->

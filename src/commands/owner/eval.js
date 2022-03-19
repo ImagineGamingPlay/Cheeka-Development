@@ -33,7 +33,7 @@ module.exports = {
     try {
       const code = args.join(" ");
       if (!code) {
-        return message.channel.send("Please Provide A code to eval!");
+        return message.channel.send("You forgot your code, dummy");
       }
       clean(code);
       let evalCode;
