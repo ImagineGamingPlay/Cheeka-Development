@@ -12,14 +12,19 @@ module.exports = {
      * @returns {Promise<*>} Returns a promise that might return anything
      */
     run: async ({client, message, args}) => {
-        var guilds = []
+        const guilds = [];
         client.guilds.cache.forEach(guild => {
             guilds.push(guild.name)
         })
         const a = new MessageEmbed()
-            .setAuthor('Servers i\'m in', client.user.displayAvatarURL())
+            .setAuthor({
+                name: 'Servers i\'m in',
+                iconURL: client.user.displayAvatarURL()
+            })
             .setDescription(guilds.join('\n'))
-            .setFooter(`Currently in ${client.guilds.cache.size} servers.`)
+            .setFooter({
+                text: `Currently in ${client.guilds.cache.size} servers.`
+            })
         await message.reply({embeds: [a]})
     },
 };
