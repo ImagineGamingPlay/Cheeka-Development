@@ -1,7 +1,9 @@
-const { Schema, model } = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 const Blacklist = new Schema({
-    UserId : String,
+    UserId: String,
 });
-
-module.exports = model('Blacklist_User',Blacklist);
+/**
+ * @type {Model<Blacklist>}
+ */
+module.exports = model('Blacklist_User', Blacklist);
