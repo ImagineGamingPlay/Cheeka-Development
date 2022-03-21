@@ -34,8 +34,10 @@ module.exports = {
             })
         } catch (err) {
             return;
+            /*
             console.log(err);
             await message.reply(`\`\`\`${err}\`\`\``);
+             */
         }
     },
 };
