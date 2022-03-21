@@ -31,7 +31,7 @@ module.exports = {
             await TagSchema.findOne({Name: query}, async (error, data) => {
                 if (error) console.log(error);
                 if (data) {
-                    message.reply({
+                    await message.reply({
                         content: `${data.Code}`,
                         allowedMentions: [{repliedUser: false, everyone: false}],
                     });

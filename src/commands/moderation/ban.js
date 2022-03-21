@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { MessageButton, MessageEmbed, MessageActionRow} = require("discord.js");
 
 module.exports = {
     name: "ban",
@@ -17,7 +17,7 @@ module.exports = {
             if (!member) return message.reply("You need to mention someone to ban!");
             const reason = args.slice(1).join(" ");
             //Notifcation Embed
-            const em = new Discord.MessageEmbed()
+            const em = new MessageEmbed()
                 .setTitle(`Server Ban`)
                 .setFooter({text: `Banned by ${message.author.tag}`})
                 .setColor(`RED`);
@@ -32,8 +32,8 @@ module.exports = {
                 );
             }
             //Appeal Button
-            const r = new Discord.MessageActionRow().addComponents(
-                new Discord.MessageButton()
+            const r = new MessageActionRow().addComponents(
+                new MessageButton()
                     .setStyle(`LINK`)
                     .setLabel(`Appeal`)
                     .setURL(
@@ -48,7 +48,7 @@ module.exports = {
                 await message.reply(`${member.user.tag} was banned for **${reason}**!`);
             }
         } catch (e) {
-            message.reply(`An error occured: \`\`\`${e}\`\`\``);
+            await message.reply(`An error occured: \`\`\`${e}\`\`\``);
             console.log(e);
         }
     },
