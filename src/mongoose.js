@@ -7,9 +7,8 @@ if (!process.env.mongodb) {
     .connect(process.env?.mongodb, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+    }, () => {
+        console.log("Connected to mongodb 🍁");
     })
-    .then(() => {
-      console.log("Connected to mongodb 🍁");
-    });
 }
 module.exports = mongoose;
