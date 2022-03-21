@@ -14,7 +14,7 @@ module.exports = {
     
     const query = args[0]?.toLowerCase() ?? false;
     if (!query)
-      return message.reply(incorrectUsage);
+      return message.reply({embeds: [incorrectUsage]});
     if (query === "create") {
       //will be added soon
     } else if (query === "delete") {
