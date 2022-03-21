@@ -46,7 +46,9 @@ const commandFolders = fs.readdirSync("./src/commands").forEach((folder) => {
 
 console.log(`Successfully loaded ${client.commands.size} commands!`)
 //<------- COMMAND HANDLER END ------->
-client.login(process.env.token);
+client.login(process.env.token).then(r =>
+    console.log(`Successfully logged in as ${client.user.tag}!`)
+).catch(e => console.log(e))
 
 
 //<------------- PROCESS ERROR HANDLING -------------> 
