@@ -21,7 +21,7 @@ module.exports = {
             await member.kick();
             await message.reply(`${member.user.tag} was kicked!`);
         } catch (e) {
-            message.reply(`${e}`);
+            await message.reply(`${e}`);
         }
     },
 };
