@@ -1,3 +1,5 @@
+const {blackListCache} = require("../utils/Cache");
+const Blacklist = require("../schema/blacklist");
 module.exports = {
     name: "ready",
     once: true,
@@ -38,5 +40,17 @@ module.exports = {
 
         setInterval(pickStatus, 10 * 1000);
         //<------- AUTO CHANGING STATUS END ------->
+        Blacklist.find({}, (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                /**
+                 * @param blacklist {Blacklist[]}
+                 */
+                data.forEach((blacklist) => {
+                    blackListCache.set(blacklist.UserId, true);
+                });
+            }
+        });
     },
 };
