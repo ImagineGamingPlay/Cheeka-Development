@@ -1,5 +1,6 @@
-const {blackListCache} = require("../utils/Cache");
+const {blackListCache, cBlackListCache} = require("../utils/Cache");
 const Blacklist = require("../schema/blacklist");
+const {BlacklistChannel} = require("../schema/blacklist");
 module.exports = {
     name: "ready",
     once: true,
@@ -49,6 +50,18 @@ module.exports = {
                  */
                 data.forEach((blacklist) => {
                     blackListCache.set(blacklist.UserId, true);
+                });
+            }
+        });
+        BlacklistChannel.find({}, (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                /**
+                 * @param blacklist {BlacklistChannel[]}
+                 */
+                data.forEach((blacklist) => {
+                    cBlackListCache.set(blacklist.channelId, true);
                 });
             }
         });

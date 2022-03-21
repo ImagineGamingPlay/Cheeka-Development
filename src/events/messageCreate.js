@@ -4,9 +4,14 @@ const cooldowns = new Map();
 const {Collection} = require("discord.js");
 //Blacklist system
 const Blacklist = require('../schema/blacklist.js');
-const {blackListCache} = require("../utils/Cache");
+const {blackListCache, cBlackListCache} = require("../utils/Cache");
 module.exports = {
     name: "messageCreate",
+    /**
+     * @param message {Message}
+     * @param client {Client}
+     * @returns {Promise<*>}
+     */
     async execute(message, client) {
         if (message.author?.bot || !message.guild || !message.content.startsWith(prefix)) return;
 
@@ -18,6 +23,15 @@ module.exports = {
         if (!command) return;
         //Blacklist here
         const data = blackListCache.get(message.author?.id);
+        const blacklistedChannel = cBlackListCache.get(message.channel.id);
+        if (blacklistedChannel) {
+            let a = await message.reply("You are not allowed to use commands in this channel!");
+            setTimeout(() => {
+                a.delete();
+                message.delete().catch(() => {});
+            }, 5000);
+            return;
+        }
         if (!data) {
 
             //Normal code but placed in the  block
