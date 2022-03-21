@@ -20,9 +20,8 @@ module.exports = {
         if (!userId) return message.channel.send('Please provide a valid user to blacklist!');
 
         if (query === 'add' || query === 'create') {
-
             await Blacklist.findOne({UserId: userId}, async (error, data) => {
-                if (error) console.log(error);
+                if (error) return;
                 if (data) {
                     await message.reply({
                         embeds: [
