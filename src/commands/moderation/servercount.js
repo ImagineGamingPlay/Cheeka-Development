@@ -5,6 +5,7 @@ module.exports = {
     description: "view the number of servers the bot is in, and their names.",
     aliases: ["sc"],
     permission: ["SEND_MESSAGES"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

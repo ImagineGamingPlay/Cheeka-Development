@@ -3,7 +3,6 @@ const {prefix, devs} = require("../../config.json");
 const cooldowns = new Map();
 const {Collection} = require("discord.js");
 //Blacklist system
-const Blacklist = require('../schema/blacklist.js');
 const {blackListCache, cBlackListCache} = require("../utils/Cache");
 module.exports = {
     name: "messageCreate",
@@ -36,6 +35,20 @@ module.exports = {
 
             //Normal code but placed in the  block
             //Cooldown system
+            /**
+             * @type string[]
+             */
+            if (command.disabledChannel) {
+                // Make sure that the command is not disabled in the channel
+                if (command.disabledChannel.includes(message.channel.id)) {
+                    let a = await message.reply("This command is disabled in this channel!");
+                    setTimeout(() => {
+                        a.delete();
+                        message.delete().catch(() => {});
+                    }, 5000);
+                    return;
+                }
+            }
             if (command.cooldown) {
                 //If cooldowns map doesn't have a command.name key then create one.
                 if (!cooldowns.has(command.name)) {

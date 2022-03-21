@@ -3,6 +3,7 @@ module.exports = {
     description: "Kicks a member",
     permissions: ["KICK_MEMBERS"],
     aliases: ["k"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

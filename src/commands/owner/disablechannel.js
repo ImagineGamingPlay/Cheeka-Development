@@ -5,6 +5,7 @@ module.exports = {
     name: "disablechannel",
     description: "Disable bot commands in a specific channel.",
     devCmd: true,
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

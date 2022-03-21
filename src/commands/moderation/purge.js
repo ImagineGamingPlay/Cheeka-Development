@@ -5,6 +5,7 @@ module.exports = {
     description: "clear a certain amount of messages",
     aliases: ["clear", "clr"],
     permission: ["MANAGE_MESSAGES"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

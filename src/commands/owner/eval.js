@@ -12,6 +12,7 @@ module.exports = {
     category: "owner",
     devCmd: true,
     description: "Evaluate a JavaScript code.",
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

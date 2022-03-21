@@ -5,6 +5,7 @@ module.exports = {
     description: "accept a suggestion",
     aliases: ["acc-suggest", "acc-sug"],
     permissions: ["MANAGE_MESSAGES"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

@@ -4,6 +4,7 @@ module.exports = {
     name: "suggest",
     description: "make to suggestion regarding the server",
     aliases: ["sug"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

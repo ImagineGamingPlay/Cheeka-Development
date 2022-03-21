@@ -3,6 +3,7 @@ module.exports = {
     name: "timeout",
     description: "Timeouts a member",
     aliases: ["tm", "tmout"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

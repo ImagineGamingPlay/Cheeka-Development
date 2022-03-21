@@ -5,6 +5,7 @@ module.exports = {
     name: "shell",
     description: "Execute shell commands from discord.",
     aliases: ["run"],
+    disabledChannel: [],
     devCmd: true,
     /**
      * @param client {Client} A discord.js client

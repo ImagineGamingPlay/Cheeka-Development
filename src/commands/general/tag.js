@@ -5,6 +5,7 @@ module.exports = {
     name: "tag",
     description: "Tag system in modified form.",
     aliases: ["t"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

@@ -5,6 +5,7 @@ module.exports = {
     name: "blacklist",
     description: "Blacklist users from using a command.",
     devCmd: true,
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

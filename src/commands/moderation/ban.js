@@ -5,6 +5,7 @@ module.exports = {
     description: "Bans a member",
     permissions: ["BAN_MEMBERS"],
     aliases: ["b"],
+    disabledChannel: [],
     /**
      * @param client {Client} A discord.js client
      * @param message {Message} A discord.js message

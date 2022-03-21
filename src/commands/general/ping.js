@@ -6,6 +6,7 @@ module.exports = {
     description: "Check for the bots latency",
     aliases: ["pong"],
     permissions: ["ADMINSTRATOR"],
+    disabledChannel: [],
     cooldown: 8,
     /**
      * @param client {Client} A discord.js client
