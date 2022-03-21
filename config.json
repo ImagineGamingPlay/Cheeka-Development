@@ -10,5 +10,43 @@
     "657951960397381684",
     "459342334564237323"
   ],
-  "chadRoleTest":"955458865678417970"
+  "chadRoleTest":"955458865678417970",
+  "rules": [
+    {
+      "title": "Follow Discord's Terms of Service",
+      "description": "Please ensure that you're following Discord's Terms of Service while talking in this server. \nhttps://discord.com/terms & https://discord.com/guidelines\n"
+    },
+    {
+      "title": "Keep the Server SFW",
+      "description": "Make sure whatever you post is appropriate for those who are 13 and over."
+    },
+    {
+      "title": "No hate speech or harassment of any kind",
+      "description": "This is self explanatory, but hate speech, and threats are not allowed on this server.  We do not tolerate it and if you're caught breaking this rule, you'll be banned immediately"
+    },
+    {
+      "title": "No Controversial Topics",
+      "description": "This is a CODING RELATED server. Please have those somewhere else."
+    },
+    {
+      "title": "No offensive slurs or languages that could be triggering to people in the community",
+      "description": "Self explanatory, if caught breaking this, immediate ban."
+    },
+    {
+      "title": "Keep spam + promotion out",
+      "description": "Spamming of any kind is prohibited in this server. For example, mass-ping or bot spam or text-walls.\nPromoting anywhere other than promotion is not allowed. Also, no unrequested Direct Messages (DM) Promotion."
+    },
+    {
+      "title": "Use proper channels for discussion, please.",
+      "description": "Self explanatory, there's place for everything. For example, ask for help in discord-bot-help or off topic conversations or arguments(NOT FIGHTS) in main-chat"
+    },
+    {
+      "title": "DM-ing moderators for help",
+      "description": "Please don't DM moderators for help, they have their DM open for server regarding problem not for your discord bot help, doing so will get you kicked so beware."
+    },
+    {
+      "title": "Follow Wheaton's Law.",
+      "description": "Google this one up"
+    }
+  ]
 }
