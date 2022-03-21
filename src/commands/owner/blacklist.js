@@ -23,7 +23,7 @@ module.exports = {
             await Blacklist.findOne({UserId: userId}, async (error, data) => {
                 if (error) console.log(error);
                 if (data) {
-                    message.reply({
+                    await message.reply({
                         embeds: [
                             new MessageEmbed({
                                 title: ' User Already Blacklisted.',
@@ -33,12 +33,10 @@ module.exports = {
                         ]
                     })
                 } else {
-                    new Blacklist({
+                    await new Blacklist({
                         UserId: userId
-                    }).save()
-
-                    message.reply('✅ User successfully blacklisted.')
-
+                    }).save();
+                    await message.reply('✅ User successfully blacklisted.')
                 }
             })
         } else if (query === 'remove' || query === 'delete') {

@@ -35,7 +35,7 @@ module.exports = {
                 `**${member.user.tag}** got timed out for **${time}** for doing **${reason}**`
             );
         } catch (e) {
-            message.reply(`${e}`);
+            await message.reply(`${e}`);
         }
     },
 };

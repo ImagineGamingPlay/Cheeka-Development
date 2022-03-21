@@ -40,7 +40,7 @@ module.exports = {
             if (!code) {
                 return message.channel.send("You forgot your code, dummy");
             }
-            clean(code);
+            await clean(code);
             let evalCode;
             code.includes(`await`) ? evalCode = ";(async () => {" + code + "})()" : evalCode = code;
 
