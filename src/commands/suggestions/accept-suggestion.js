@@ -1,4 +1,4 @@
-const {MessageEmbed} = require("discord.js");
+const {MessageEmbed, TextChannel} = require("discord.js");
 
 module.exports = {
     name: "accept-suggestion",
@@ -14,8 +14,11 @@ module.exports = {
     run: async ({client, message, args}) => {
         const messageID = args[0];
         const reason = args.slice(1).join(" ") || "No reason given";
+        /**
+         * @type {TextChannel}
+         */
         const suggestionChannel =
-            message.guild.channels.cache.get("953482520542978141");
+            await message.guild.channels.fetch("953482520542978141");
         const suggestedMsg = await suggestionChannel.messages.fetch(messageID);
         const suggestEmbed = suggestedMsg.embeds[0];
 
@@ -39,7 +42,7 @@ module.exports = {
                 iconURL: `${message.author.displayAvatarURL({dynamic: true})}`,
             });
         try {
-            suggestedMsg.edit({embeds: [acceptedEmbed]});
+            await suggestedMsg.edit({embeds: [acceptedEmbed]});
             await message.reply("Suggestion accepted!");
         } catch (err) {
             console.log(err);
