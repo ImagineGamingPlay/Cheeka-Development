@@ -24,9 +24,9 @@ module.exports = {
     const clean = async (text) => {
       if (typeof text === "string")
         return text
-          .replace(/`/g, "`" + String.fromCharCode(8203))
+          // .replace(/`/g, "`" + String.fromCharCode(8203))
           .replace(/@/g, "@" + String.fromCharCode(8203))
-          .replace(client.token, "[Something Important]");
+          .replace(/client.token/g, "[Something Important]");
       else return text;
     };
 
@@ -35,9 +35,9 @@ module.exports = {
       if (!code) {
         return message.channel.send("You forgot your code, dummy");
       }
-      clean(code);
-      let evalCode;
-      code.includes(`await`) ? evalCode = ";(async () => {" + code + "})()" :  evalCode = code;
+      
+
+      let evalCode= code.includes(`await`) ?  ";(async () => {" + code + "})()" :  code;
 
       let evaled = eval(evalCode);
 
