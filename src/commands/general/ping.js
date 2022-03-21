@@ -14,8 +14,10 @@ module.exports = {
      * @returns {Promise<*>} Returns a promise that might return anything
      */
     run: async ({client, message, args}) => {
+        // create a time stamp with time and date
+        const timeStamp = new Date().getTime();
         let loading = await message.reply("Calculating Ping...");
-        let botPing = result.createdTimestamp - message.createdTimestamp;
+        let botPing = message.createdTimestamp - timeStamp;
         let apiPing = client.ws.ping;
 
         let pingEmbed = new MessageEmbed()
