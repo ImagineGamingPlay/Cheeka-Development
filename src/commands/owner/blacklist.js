@@ -1,5 +1,6 @@
 const {MessageEmbed} = require("discord.js")
 const Blacklist = require('../../schema/blacklist.js')
+const {blackListCache} = require("../../utils/Cache");
 module.exports = {
     name: "blacklist",
     description: "Blacklist users from using a command.",
@@ -36,6 +37,7 @@ module.exports = {
                     await new Blacklist({
                         UserId: userId
                     }).save();
+                    blackListCache.set(userId, true);
                     await message.reply('✅ User successfully blacklisted.')
                 }
             })
@@ -44,6 +46,7 @@ module.exports = {
                 if (error) console.log(error);
                 if (data) {
                     data.delete()
+                    blackListCache.delete(userId);
                     return message.reply('✅ User successfully un-blacklisted.');
                 } else {
                     return message.reply("❌ User is not blacklisted!!");
