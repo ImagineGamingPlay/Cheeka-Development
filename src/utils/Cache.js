@@ -9,7 +9,7 @@ module.exports.blackListCache = new Map();
 module.exports.cBlackListCache = new Map();
 
 /**
- * @type {Map<number, Rule>}
+ * @type {Map<string, Map<number, Rule>>}
  */
 module.exports.rulesCache = new Map();
 
