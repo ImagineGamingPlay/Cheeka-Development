@@ -1,6 +1,5 @@
 const {MessageEmbed, GuildTextBasedChannel, Client, Message} = require("discord.js");
 const {cRules} = require("../../schema/rules");
-const { rules } = require("../../data/rules.json");
 module.exports = {
     name: "rule",
     description: "Check a rules of the server.",
