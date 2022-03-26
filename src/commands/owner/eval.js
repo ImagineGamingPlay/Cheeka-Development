@@ -37,7 +37,7 @@ module.exports = {
         );
       else return text;
     };
-    const code = args.join(" ");
+    let code = args.join(" ");
     if (!code) {
       return message.channel.send("You forgot your code, dummy");
     }
