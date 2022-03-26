@@ -3,17 +3,16 @@ const {Schema, model} = require('mongoose');
 const RuleType = new Schema({
     title: String,
     description: String,
-    embedIndex: Number,
 });
 
 const RulesChannel = new Schema({
-    channelId: String,
+    channelId: String | null,
     guildId: String,
-    messageId: String,
+    messageId: String | null,
     rules: [RuleType],
 });
 /**
  * @type {Model<BlacklistChannel>}
  */
-module.exports.cRules = model('Rules_Channel', RulesChannel);
+module.exports.RulesChannel = model('Rules_Channel', RulesChannel);
 module.exports.ruleType = RuleType
