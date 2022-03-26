@@ -43,12 +43,13 @@ module.exports = {
       if (!code) {
         return message.channel.send("You forgot your code, dummy");
       }
+      code = code.replace(/token/g, "[Something Important]");
 
       let evalCode = code.includes(`await`)
         ? `;(async () => { ${code} })()`
         : code;
 
-      let evaled = await clean(eval(clean(evalCode)));
+      let evaled = await clean(eval(evalCode));
       if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
       let output;

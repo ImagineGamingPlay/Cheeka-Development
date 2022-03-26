@@ -12,41 +12,40 @@ module.exports = {
    * @returns {Promise<*>}
    */
   async execute(message, client) {
-    if (afkUsers.has(message.user.id)) {
+    if (afkUsers.has(message.author.id) && !message.author?.bot) {
       // Get the user's previous username
-      let user = afkUsers.get(message.user.id);
+      let user = afkUsers.get(message.author.id);
       // Set the user's username back to their previous username
-      message.user.setUsername(user.username);
+      try {
+        await message.member.setNickname(user.username);
+      } catch (ignored) {}
       // Remove the user from the afkUsers map
-      afkUsers.delete(message.user.id);
+      afkUsers.delete(message.author.id);
       // Reply to the user that they are no longer afk
       message.reply({
-        embeds: [
-          new MessageEmbed()
-            .setColor("GREEN")
-            .setDescription(`You are no longer afk!`),
-        ],
+        embeds: [new MessageEmbed().setColor("GREEN").setTitle("AFK Removed!")],
       });
     }
+    message.mentions.members.forEach((user) => {
+      if (afkUsers.has(user.id)) {
+        let userA = afkUsers.get(user.id);
+        message.reply({
+          embeds: [
+            new MessageEmbed()
+              .setColor("RANDOM")
+              .setTitle(`User AFK`)
+              .addField("User", user.user.tag, false)
+              .addField("Reason", userA.reason, false),
+          ],
+        });
+      }
+    });
+
     if (
       message.author?.bot ||
       !message.guild ||
       !message.content.startsWith(prefix)
     ) {
-      // Check if the message consists any user mentions that are afk, if it does. send a message embed with description of the reason of afk
-      message.mentions.users.forEach((user) => {
-        if (afkUsers.has(user.id)) {
-          let user = afkUsers.get(user.id);
-          message.reply({
-            embeds: [
-              new MessageEmbed()
-                .setColor("RANDOM")
-                .setTitle(`${user.username} is afk!`)
-                .setDescription(`Reason:\n\n${user.reason}`),
-            ],
-          });
-        }
-      });
       return;
     }
 

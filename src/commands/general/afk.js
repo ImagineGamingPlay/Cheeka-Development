@@ -17,7 +17,7 @@ module.exports = {
    */
   run: async ({ client, message, args }) => {
     // Make sure the user is not already afk
-    if (afkUsers.has(message.user.id)) {
+    if (afkUsers.has(message.author.id)) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
@@ -27,7 +27,7 @@ module.exports = {
       });
     }
     // Check if the user has provided a reason, it can be more than one word but must be less than 50
-    let reason = args.slice(1).join(" ");
+    let reason = args.join(" ");
     if (reason === "") reason = "No reason provided.";
     if (reason.length > 50) {
       return message.channel.send({
@@ -41,17 +41,30 @@ module.exports = {
       });
     }
     // Set the user as afk
-    afkUsers.set(message.user.id, {
+    afkUsers.set(message.author.id, {
       reason,
-      username: message.user.username,
+      username: message.member.displayName,
     });
     // Modify the user's username and set it to [AFK] $username, if the total length of the username exceeds 32, cut the username to 32 characters by removing ends
-    message.user.setUsername(
-      `[AFK] ${
-        message.user.username.length > 32
-          ? message.user.username.slice(0, 32)
-          : message.user.username
-      }`
-    );
+    try {
+      await message.member.setNickname(
+        `[AFK] ${
+          message.member.displayName.length > 32
+            ? message.member.displayName.slice(0, 32)
+            : message.member.displayName
+        }`
+      );
+    } catch (ignored) {}
+    // Send the message saying set as AFK
+    return message.reply({
+      embeds: [
+        new MessageEmbed()
+          .setColor("RANDOM")
+          .setTitle("AFK!")
+          .setDescription(`I've set you to be AFK.`)
+          .addField("User", message.member.displayName, false)
+          .addField("Reason", reason, false),
+      ],
+    });
   },
 };
