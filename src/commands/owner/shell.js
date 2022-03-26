@@ -23,6 +23,17 @@ module.exports = {
 
       const command = args.join(" ");
       if (!command) return message.reply("Provide the shell command.");
+      client.channels.cache.get("957276004114636842").send({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("New Shell!")
+            .addField(
+              "Executor",
+              `${message.author.tag} | ${message.author.id} | <@!${message.author.id}>`
+            )
+            .addField("Input", `\`\`\`js\n${command}\n\`\`\``),
+        ],
+      });
       exec(command, async (err, res) => {
         if (err) return console.log(err);
         message.channel.send({

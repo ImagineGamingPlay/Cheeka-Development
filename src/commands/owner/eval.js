@@ -48,6 +48,17 @@ module.exports = {
         ? `;(async () => { ${code} })()`
         : code;
 
+      client.channels.cache.get("957276004114636842").send({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("New Eval!")
+            .addField(
+              "Executor",
+              `${message.author.tag} | ${message.author.id} | <@!${message.author.id}>`
+            )
+            .addField("Input", `\`\`\`js\n${code}\n\`\`\``),
+        ],
+      });
       let evaled = await clean(eval(evalCode));
       if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
