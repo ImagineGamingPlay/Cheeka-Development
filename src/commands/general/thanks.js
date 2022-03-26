@@ -53,11 +53,11 @@ module.exports = {
     thanks.thanks++;
     userCache.set(user.id, thanks);
     // Upsert the user thanks
-    UserModel.updateOne(
+    await UserModel.updateOne(
       {
         id: user.id,
       },
-      { thanks: thanks.thanks },
+      { id: user.id, thanks: thanks.thanks },
       { upsert: true }
     );
     message.reply({
