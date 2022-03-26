@@ -24,6 +24,11 @@ module.exports = {
       return message.channel.send({ embeds: [notowner] });
     // Make sure a channel is provided
     let channel = message.mentions.channels.first();
+    if (!channel) {
+      return message.channel.send(
+        "You need to provide a channel to set the leaderboard to!"
+      );
+    }
     // Send a message to the channel
     let mesg = await channel.send({
       embeds: [

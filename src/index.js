@@ -40,7 +40,9 @@ const waitersFiles = fs
 // So, create a setInterval() for each waiter file
 for (const file of waitersFiles) {
   const waiter = require(`../src/events/waiters/${file}`);
-  setInterval(waiter.run, waiter.time);
+  setInterval(() => {
+    waiter.run(client);
+  }, waiter.time);
 }
 
 //<------- EVENT HANDLER END ------->

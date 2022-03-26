@@ -1,4 +1,5 @@
 const { guildCache, userCache } = require("../../utils/Cache");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   // Time will be in milliseconds, run this every 1 minute
@@ -21,10 +22,14 @@ module.exports = {
             .setTitle("Thanks Leaderboard")
             // Map top10 to the format of .map((i) => `**#${i}.** ??? with b Thanks.` where i is the index+1 and b is data.thanks
             .setDescription(
-              top10.map(
-                (i, index) =>
-                  `**#${index + 1}.** <@!${i.id}> with \`${i.thanks}\` Thanks.`
-              )
+              top10
+                .map(
+                  (i, index) =>
+                    `**#${index + 1}.** <@!${i.id}> with \`${
+                      i.thanks
+                    }\` Thanks.`
+                )
+                .join("\n")
             )
             .setColor("#32a852")
             // Set the thumbnail of the leading
