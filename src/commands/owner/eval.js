@@ -37,14 +37,13 @@ module.exports = {
         );
       else return text;
     };
+    const code = args.join(" ");
+    if (!code) {
+      return message.channel.send("You forgot your code, dummy");
+    }
+    code = code.replace(/token/g, "[Something Important]");
 
     try {
-      const code = args.join(" ");
-      if (!code) {
-        return message.channel.send("You forgot your code, dummy");
-      }
-      code = code.replace(/token/g, "[Something Important]");
-
       let evalCode = code.includes(`await`)
         ? `;(async () => { ${code} })()`
         : code;
