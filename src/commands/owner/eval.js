@@ -20,6 +20,7 @@ module.exports = {
      * @returns {Promise<*>} Returns a promise that might return anything
      */
     run: async ({client, message, args}) => {
+
         const notowner = new MessageEmbed()
             .setDescription("Only the developers of cheeku can use this command!")
             .setColor("DARK_ORANGE");
@@ -43,19 +44,32 @@ module.exports = {
                 return message.channel.send("You forgot your code, dummy");
             }
 
-            let evalCode = code.includes(`await`) ? ";(async () => {" + code + "})()" : code;
+            let evalCode = code.includes(`await`) ? `;(async () => { ${code} })()` : code;
 
             let evaled = await clean(eval(evalCode));
             if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
+
+            let output;
+            if(evaled !== undefined) {
+              output = `\`\`\`js\n` + evaled + `\n\`\`\``;
+            } else {
+                output = `\`\`\`fix\nNo Output To Show.\n\`\`\``;
+            }
+            output = output.length >1024 ? '```fix\nLarge Output\n```' : output ;
             const embed = new MessageEmbed()
                 .setAuthor({name: "Eval", iconURL: message.author.avatarURL()})
                 .addField("Input", `\`\`\`js\n${code}\n\`\`\``)
-                .addField("Output", `\`\`\`js\n` + evaled + `\n\`\`\``)
+                .addField("Output",output)
                 .setColor("#00ffee")
                 .setTimestamp();
             message.channel.send({embeds: [embed]});
         } catch (err) {
-            message.channel.send(`\`\`\`js\n${err}\n\`\`\``);
+            const errorEmb = new MessageEmbed()
+            .setAuthor({name: "Eval", iconURL: message.author.avatarURL()})
+            .setColor(`#ff0000`)
+            .addField("Input", `\`\`\`js\n${code}\n\`\`\``)
+            .addField('Error', `\`\`\`js\n${err}\n\`\`\``)
+            message.channel.send({embeds: [errorEmb]});
         }
     },
 };

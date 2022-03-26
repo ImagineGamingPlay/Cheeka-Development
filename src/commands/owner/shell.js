@@ -15,6 +15,7 @@ module.exports = {
      */
     run: async ({client, message, args}) => {
         if (config.devs.includes(message.author.id)) {
+            if(!__dirname.startsWith(`/root/fb/Cheeku/`)) return message.reply('This command is not executable on the this device!')
 
             const command = args.join(" ");
             if (!command) return message.reply('Provide the shell command.');
