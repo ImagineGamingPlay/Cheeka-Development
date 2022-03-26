@@ -19,11 +19,11 @@ module.exports = {
       )
         return;
       let member = message.mentions.members.first();
-      if (!member) await message.reply("No user was given.");
+      if (!member) return await message.reply("No user was given.");
       const time = args[1];
-      if (!time) await message.reply("No time was given");
+      if (!time) return await message.reply("No time was given");
       const reason = args.slice(2).join(" ");
-      if (!reason) await message.reply("No reason was given");
+      if (!reason) return await message.reply("No reason was given");
       let ttime = ms(time);
       if (ttime === undefined)
         await message.reply(
@@ -37,7 +37,7 @@ module.exports = {
         `**${member.user.tag}** got timed out for **${time}** for doing **${reason}**`
       );
     } catch (e) {
-      await message.reply(`${e}`);
+      return await message.reply(`${e}`);
     }
   },
 };
