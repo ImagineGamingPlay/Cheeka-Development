@@ -56,7 +56,7 @@ module.exports = {
       });
     }
     // Set the user in cooldown
-    thankCooldownCache.set(user.id, Date.now());
+    thankCooldownCache.set(message.author.id, Date.now());
     // Get the mentioned user's thanks and add one to it
     let thanks = userCache.get(user.id) || {
       thanks: 0,
