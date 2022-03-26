@@ -1,3 +1,5 @@
+const { model } = require("../mongoose");
+
 /**
  * @type Map<string, any>
  */
@@ -32,3 +34,8 @@ module.exports.userCache = new Map();
  * @type {Map<string, GuildData>}
  */
 module.exports.guildCache = new Map();
+
+/**
+ * @type {Map<string, string>}
+ */
+module.exports.afkUsers = new Map();
