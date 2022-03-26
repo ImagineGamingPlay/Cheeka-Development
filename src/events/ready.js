@@ -3,6 +3,7 @@ const {
   cBlackListCache,
   rulesCache,
   tagsCache,
+  guildCache,
 } = require("../utils/Cache");
 const Blacklist = require("../schema/blacklist");
 const { BlacklistChannel } = require("../schema/blacklist");
@@ -10,6 +11,7 @@ const { RulesChannel } = require("../schema/rules");
 const tags = require("../schema/tags");
 const user = require("../schema/user");
 const { userCache } = require("../utils/Cache");
+const { GuildData } = require("../schema/guild");
 module.exports = {
   name: "ready",
   once: true,
@@ -106,6 +108,15 @@ module.exports = {
       }
       data.forEach((de) => {
         userCache.set(de.id, de);
+      });
+    });
+
+    GuildData.find({}, (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+      data.forEach((de) => {
+        guildCache.set(de.id, de);
       });
     });
   },

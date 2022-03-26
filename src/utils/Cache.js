@@ -27,3 +27,8 @@ module.exports.thankCooldownCache = new Map();
  * @type {Map<string, UserType>}
  */
 module.exports.userCache = new Map();
+
+/**
+ * @type {Map<string, GuildData>}
+ */
+module.exports.guildCache = new Map();

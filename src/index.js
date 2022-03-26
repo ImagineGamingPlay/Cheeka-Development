@@ -33,6 +33,16 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args, client));
   }
 }
+
+const waitersFiles = fs
+  .readdirSync("./src/events/waiters")
+  .filter((file) => file.endsWith(".js"));
+// So, create a setInterval() for each waiter file
+for (const file of waitersFiles) {
+  const waiter = require(`../src/events/waiters/${file}`);
+  setInterval(waiter.run, waiter.time);
+}
+
 //<------- EVENT HANDLER END ------->
 
 //<------- COMMAND HANDLER START ------->
