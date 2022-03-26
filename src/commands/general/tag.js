@@ -44,7 +44,6 @@ module.exports = {
       let tagA = await TagSchema.findOne({
         name: args[1],
       }).exec();
-      console.log(tagA);
       if (tagA) {
         return message.channel.send({
           embeds: [
@@ -74,11 +73,7 @@ module.exports = {
         embeds: [
           new MessageEmbed()
             .setTitle("Tag Created!")
-            .setDescription(
-              `The tag **${args[1]}** has been created with the content **${args
-                .slice(2)
-                .join(" ")}**.`
-            ),
+            .setDescription(`The tag **${args[1]}** has been created.`),
         ],
       });
     }
@@ -196,13 +191,7 @@ module.exports = {
           embeds: [
             new MessageEmbed()
               .setTitle("Tag Edited!")
-              .setDescription(
-                `The tag **${
-                  args[1]
-                }** has been edited with the content **${args
-                  .slice(2)
-                  .join(" ")}**.`
-              ),
+              .setDescription(`The tag **${args[1]}** has been edited.`),
           ],
         });
       } else {

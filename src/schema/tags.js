@@ -5,9 +5,6 @@ const TagSchema = new Schema({
   content: String,
   owner: String,
   createdAt: String,
-  verified: Boolean,
-  verifiedAt: String,
-  verifiedBy: String,
 });
 
 module.exports = model("TagSystem", TagSchema);

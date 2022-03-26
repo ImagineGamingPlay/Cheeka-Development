@@ -3,7 +3,12 @@ const { prefix, devs } = require("../../config.json");
 const cooldowns = new Map();
 const { Collection, MessageEmbed } = require("discord.js");
 //Blacklist system
-const { blackListCache, cBlackListCache, afkUsers } = require("../utils/Cache");
+const {
+  blackListCache,
+  cBlackListCache,
+  afkUsers,
+  tagsCache,
+} = require("../utils/Cache");
 module.exports = {
   name: "messageCreate",
   /**
@@ -57,7 +62,18 @@ module.exports = {
       client.commands.get(cmd) ||
       client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
 
-    if (!command) return;
+    if (!command) {
+      // Check if a tag exists for the similar
+      let a = tagsCache.get(message.content.slice(prefix.length).split(" ")[0]);
+      if (a) {
+        // Reply with the content
+        await message.reply({
+          content: a.content,
+          allowedMentions: [{ repliedUser: false, everyone: false }],
+        });
+      }
+      return;
+    }
     //Blacklist here
     const data = blackListCache.get(message.author?.id);
     const blacklistedChannel = cBlackListCache.get(message.channel.id);
