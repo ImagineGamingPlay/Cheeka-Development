@@ -1,6 +1,5 @@
-const prettyMs = require("pretty-ms");
 const { MessageEmbed } = require("discord.js");
-const { thankCooldownCache, thanksCache } = require("../../utils/Cache");
+const { thankCooldownCache, userCache } = require("../../utils/Cache");
 const UserModel = require("../../schema/user");
 
 module.exports = {
@@ -31,7 +30,7 @@ module.exports = {
       });
     }
     // Make the user is not in cooldown
-    let coolDown = thankCooldownCache.get(message.user.id);
+    let coolDown = thankCooldownCache.get(message.author.id);
     // coolDown is in milliseconds, we'll have to subtract the current time from it and convert it to minutes and check if it has been more than 45.
     if (coolDown - Date.now() > 0 && coolDown - Date.now() < 45 * 60 * 1000) {
       return message.channel.send({
@@ -47,12 +46,12 @@ module.exports = {
     // Set the user in cooldown
     thankCooldownCache.set(user.id, Date.now());
     // Get the mentioned user's thanks and add one to it
-    let thanks = thanksCache.userCache(user.id) || {
+    let thanks = userCache.get(user.id) || {
       thanks: 0,
       id: user.id,
     };
     thanks.thanks++;
-    thanksCache.set(user.id, thanks);
+    userCache.set(user.id, thanks);
     // Upsert the user thanks
     UserModel.updateOne(
       {
