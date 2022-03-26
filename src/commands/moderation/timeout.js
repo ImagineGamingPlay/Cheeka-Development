@@ -5,6 +5,7 @@ module.exports = {
   aliases: ["tm", "tmout"],
   disabledChannel: [],
   category: "Moderation",
+  permissions: ["KICK_MEMBERS"],
   /**
    * @param client {Client} A discord.js client
    * @param message {Message} A discord.js message

@@ -4,7 +4,7 @@ module.exports = {
   name: "purge",
   description: "clear a certain amount of messages",
   aliases: ["clear", "clr"],
-  permission: ["MANAGE_MESSAGES"],
+  permissions: ["MANAGE_MESSAGES"],
   disabledChannel: [],
   category: "Moderation",
   /**
