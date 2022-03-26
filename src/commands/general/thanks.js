@@ -44,7 +44,7 @@ module.exports = {
     // Make the user is not in cooldown
     let coolDown = thankCooldownCache.get(message.author.id);
     // coolDown is in milliseconds, we'll have to subtract the current time from it and convert it to minutes and check if it has been more than 45.
-    if (coolDown - Date.now() > 0 && coolDown - Date.now() < 45 * 60 * 1000) {
+    if (Date.now() - coolDown > 0 && Date.now() - coolDown < 45 * 60 * 1000) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
