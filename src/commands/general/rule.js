@@ -1,11 +1,7 @@
-const {
-  MessageEmbed,
-  GuildTextBasedChannel,
-  Client,
-  Message,
-} = require("discord.js");
-const { cRules, RulesChannel } = require("../../schema/rules");
-const { rulesCache } = require("../../utils/Cache");
+const { MessageEmbed, GuildTextBasedChannel } = require("discord.js");
+const { RulesChannel } = require("../../schema/rules");
+const { GuildData } = require("../../schema/guild");
+const { rulesCache, guildCache } = require("../../utils/Cache");
 module.exports = {
   name: "rule",
   description: "Check a rules of the server.",
@@ -35,7 +31,7 @@ module.exports = {
     }
     if (message.member.permissions.missing(["ADMINISTRATOR"]).length > 0) {
       return message.channel.send(
-        "You need the `ADMINISTRATOR` permission to use this command."
+        "You need the `ADMINISTRATOR` permission to use this command.\n\nIf you want to see a specific rule please provide a rule number like `-rules 1`."
       );
     }
     if (!query)
@@ -84,6 +80,7 @@ module.exports = {
               rules: rules,
             }
           );
+          this.update(message);
           return message.channel.send(`Rule added.`);
         } else {
           rulesCache.set(message.guildId, [
@@ -101,6 +98,7 @@ module.exports = {
               },
             ],
           });
+          this.update(message);
           return message.channel.send(`Rule added.`);
         }
       } catch (_e) {
@@ -140,6 +138,7 @@ module.exports = {
               rules: newRules,
             }
           );
+          this.update(message);
           return message.channel.send(`Rule removed.`);
         } else {
           return message.channel.send(`Rule not found.`);
@@ -151,6 +150,42 @@ module.exports = {
         );
       }
     } else if (query === "send") {
+      // Get the channel to send the rules
+      const channel = message.mentions.channels.first();
+      if (!channel) return message.channel.send("Please mention a channel.");
+      // Get the rules
+      const rules = rulesCache.get(message.guildId);
+      if (!rules) return message.channel.send("There are no rules.");
+      // Rules can be more than 25, seprate them to multiple embeds.
+      let currentEmbed = new MessageEmbed()
+        .setAuthor({
+          name: "IGP Community Guidelines",
+          icon_url: message.guild.iconURL(),
+        })
+        .setColor("ORANGE");
+      // Send the embeds
+      let msg = await channel.send({
+        embeds: [currentEmbed],
+      });
+      // Set the rules channel and message
+      let guildS = guildCache.get(message.guildId) || { id: message.guildId };
+      guildS.ruleChannel = channel.id;
+      guildS.ruleMessage = msg.id;
+      guildCache.set(message.guildId, guildS);
+      // Upsert the guild
+      await GuildData.updateOne(
+        {
+          id: message.guildId,
+        },
+        {
+          ruleChannel: channel.id,
+          ruleMessage: msg.id,
+        },
+        {
+          upsert: true,
+        }
+      );
+      this.update(message);
     } else if (query === "list") {
       if (rulesCache.has(message.guildId)) {
         const rules = rulesCache.get(message.guildId);
@@ -165,10 +200,11 @@ module.exports = {
         // So, we'll have to create a new embed every 25 fields, for the first embed we'll have the title of "Rules" and description of "All the rules that must be followed are listed here"
         const embeds = [];
         let pointerEmbed = new MessageEmbed()
-          .setTitle("Rules")
-          .setDescription("All the rules that must be followed are listed here")
+          .setTitle("__Rules__")
+          .setDescription(
+            "All the rules that must be followed are listed here!"
+          )
           .setColor("#0099ff");
-        console.log(fields.length);
         let iPointer = 1;
         for (let i = 0; i < fields.length; i++) {
           if (pointerEmbed.fields.length >= 25) {
@@ -178,7 +214,7 @@ module.exports = {
           pointerEmbed.addField(
             `${iPointer}) ${fields[i].name}`,
             fields[i].value,
-            fields[i].inline
+            false
           );
           iPointer += 1;
         }
@@ -193,5 +229,70 @@ module.exports = {
         "Please provide a query.\nAdd-> ['add','create'] \nRemove -> ['remove','delete'] \n Send -> ['send']"
       );
     }
+  },
+  update: async (message) => {
+    // Get the rules channel
+    const guildInfo = guildCache.get(message.guildId);
+    // Check if the rules channel is set
+    if (!guildInfo || !guildInfo.ruleChannel) return;
+    // Fetch the channel and message
+    const channel = await message.guild.channels.fetch(guildInfo.ruleChannel);
+    const msg = await channel.messages.fetch(guildInfo.ruleMessage);
+
+    // Get the rules
+    const rules = rulesCache.get(message.guildId);
+    const fields = rules.map((rule) => {
+      return {
+        name: rule.title,
+        value: rule.description,
+        inline: false,
+      };
+    });
+    if (!rules) return;
+    let iPointer = 1;
+    // Rules can be more than 25, seprate them to multiple embeds.
+    let embeds = [];
+    let pointerEmbed = new MessageEmbed()
+      .setAuthor({
+        name: "IGP Community Guidelines",
+        iconURL:
+          "https://images-ext-2.discordapp.net/external/s_3olUDuxLwE1zKZEKnmxQsp3udo06B2w_nPqMa5GjA/https/cdn.discordapp.com/icons/697495719816462436/a_6db19f30e288a192f61d1c4975710585.gif",
+      })
+      .setTitle("__Rules__")
+      .setDescription(
+        `Hello everyone, welcome to the Imagine Gaming Play's Discord Server!
+A newbie hole for new aspiring coders.\nMake friends, find people to collaborate with or help some people with their Discord Bot and earn a few scores. (Scores later can be used to unlock exciting rewards!)
+
+    ↳ Social Links ↰
+➔ Channel: https://youtube.com/ImagineGamingPlay
+➔ Instagram: https://www.instagram.com/imaginegamingplayofficial/
+➔ Twitter: https://twitter.com/yourman_igp
+➔ Github: https://github.com/ImagineGamingPlay
+➔ Website: https://imagine.cf/
+
+We hope you have a good time here!
+Below are some rules, please read all of them to get started. <:tctThinkDerp:878865297312981042>
+
+`
+      )
+      .setColor("ORANGE")
+      .setFooter({
+        text: `Page | ${iPointer}/${Math.ceil(rules.length / 25)}`,
+      });
+
+    for (let i = 0; i < fields.length; i++) {
+      if (pointerEmbed.fields.length >= 25) {
+        embeds.push(pointerEmbed);
+        pointerEmbed = new MessageEmbed().setColor("ORANGE").setFooter({
+          text: `Page | ${iPointer}/${Math.ceil(rules.length / 25)}`,
+        });
+      }
+      pointerEmbed.addField(`${fields[i].name}`, fields[i].value, false);
+      iPointer += 1;
+    }
+    embeds.push(pointerEmbed);
+    await msg.edit({
+      embeds,
+    });
   },
 };
