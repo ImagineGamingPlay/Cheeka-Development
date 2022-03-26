@@ -44,15 +44,6 @@ module.exports = {
     code = code.replace(/token/g, "[Something Important]");
 
     try {
-<<<<<<< HEAD
-      let code = args.join(" ");
-      if (!code) {
-        return message.channel.send("You forgot your code, dummy");
-      }
-      code = code.replace(/token/g, "[Something Important]");
-
-=======
->>>>>>> 669bc34bb347b723869b54923b47543e3515e221
       let evalCode = code.includes(`await`)
         ? `;(async () => { ${code} })()`
         : code;
