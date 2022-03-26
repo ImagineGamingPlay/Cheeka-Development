@@ -12,3 +12,8 @@ module.exports.cBlackListCache = new Map();
  * @type {Map<string, RuleType[]>}
  */
 module.exports.rulesCache = new Map();
+
+/**
+ * @type {Map<string, TagSchema}
+ */
+module.exports.tagsCache = new Map();

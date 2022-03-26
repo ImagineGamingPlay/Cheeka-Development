@@ -1,10 +1,10 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const TagSchema = new Schema({
-    Name: String,
-    Content: String,
-    UserId: String,
-    CreatedAt: String
+  name: String,
+  content: String,
+  owner: String,
+  createdAt: String,
 });
 
-module.exports = model('TagSystem', TagSchema);
+module.exports = model("TagSystem", TagSchema);
