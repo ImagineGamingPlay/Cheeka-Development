@@ -14,8 +14,8 @@ module.exports = {
      */
     run: async ({client, message, args}) => {
         let incorrectUsage = new MessageEmbed()
-            .setAuthor('Incorrect Tag Cmd Usage!', client.user.displayAvatarURL())
-            .setColor('RED')
+            .setAuthor({name:'Incorrect Usage!',iconURL: client.user.displayAvatarURL()})
+            .setColor('#ff0000')
             .setDescription(`Please specify a tag name, or use **create**, **edit** or **delete**.
     `)
 

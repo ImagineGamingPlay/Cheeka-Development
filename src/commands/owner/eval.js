@@ -34,7 +34,7 @@ module.exports = {
                 return text
                     // .replace(/`/g, "`" + String.fromCharCode(8203))
                     .replace(/@/g, "@" + String.fromCharCode(8203))
-                    .replace(/client.token/g, "[Something Important]");
+                    .replace(/client\.token/g, "[Something Important]");
             else return text;
         };
 
@@ -59,7 +59,7 @@ module.exports = {
             const embed = new MessageEmbed()
                 .setAuthor({name: "Eval", iconURL: message.author.avatarURL()})
                 .addField("Input", `\`\`\`js\n${code}\n\`\`\``)
-                .addField("Output",output)
+                .addField("Output",output.replace(/client\.token/g, "[Something Important]"))
                 .setColor("#00ffee")
                 .setTimestamp();
             message.channel.send({embeds: [embed]});
