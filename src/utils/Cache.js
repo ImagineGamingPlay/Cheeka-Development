@@ -17,3 +17,13 @@ module.exports.rulesCache = new Map();
  * @type {Map<string, TagSchema}
  */
 module.exports.tagsCache = new Map();
+
+/**
+ * @type {Map<string, number>}
+ */
+module.exports.thankCooldownCache = new Map();
+
+/**
+ * @type {Map<string, UserType>}
+ */
+module.exports.userCache = new Map();

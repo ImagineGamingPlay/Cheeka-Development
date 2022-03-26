@@ -8,6 +8,8 @@ const Blacklist = require("../schema/blacklist");
 const { BlacklistChannel } = require("../schema/blacklist");
 const { RulesChannel } = require("../schema/rules");
 const tags = require("../schema/tags");
+const user = require("../schema/user");
+const { userCache } = require("../utils/Cache");
 module.exports = {
   name: "ready",
   once: true,
@@ -97,6 +99,14 @@ module.exports = {
           rulesCache.set(de.guildId, de.rules);
         });
       }
+    });
+    user.find({}, (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+      data.forEach((de) => {
+        userCache.set(de.id, de);
+      });
     });
   },
 };
