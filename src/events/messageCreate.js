@@ -12,7 +12,7 @@ module.exports = {
    * @returns {Promise<*>}
    */
   async execute(message, client) {
-    if (afkUsers.has(message.author.id) && !message.author?.bot) {
+    if (afkUsers.has(message.author.id)) {
       // Get the user's previous username
       let user = afkUsers.get(message.author.id);
       // Set the user's username back to their previous username
@@ -26,20 +26,22 @@ module.exports = {
         embeds: [new MessageEmbed().setColor("GREEN").setTitle("AFK Removed!")],
       });
     }
-    message.mentions.members.forEach((user) => {
-      if (afkUsers.has(user.id)) {
-        let userA = afkUsers.get(user.id);
-        message.reply({
-          embeds: [
-            new MessageEmbed()
-              .setColor("RANDOM")
-              .setTitle(`User AFK`)
-              .addField("User", user.user.tag, false)
-              .addField("Reason", userA.reason, false),
-          ],
-        });
-      }
-    });
+    if (!message.author?.bot) {
+      message.mentions.members.forEach((user) => {
+        if (afkUsers.has(user.id)) {
+          let userA = afkUsers.get(user.id);
+          message.reply({
+            embeds: [
+              new MessageEmbed()
+                .setColor("RANDOM")
+                .setTitle(`User AFK`)
+                .addField("User", user.user.tag, false)
+                .addField("Reason", userA.reason, false),
+            ],
+          });
+        }
+      });
+    }
 
     if (
       message.author?.bot ||
