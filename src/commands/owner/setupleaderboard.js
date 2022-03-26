@@ -9,6 +9,7 @@ module.exports = {
   devCmd: true,
   description: "Set's up a thanks leaderboard.",
   disabledChannel: [],
+  category: "Owner",
   /**
    * @param client {Client} A discord.js client
    * @param message {Message} A discord.js message

@@ -9,7 +9,7 @@ const {
 
 module.exports = {
   name: "eval",
-  category: "owner",
+  category: "Owner",
   devCmd: true,
   description: "Evaluate a JavaScript code.",
   disabledChannel: [],

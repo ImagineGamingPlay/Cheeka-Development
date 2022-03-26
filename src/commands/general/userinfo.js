@@ -14,6 +14,7 @@ module.exports = {
   description: "Get's info of a user.",
   aliases: ["info", "whois"],
   permissions: [],
+  category: "General",
   disabledChannel: [],
   cooldown: 10,
   /**

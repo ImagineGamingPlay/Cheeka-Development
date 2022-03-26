@@ -1,4 +1,3 @@
-const prettyMs = require("pretty-ms");
 const { MessageEmbed } = require("discord.js");
 const { afkUsers } = require("../../utils/Cache");
 
@@ -8,6 +7,7 @@ module.exports = {
   aliases: ["away"],
   permissions: [],
   disabledChannel: [],
+  category: "General",
   cooldown: 30,
   /**
    * @param client {Client} A discord.js client

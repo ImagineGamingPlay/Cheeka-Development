@@ -11,6 +11,7 @@ module.exports = {
   description: "Check a rules of the server.",
   aliases: ["rules"],
   disabledChannel: [],
+  category: "General",
   cooldown: 5,
   run: async function ({ client, message, args }) {
     const query = args[0]?.toLowerCase();

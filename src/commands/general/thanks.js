@@ -7,6 +7,7 @@ module.exports = {
   description: "Thank a user for their help!",
   aliases: ["thank", "ty"],
   permissions: [],
+  category: "General",
   disabledChannel: [],
   cooldown: 5,
   /**
