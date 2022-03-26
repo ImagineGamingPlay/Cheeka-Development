@@ -22,22 +22,47 @@ module.exports = {
       .setDescription(`Please specify a tag name, or use **create**, **edit** or **delete**.
     `);
 
-    const query = args[0]?.toLowerCase() ?? false;
-    if (!query) return message.reply({ embeds: [incorrectUsage] });
-    if (query === "create") {
-      //will be added soon
-    } else if (query === "delete") {
-      //add basic from cheekus current code?
-    } else if (query === "edit") {
-      //this part will be done after create and delete
-    } else {
-      await TagSchema.findOne({ Name: query }, async (error, data) => {
-        if (data.Code) {
-          await message.reply({
-            content: `${data.Code}`,
-            allowedMentions: [{ repliedUser: false, everyone: false }],
-          });
-          return null;
+        const query = args[0]?.toLowerCase() ?? false;
+        if (!query)
+            return message.reply({embeds: [incorrectUsage]});
+        if (query === "create") {
+           
+            await TagSchema.findOne({Name: query},async(err,tag)=>{
+            if(err) return console.log(err);
+            if(tag) return message.reply('Tag already exists!');
+            const tagName = args[1]?.toLowerCase() ?? false;
+            if(!tagName) return message.reply('Please specify a tag name!');
+            const tagContent = args.slice(2).join(" ") ?? false;
+            if(!tagContent) return message.reply('Please specify a tag content!');
+            const newTag = new TagSchema({
+                Name: tagName,
+                Content: tagContent,
+                UserId: message.author.id,
+                CreatedAt: Date.now()
+            });
+            await newTag.save();
+            return message.reply(`Tag **${tagName}** created!`);
+            })
+        } else if (query === "delete") {
+            await TagSchema.findOne({Name: query},async(err,tag)=>{
+            if(err) return console.log(err);
+            if(!tag) return message.reply('Tag does not exist!');
+            if(tag.UserId !== message.author.id) return message.reply('You cannot delete this tag!');
+            await TagSchema.deleteOne({Name: query});
+            return message.reply(`Tag **${query}** deleted!`);
+            });
+        } else if (query === "edit") {
+            await TagSchema.findOne({Name: query},async(err,tag)=>{
+            if(err) return console.log(err);
+            if(!tag) return message.reply('Tag does not exist!');
+            if(tag.UserId !== message.author.id) return message.reply('You cannot edit this tag!');
+            const tagName = args[1]?.toLowerCase() ?? false;
+            if(!tagName) return message.reply('Please specify a tag name!');
+            const tagContent = args.slice(2).join(" ") ?? false;
+            if(!tagContent) return message.reply('Please specify a tag content!');
+            await TagSchema.updateOne({Name: query},{Name: tagName, Content: tagContent});
+            return message.reply(`Tag **${query}** edited!`);
+            });
         } else {
           message.reply("Couldnt find any valid tags by that name");
           return null;
