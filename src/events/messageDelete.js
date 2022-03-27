@@ -3,7 +3,7 @@ const {MessageEmbed, WebhookClient} = require("discord.js");
 module.exports = {
     name: "messageDelete",
     async execute(message, client) {
-        if (message.author.bot) return;
+        if (message.author?.bot) return;
 
         let deletedLogEmbed = new MessageEmbed()
             .setColor("BLURPLE")
@@ -21,7 +21,7 @@ module.exports = {
             .setFooter({
                 text: `User ID: ${message.author.id}`,
                 iconURL: `${message.author.displayAvatarURL({dynamic: true})}`,
-            })
+            });
 
         if (message.attachments.size >= 1) {
             deletedLogEmbed.addField(
@@ -31,8 +31,10 @@ module.exports = {
             );
         }
 
-        new WebhookClient({
+       const deleteLogger = new WebhookClient({
             url: "https://discord.com/api/webhooks/952951404098646036/I_X0kZD4yGRCoAXuUOBwNPXScXiy-y4Y4R4MZPgI2MS_aDIGCAr87GnHWyM2OJULCo_0",
-        }).send({embeds: [deletedLogEmbed]});
+        })
+        
+        await deleteLogger.send({embeds: [deletedLogEmbed]});
     },
 };
