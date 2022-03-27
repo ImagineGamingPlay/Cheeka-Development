@@ -18,7 +18,7 @@ module.exports ={
      */
     run: async ({ client, message, args }) => {
     //fetch the snipes
-    if(!config.devs.includes(message.author.id) || !message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send("You don't have permission to use this command!");
+    // if(!config.devs.includes(message.author.id) || !message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send("You don't have permission to use this command!");
     const channel = message.mentions?.channels?.first() ?? message.guild?.channels?.cache?.get(args[0]) ?? message.channel;
     const snipes = client.snipes.get(channel.id);
     if (!snipes) return message.channel.send(`Nothing to snipe in ${channel}`);
