@@ -5,7 +5,7 @@ require("dotenv").config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-const client = (global.client = new Client({ intents: 32767 }));
+const client = (global.client = new Client({ intents: 32767}));
 
 //functions
 function filesConfig(path, ending) {
