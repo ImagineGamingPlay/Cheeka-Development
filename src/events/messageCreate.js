@@ -155,6 +155,8 @@ module.exports = {
           "You donot have required permissions to use this command!"
         );
       }
+      if(command.guildOnly && !message.guild) return message.reply("This command can only be used in a guild!");
+      if(command.locked && (!config.devs.includes(message.author.id) || !message.member.permissions.has('MANAGE_MESSAGES'))) return message.reply("This command is usable only by developers or moderators for now!");  
 
       try {
         await command.run({ client, message, args });
