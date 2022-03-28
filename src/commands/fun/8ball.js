@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   name: "8ball",
   description: "ask a question, the bot will reply to it.",
+  category: "Fun",
   run: async ({ client, message, args }) => {
     const answers = [
       "yes.",
