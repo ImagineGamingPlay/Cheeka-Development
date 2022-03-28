@@ -22,11 +22,9 @@ module.exports = {
           "There is no rule by that index. Please provide a number between 1 and " +
             rulesCache.size
         );
-      const ruleEmbed = new MessageEmbed().setColor("#0099ff").addField({
-        name: rule.title,
-        value: rule.description,
-        inline: false,
-      });
+      const ruleEmbed = new MessageEmbed()
+        .setColor("#0099ff")
+        .addField(rule.title, rule.description, false);
       return await message.channel.send({
         embeds: [ruleEmbed],
       });
