@@ -27,16 +27,16 @@ module.exports = {
         value: rule.description,
         inline: false,
       });
-      return message.channel.send({
+      return await message.channel.send({
         embeds: [ruleEmbed],
       });
     }
     if (
-      message.member.permissions.missing(["ADMINISTRATOR"]).length > 0 &&
-      !devs.includes(message.member.id)
+      !devs.includes(message.member.id) &&
+      message.member.permissions.missing(["ADMINISTRATOR"]).length > 0
     ) {
       return message.channel.send(
-        "You need the `ADMINISTRATOR` permission to use this command.\n\nIf you want to see a specific rule please provide a rule number like `-rules 1`."
+        "Please provide a rule number like `-rules 1`."
       );
     }
     if (!query)
