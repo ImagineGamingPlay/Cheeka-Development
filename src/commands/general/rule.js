@@ -20,7 +20,7 @@ module.exports = {
       if (!rule)
         return message.reply(
           "There is no rule by that index. Please provide a number between 1 and " +
-            rulesCache.size
+            rulesCache.get(message.guild.id).length
         );
       const ruleEmbed = new MessageEmbed()
         .setColor("#0099ff")
