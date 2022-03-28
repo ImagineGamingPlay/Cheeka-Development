@@ -19,7 +19,7 @@ module.exports = {
     // create a time stamp with time and date
     const timeStamp = new Date().getTime();
     let loading = await message.reply("Calculating Ping...");
-    let botPing = message.createdTimestamp - timeStamp;
+    let botPing = loading.createdTimestamp - timeStamp;
     let apiPing = client.ws.ping;
 
     let pingEmbed = new MessageEmbed()
