@@ -2,6 +2,8 @@ const { MessageEmbed, GuildTextBasedChannel } = require("discord.js");
 const { RulesChannel } = require("../../schema/rules");
 const { GuildData } = require("../../schema/guild");
 const { rulesCache, guildCache } = require("../../utils/Cache");
+const { prefix, devs } = require("../../../config.json");
+
 module.exports = {
   name: "rule",
   description: "Check a rules of the server.",
@@ -29,7 +31,10 @@ module.exports = {
         embeds: [ruleEmbed],
       });
     }
-    if (message.member.permissions.missing(["ADMINISTRATOR"]).length > 0) {
+    if (
+      message.member.permissions.missing(["ADMINISTRATOR"]).length > 0 &&
+      !devs.includes(message.member.id)
+    ) {
       return message.channel.send(
         "You need the `ADMINISTRATOR` permission to use this command.\n\nIf you want to see a specific rule please provide a rule number like `-rules 1`."
       );
