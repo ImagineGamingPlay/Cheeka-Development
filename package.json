@@ -4,7 +4,7 @@
   "description": "The source code of Cheeku.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "nodemon src/index.js",
     "test": "nodemon src/index.js -e js,json,env"
   },
   "repository": {
@@ -28,9 +28,7 @@
     "moment": "^2.29.1",
     "mongoose": "^6.2.6",
     "pretty-ms": "^7.0.1",
-    "util": "^0.12.4"
-  },
-  "devDependencies": {
+    "util": "^0.12.4",
     "nodemon": "^2.0.15"
   }
 }
