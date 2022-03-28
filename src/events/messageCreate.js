@@ -149,10 +149,11 @@ module.exports = {
 
       if (
         command.permissions &&
-        member.permissions.missing(command.permissions).length !== 0
+        member.permissions.missing(command.permissions).length !== 0 &&
+        !devs.includes(member.id)
       ) {
         return message.reply(
-          "You donot have required permissions to use this command!"
+          "You don't have required permissions to use this command!"
         );
       }
       if(command.guildOnly && !message.guild) return message.reply("This command can only be used in a guild!");
