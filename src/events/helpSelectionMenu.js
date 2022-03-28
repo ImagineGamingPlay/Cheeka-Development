@@ -25,10 +25,7 @@ module.exports = {
     }
     embed.setDescription(toBuildString);
     // Send the embed
-    await interaction.reply({
-      content: "Done! Updated the category.",
-      ephemeral: true,
-    });
+    await interaction.deferUpdate();
     await interaction.message.edit({
       embeds: [embed],
     });
