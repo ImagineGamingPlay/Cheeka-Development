@@ -7,6 +7,9 @@ module.exports = {
   aliases: ["warn-check"],
   run: async ({ client, message, args }) => {
     const target = message.mentions.members.first();
+    
+    if (!target) message.reply("Please mention a user to check their warnings!");
+    
     warningsSchema.findOne(
       {
         guild: message.guildId,

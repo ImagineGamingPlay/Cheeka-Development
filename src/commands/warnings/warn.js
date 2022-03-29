@@ -61,7 +61,7 @@ module.exports = {
             iconURL: message.author.displayAvatarURL({ dynamic: true }),
           })
           .setDescription(
-            `Target: ${target.user.tag} | ||${target.id}||\n\n**Reason:** ${reason}`
+            `**Target:** ${target.user.tag} | ||${target.id}||\n\n**Reason:** ${reason}`
           ),
       ],
     });

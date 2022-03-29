@@ -2,17 +2,15 @@ const warningsSchema = require("../../schema/warnings");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "warnings-remove",
-  description: "remove a warning from a member",
-  aliases: ["warn-remove","warn-del"],
+  name: "warnings-clear",
+  description: "clear a member's warning history",
+  aliases: ["warn-clear", "warn-clr"],
   permissions: ["KICK_MEMBERS"],
   run: async ({ client, message, args }) => {
-    const warnId = args[0] - 1;
     const target = message.mentions.members.first();
-    const reason = args.slice(2).join(" ") || "No reason provided";
+    const reason = args.slice(1).join(" ") || "No reason provided";
 
-    if (!warnId) message.reply("Please provide a warning ID to remove!");
-    if (!target) return message.reply("Please provide a user to remove a warning!");
+    if (!target) return message.reply("Please provide a user to clear warnings!");
     warningsSchema.findOne(
       {
         guild: message.guildId,
@@ -22,7 +20,12 @@ module.exports = {
       async (err, data) => {
         if (err) throw err;
         if (data) {
-          data.content.splice(warnId, 1);
+          await warningsSchema.findOneAndDelete({
+            guild: message.guildId,
+            userId: target.id,
+            userTag: target.user.tag,
+          });
+
           message.reply({
             embeds: [
               new MessageEmbed()
@@ -31,17 +34,16 @@ module.exports = {
                   iconURL: target.displayAvatarURL({ dynamic: true }),
                 })
                 .setColor("BLURPLE")
-                .setTitle(`Warning removed!`)
+                .setTitle(`Warnings cleared!`)
                 .setFooter({
                   text: `executed by: ${message.author.tag}`,
                   iconURL: message.author.displayAvatarURL({ dynamic: true }),
                 })
                 .setDescription(
-                  `**Target:** ${target.user.tag} | ||${target.id}||\n**Warn ID:** ${warnId + 1}\n\n**Reason:** ${reason}`
+                  `All the warnings of ${target.user.username} has been cleared!\n\n**Target:** ${target.user.tag} | ||${target.id}||\n\n**Reason:** ${reason}`
                 ),
             ],
           });
-          data.save();
         } else {
           message.reply({
             embeds: [
