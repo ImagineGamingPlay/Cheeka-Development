@@ -8,15 +8,15 @@ module.exports = {
     // go through each guilds in cache
     Array.from(guildCache.values()).forEach(async (guild) => {
       if (!guild.leaderboardChannel) return;
-      let channel = await client.channels.fetch(guild.leaderboardChannel);
-      let message = await channel.messages.fetch(guild.leaderboardMessage);
+      let channel = await client.channels.fetch(guild?.leaderboardChannel).catch((error) => {console.log(error)});
+      let message = await channel.messages.fetch(guild?.leaderboardMessage).catch((error) => console.log(error));
       // Loop over userCache.values() and get the top 10
       let top10 = Array.from(userCache.values())
         .sort((a, b) => b.thanks - a.thanks)
         .slice(0, 10);
       // Get the top person's id and fetch them
       let topUser = await client.users.fetch(top10[0].id);
-      await message.edit({
+      await message?.edit({
         embeds: [
           new MessageEmbed()
             .setTitle("Thanks Leaderboard")

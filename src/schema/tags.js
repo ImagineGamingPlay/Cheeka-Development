@@ -5,6 +5,7 @@ const TagSchema = new Schema({
   content: String,
   owner: String,
   createdAt: String,
+  guild: String,
 });
 
 module.exports = model("TagSystem", TagSchema);

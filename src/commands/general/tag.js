@@ -62,6 +62,7 @@ module.exports = {
         content: args.slice(2).join(" "),
         owner: message.author.id,
         createdAt: new Date().toISOString(),
+        guild: message.guild.id,
       });
       // add to the cache
       tagsCache.set(args[1], {
@@ -69,6 +70,7 @@ module.exports = {
         content: args.slice(2).join(" "),
         owner: message.author.id,
         createdAt: new Date().toISOString(),
+        guild: message.guild.id,
       });
       return message.channel.send({
         embeds: [
@@ -100,6 +102,18 @@ module.exports = {
               .setTitle("Invalid Usage!")
               .setDescription(
                 "The tag you provided does not exist, please try again."
+              ),
+          ],
+        });
+      }
+
+      if (delTag.guild !== message.guild.id) {
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setTitle("Invalid Usage!")
+              .setDescription(
+                "The tag you provided is not in this server, please try again."
               ),
           ],
         });
@@ -171,6 +185,7 @@ module.exports = {
         await TagSchema.findOne({
           name: args[1],
           owner: message.author.id,
+          guild: message.guild.id,
         }).exec()
       ) {
         // edit from cache
@@ -179,6 +194,7 @@ module.exports = {
           content: args.slice(2).join(" "),
           owner: message.author.id,
           createdAt: new Date().toISOString(),
+          guild: message.guild.id,
         });
         await TagSchema.updateOne(
           { name: args[1] },
@@ -217,6 +233,18 @@ module.exports = {
             .setTitle("Invalid Usage!")
             .setDescription(
               "The tag you provided is not in the database, please check the tag name."
+            ),
+        ],
+      });
+    }
+
+    if (tag.guild !== message.guild.id) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Invalid Usage!")
+            .setDescription(
+              "The tag you provided is not in this server, please try again."
             ),
         ],
       });

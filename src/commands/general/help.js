@@ -1,5 +1,9 @@
 const prettyMs = require("pretty-ms");
-const { MessageEmbed } = require("discord.js");
+const {
+  MessageEmbed,
+  MessageActionRow,
+  MessageSelectMenu,
+} = require("discord.js");
 
 module.exports = {
   name: "help",
@@ -16,6 +20,7 @@ module.exports = {
    * @returns {Promise<*>} Returns a promise that might return anything
    */
   run: async ({ client, message, args }) => {
+    // Send a message embed with BLUPRPLEL as color, at title type Select category, and at description put Please put a category that you want to view commands for.
     let commands = Array.from(client.commands.values());
     // Commands is a array of commands, commands consists of name, description, aliases, category
     // Group commands by each category
@@ -26,25 +31,29 @@ module.exports = {
       acc[command.category].push(command);
       return acc;
     }, {});
-    let categoryIndex = 1;
-    // Now create a string in format of **Category**\n\n**Command** - **Description**, create this per each embed
-    let embeds = Object.keys(categories).map((category) => {
-      let commands = categories[category];
-      let commandsString = commands
-        .map((command) => `**${command.name}** - \`${command.description}\``)
-        .join("\n");
-      categoryIndex++;
-      return new MessageEmbed()
-        .setTitle(`**${category}**`)
-        .setDescription(commandsString)
-        .setColor("BLURPLE")
-        .setFooter({
-          text: `Page ${categoryIndex - 1}/${Object.keys(categories).length}`,
-        });
+    let embed = new MessageEmbed()
+      .setColor("BLURPLE")
+      .setTitle("Select category")
+      .setDescription(
+        "Please select a category from the selection menu given below to view commands."
+      );
+    let cat = Object.keys(categories).map((category) => {
+      return {
+        label: category,
+        value: "help_" + category,
+      };
     });
-    // Now send the embeds
-    await message.channel.send({
-      embeds,
+    console.log(cat);
+    let menu = new MessageActionRow().addComponents(
+      new MessageSelectMenu()
+        .setCustomId("help_")
+        .setPlaceholder("Nothing selected")
+        .addOptions(cat)
+    );
+    // Send the message embed to the channel and attach a selection menu with all the categories.
+    await message.reply({
+      embeds: [embed],
+      components: [menu],
     });
   },
 };

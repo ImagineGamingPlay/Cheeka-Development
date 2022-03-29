@@ -12,12 +12,48 @@ const tags = require("../schema/tags");
 const user = require("../schema/user");
 const { userCache } = require("../utils/Cache");
 const { GuildData } = require("../schema/guild");
+const fs = require("fs");
+const { MessageEmbed } = require("discord.js");
+const path = require("path");
 module.exports = {
   name: "ready",
   once: true,
   async execute(client) {
     console.log(`Logged in as ${client.user.tag}`);
-
+    // From the temporary file stored as 'restart.txt' in the main project directory, read the content of it express it in terms of ${message.id} ${message.channel.id} ${message.guild.id}
+    fs.readFile(path.join(__dirname, "../../restart.txt"), (err, data) => {
+      if (err) {
+        return;
+      }
+      // If the content of the file is not empty, then...
+      if (data) {
+        // data is a buffer, so we need to convert it to a string
+        const restart = data.toString();
+        // Split the content of the file into an array
+        const [messageId, channelId, guildId, time] = restart.split(",");
+        client.channels.fetch(channelId).then((channel) => {
+          channel.messages.fetch(messageId).then((message) => {
+            // subtract the time from the current time, time is in milliseconds
+            const timeLeft = Date.now() - parseInt(time);
+            message.edit({
+              embeds: [
+                new MessageEmbed()
+                  .setTitle("Started!")
+                  .setDescription("The bot has started up!")
+                  .setColor("GREEN")
+                  .addField("Time taken", `${timeLeft / 1000}s`),
+              ],
+            });
+          });
+        });
+        // Delete the temporary file
+        fs.unlink(path.join(__dirname, "../../restart.txt"), (err) => {
+          if (err) {
+            return;
+          }
+        });
+      }
+    });
     //<------- AUTO CHANGING STATUS START ------->
     const statusData = [
       {

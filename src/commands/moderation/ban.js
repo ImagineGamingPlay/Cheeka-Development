@@ -44,6 +44,7 @@ module.exports = {
           .setEmoji(`🔗`)
       );
       await member.send({ embeds: [em], components: [r] });
+      await member.ban({ reason: reason });
       if (!reason) {
         await message.reply(`${member.user.tag} was banned`);
       } else {
