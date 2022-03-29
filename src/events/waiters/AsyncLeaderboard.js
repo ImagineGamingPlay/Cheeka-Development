@@ -16,7 +16,7 @@ module.exports = {
         .slice(0, 10);
       // Get the top person's id and fetch them
       let topUser = await client.users.fetch(top10[0].id);
-      await message.edit({
+      await message?.edit({
         embeds: [
           new MessageEmbed()
             .setTitle("Thanks Leaderboard")
