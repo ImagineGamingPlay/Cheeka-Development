@@ -1,4 +1,4 @@
-const { model } = require("../mongoose");
+const { model } = require("../handlers/mongoose");
 
 /**
  * @type Map<string, any>

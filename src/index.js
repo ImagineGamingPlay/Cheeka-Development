@@ -15,7 +15,7 @@ module.exports = { client };
 
 require("./handlers/events");
 require("./handlers/commands");
-require("./mongoose");
+require("./handlers/mongoose");
 
 client.login(process.env.token).catch((e) => console.log(e));
 
