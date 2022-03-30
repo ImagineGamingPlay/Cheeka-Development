@@ -30,7 +30,7 @@ module.exports = {
         ],
       });
     }
-    if(user.id.bot) return message.channel.send({ embeds: [ new MessageEmbed().setColor("RED").setDescription("You can't thank bots!") ] });
+    if(user.user.bot) return message.channel.send({ embeds: [ new MessageEmbed().setColor("RED").setDescription("You can't thank bots!") ] });
     //you can also try (user.id == bot) but idk if that will work tho
     // Make the user is not mentioning himself
     if (user.id === message.author.id)
