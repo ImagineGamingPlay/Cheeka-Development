@@ -28,7 +28,7 @@ module.exports = {
       (tag) => tag._id?.valueOf() === id
     );
     // If the tag is not found, return
-    if (!tag) return interaction.editReply("Tag not found");
+    if (!tag) return await interaction.editReply("Tag not found");
     // If the tag is found, check if the user has the permission to accept or deny the tag
     if (
       !interaction.message.member.permissions.has(
@@ -58,7 +58,7 @@ module.exports = {
         .addField("Tag", tag.name)
         .addField("Verified at", tag.verifiedAt)
         .setTimestamp();
-      interaction.editReply({
+      await interaction.editReply({
         embeds: [embed],
       });
       // Send the message the tag owner
@@ -91,7 +91,7 @@ module.exports = {
         )
         .addField("Tag", tag.name)
         .setTimestamp();
-      interaction.editReply({
+      await interaction.editReply({
         embeds: [embed],
       });
       // Send the message the tag owner
@@ -103,8 +103,8 @@ module.exports = {
           })
           .catch(() => {});
       }
-      tags.findByIdAndDelete(id);
-      interaction.message.delete();
+      await tags.findByIdAndDelete(id);
+      await interaction.message.delete();
     }
   },
 };
