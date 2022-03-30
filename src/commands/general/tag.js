@@ -1,5 +1,5 @@
 const TagSchema = require("../../schema/tags.js");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { tagsCache } = require("../../utils/Cache.js");
 
 module.exports = {
@@ -42,10 +42,19 @@ module.exports = {
         });
       }
       // If the tagName is already in the database, return an error
-      let tagA = await TagSchema.findOne({
-        name: args[1],
-      }).exec();
+      let tagA = tagsCache.get(args[1]);
       if (tagA) {
+        if (!tagA.enabled) {
+          return message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setTitle("Invalid Usage!")
+                .setDescription(
+                  "This tag is submitted for verification, if the verification gets denied you can try to re-create the tag."
+                ),
+            ],
+          });
+        }
         return message.channel.send({
           embeds: [
             new MessageEmbed()
@@ -56,13 +65,52 @@ module.exports = {
           ],
         });
       }
+      message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Tag submitted!")
+            .setDescription(
+              `The tag **${args[1]}** has been created & submitted for verification.`
+            ),
+        ],
+      });
       // If the tagName is not in the database, create a new tag with the tagName and content
-      TagSchema.create({
+      let tag = await TagSchema.create({
         name: args[1],
         content: args.slice(2).join(" "),
         owner: message.author.id,
         createdAt: new Date().toISOString(),
         guild: message.guild.id,
+        enabled: false,
+      });
+      let id = tag._id.valueOf();
+      client.channels.fetch("958056394630787115").then((channel) => {
+        let messageEmbed = new MessageEmbed()
+          .setTitle("New Tag Submission")
+          // Set description as the content
+          .setDescription(
+            tag.content > 2048 ? tag.content.slice(0, 2048) : tag.content
+          )
+          .setColor("GOLD")
+          .addField("Tag Name", tag.name)
+          .addField("Tag ID", id)
+          .addField("Guild", message.guild.name)
+          .addField("Owner", message.author.toString());
+        channel.send({
+          embeds: [messageEmbed],
+          components: [
+            new MessageActionRow().addComponents(
+              new MessageButton()
+                .setCustomId("a-" + id)
+                .setLabel("Accept")
+                .setStyle("SUCCESS"),
+              new MessageButton()
+                .setCustomId("d-" + id)
+                .setLabel("Deny")
+                .setStyle("DANGER")
+            ),
+          ],
+        });
       });
       // add to the cache
       tagsCache.set(args[1], {
@@ -71,13 +119,8 @@ module.exports = {
         owner: message.author.id,
         createdAt: new Date().toISOString(),
         guild: message.guild.id,
-      });
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setTitle("Tag Created!")
-            .setDescription(`The tag **${args[1]}** has been created.`),
-        ],
+        enabled: false,
+        _id: tag._id,
       });
     }
 
@@ -95,7 +138,7 @@ module.exports = {
         });
       }
       let delTag = tagsCache.get(args[1]);
-      if (!delTag) {
+      if (!delTag || !delTag.enabled) {
         return message.channel.send({
           embeds: [
             new MessageEmbed()
@@ -169,7 +212,7 @@ module.exports = {
         });
       }
       // If the tag is not in the database, return an error
-      if (!(await TagSchema.findOne({ name: args[1] }).exec())) {
+      if (!(await TagSchema.findOne({ name: args[1], enabled: true }).exec())) {
         return message.channel.send({
           embeds: [
             new MessageEmbed()
@@ -186,6 +229,7 @@ module.exports = {
           name: args[1],
           owner: message.author.id,
           guild: message.guild.id,
+          enabled: true,
         }).exec()
       ) {
         // edit from cache
@@ -249,6 +293,17 @@ module.exports = {
         ],
       });
     }
+    if (!tag.enabled) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Invalid Usage!")
+            .setDescription(
+              "The tag isn't verified by a moderator yet and not ready for use."
+            ),
+        ],
+      });
+    }
     // If the tag is in the database, return the content of the tag
     return message.reply({
       allowedMentions: [{ repliedUser: false, everyone: false }],
@@ -257,7 +312,9 @@ module.exports = {
           .setTitle("Tag Info")
           .addField("Name", `\`${tag.name}\``)
           .addField("Tag Creator", `<@!${tag.owner}>`)
-          .addField("Creation date", `\`${tag.createdAt}\``),
+          .addField("Creation date", `\`${tag.createdAt}\``)
+          .addField("Verified at", `\`${tag.verifiedAt}\``)
+          .addField("Verified by", `<@!${tag.verifiedBy}>`),
       ],
     });
   },

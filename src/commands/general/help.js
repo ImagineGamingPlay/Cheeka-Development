@@ -31,6 +31,7 @@ module.exports = {
       acc[command.category].push(command);
       return acc;
     }, {});
+    console.log(categories);
     let embed = new MessageEmbed()
       .setColor("BLURPLE")
       .setTitle("Select category")
@@ -43,17 +44,20 @@ module.exports = {
         value: "help_" + category,
       };
     });
-    console.log(cat);
     let menu = new MessageActionRow().addComponents(
       new MessageSelectMenu()
-        .setCustomId("help_")
+        .setCustomId("help_" + message.member.id)
         .setPlaceholder("Nothing selected")
         .addOptions(cat)
     );
     // Send the message embed to the channel and attach a selection menu with all the categories.
-    await message.reply({
-      embeds: [embed],
-      components: [menu],
-    });
+    try {
+      await message.reply({
+        embeds: [embed],
+        components: [menu],
+      });
+    } catch (e) {
+      return;
+    }
   },
 };

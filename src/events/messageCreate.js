@@ -64,7 +64,7 @@ module.exports = {
     if (!command) {
       // Check if a tag exists for the similar
       let a = tagsCache.get(message.content.slice(prefix.length).split(" ")[0]);
-      if (a) {
+      if (a && a.enabled) {
         // Reply with the content
         await message.reply({
           content: a.content,

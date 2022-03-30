@@ -5,6 +5,8 @@ module.exports = {
   name: "warnings-check",
   description: "check for a member's warning history",
   aliases: ["warn-check"],
+  permissions: ["KICK_MEMBERS"],
+  category: "Moderation",
   run: async ({ client, message, args }) => {
     const target = message.mentions.members.first();
     

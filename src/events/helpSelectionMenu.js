@@ -5,6 +5,11 @@ module.exports = {
   async execute(interaction, client) {
     if (!interaction.isSelectMenu()) return;
     if (!interaction.customId.startsWith("help_")) return;
+    let owner_id = interaction.customId.split("_")[1];
+    if (interaction.member.id !== owner_id)
+      return interaction.reply("You are not the owner of this help menu.", {
+        ephemeral: true,
+      });
     let category = interaction.values[0].split("_")[1];
     // Get all the commands
     let Ccommands = Array.from(client.commands.values());

@@ -5,6 +5,7 @@ module.exports = {
   name: "warn",
   description: "warn a member",
   permissions: ["KICK_MEMBERS"],
+  category: "Moderation",
   run: async ({ client, message, args }) => {
     const target = message.mentions.members.first();
     const reason = args.slice(1).join(" ") || "No reason provided";
