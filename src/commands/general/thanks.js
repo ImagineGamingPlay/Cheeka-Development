@@ -30,6 +30,7 @@ module.exports = {
         ],
       });
     }
+    if(user.bot) return message.channel.send({ embeds: [ new MessageEmbed().setColor("RED").setDescription("You can't thank bots!") ] });
     // Make the user is not mentioning himself
     if (user.id === message.author.id)
       return message.channel.send({
