@@ -6,7 +6,10 @@ require("dotenv").config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-const client = (global.client = new Client({ intents: 32767 }));
+const client = (global.client = new Client({
+  intents: 32767,
+  allowedMentions: { parse: ["users"] },
+}));
 
 /* Config Files (public) */
 const config = (global.config = require("../config.json"));
