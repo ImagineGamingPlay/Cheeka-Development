@@ -7,7 +7,8 @@ module.exports = {
     if (!interaction.customId.startsWith("help_")) return;
     let owner_id = interaction.customId.split("_")[1];
     if (interaction.member.id !== owner_id)
-      return interaction.reply("You are not the owner of this help menu.", {
+      return interaction.reply({
+        content: "You are not the owner of this help menu.",
         ephemeral: true,
       });
     let category = interaction.values[0].split("_")[1];
