@@ -113,7 +113,7 @@ module.exports = {
         });
       });
       // add to the cache
-      tagsCache.set(args[1], {
+      return tagsCache.set(args[1], {
         name: args[1],
         content: args.slice(2).join(" "),
         owner: message.author.id,
