@@ -52,9 +52,8 @@ module.exports = {
       message.author?.bot ||
       !message.guild ||
       !message.content.startsWith(prefix)
-    ) {
+    )
       return;
-    }
 
     const args = message.content.slice(prefix.length).trim().split(" ");
     const cmd = args.shift().toLowerCase();
@@ -147,17 +146,11 @@ module.exports = {
         return message.reply("This command can only be used by developers!");
       }
 
-      if (
-        command.permissions &&
-        member.permissions.missing(command.permissions).length !== 0 &&
-        !devs.includes(member.id)
-      ) {
-        return message.reply(
-          "You don't have required permissions to use this command!"
-        );
+      if (command.permissions && command.permissions.length > 0) {
+        if (!member.permissions.has(command.permissions)) return message.reply("You don't have the required permissions to use this command!");
       }
-      if(command.guildOnly && !message.guild) return message.reply("This command can only be used in a guild!");
-      
+      if (command.guildOnly && !message.guild)
+        return message.reply("This command can only be used in a guild!");
 
       try {
         await command.run({ client, message, args });
