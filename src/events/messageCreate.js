@@ -147,8 +147,8 @@ module.exports = {
       }
 
       if (command.permissions && command.permissions.length > 0) {
-        if (!devs.includes(member.id))
-          if (!member.permissions.has(command.permissions))
+        if (!member.permissions.has(command.permissions))
+          if (!devs.includes(member.id))
             return message.reply(
               "You don't have the required permissions to use this command!"
             );
