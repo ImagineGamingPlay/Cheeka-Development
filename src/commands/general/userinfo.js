@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const { userCache } = require("../../utils/Cache");
 const moment = require("moment");
 
@@ -26,7 +26,7 @@ module.exports = {
   run: async ({ client, message, args }) => {
     // Check if the user has mentioned anyone
     var permissions = [];
-    var acknowledgements = "None";
+    var acknowledgements = "";
 
     const member =
       message.mentions.members.first() ||
@@ -72,7 +72,7 @@ module.exports = {
       permissions.push("Manage Webhooks");
     }
 
-    if (message.member.permissions.has("MANAGE_EMOJIS")) {
+    if (message.member.permissions.has("MANAGE_EMOJIS_AND_STICKERS")) {
       permissions.push("Manage Emojis");
     }
 
@@ -80,10 +80,21 @@ module.exports = {
       permissions.push("No Key Permissions Found");
     }
 
-    if (member.user.id == message.guild.ownerID) {
+    if (member.id == message.guild.ownerId) {
       acknowledgements = "Server Owner";
     }
-
+    if (member.premiumSince) {
+      // If there was an acknowledgement, add a comma
+      if (acknowledgements.length > 0) {
+        acknowledgements += ", Server Booster";
+      } else {
+        acknowledgements = "Server Booster";
+      }
+    }
+    // If no acknowledgement, set it to None
+    if (!acknowledgements) {
+      acknowledgements = "None";
+    }
     const embed = new MessageEmbed()
       .setDescription(`<@${member.user.id}>`)
       .setAuthor({

@@ -5,7 +5,7 @@ module.exports = {
   name: "ping",
   description: "Check for the bots latency",
   aliases: ["pong"],
-  permissions: ["ADMINSTRATOR"],
+  permissions: ["ADMINISTRATOR"],
   disabledChannel: [],
   category: "Administrator",
   cooldown: 8,

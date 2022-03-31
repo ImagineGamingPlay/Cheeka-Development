@@ -4,7 +4,7 @@
   "description": "The source code of Cheeku.",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js -ignore src/",
+    "start": "nodemon --ignore *.js src/index.js",
     "test": "nodemon src/index.js -e js,json,env"
   },
   "repository": {
