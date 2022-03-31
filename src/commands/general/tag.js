@@ -1,6 +1,7 @@
 const TagSchema = require("../../schema/tags.js");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { tagsCache } = require("../../utils/Cache.js");
+const { devs } = require("../../../config.json");
 
 module.exports = {
   name: "tag",
@@ -161,7 +162,10 @@ module.exports = {
           ],
         });
       }
-      if (message.member.permissions.has("MANAGE_MESSAGES")) {
+      if (
+        message.member.permissions.has("MANAGE_MESSAGES") ||
+        devs.includes(message.member.id)
+      ) {
         TagSchema.deleteOne({
           name: args[1],
         }).exec();
