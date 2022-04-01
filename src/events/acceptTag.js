@@ -56,7 +56,7 @@ module.exports = {
           `Tag **${tag.name}** was accepted by <@${interaction.member.id}>`
         )
         .addField("Tag", tag.name)
-        .addField("Verified at", tag.verifiedAt)
+        .addField("Verified at", tag.verifiedAt.toString())
         .setTimestamp();
       await interaction.editReply({
         embeds: [embed],
