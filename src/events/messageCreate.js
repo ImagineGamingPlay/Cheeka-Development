@@ -17,19 +17,23 @@ module.exports = {
    * @returns {Promise<*>}
    */
   async execute(message, client) {
-    /**
-    let emojies = [
-      "<:lol:733280435190104125>",
-      "⬆",
-      "<:thanossmirk:752120115973193808>",
-      "<:KEKW:729747600353263647>",
-      "<:melon~1:933284351133761606>",
-    ];
-    if (message.channel.id === "745283907670245406") {
-      message.react(emojies[Math.floor(Math.random() * emojies.length)]);
-      message.react(emojies[Math.floor(Math.random() * emojies.length)]);
+    if (
+      message.channel.id === "745283907670245406" ||
+      message.channel.id === "802783156281016340"
+    ) {
+      const EMOJIREGEX =
+        /((?<!\\)<:[^:]+:(\d+)>)|\p{Emoji_Presentation}|\p{Extended_Pictographic}/gmu;
+      let emojies = message.content.match(EMOJIREGEX);
+      if (emojies) {
+        emojies.forEach((a) => {
+          if (a.startsWith("<")) {
+            message.react(a.slice(2, -1));
+          } else {
+            message.react(a);
+          }
+        });
+      }
     }
-     */
     if (afkUsers.has(message.author.id)) {
       // Get the user's previous username
       let user = afkUsers.get(message.author.id);
