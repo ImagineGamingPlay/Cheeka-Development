@@ -66,6 +66,21 @@ module.exports = {
         type: "WATCHING",
         status: "ONLINE",
       },
+      {
+        name: "your C: Drive",
+        type: "WATCHING",
+        status: "ONLINE",
+      },
+      {
+        name: "Youtube rewind 2018",
+        type: "WATCHING",
+        status: "ONLINE",
+      },
+      {
+        name: "you!",
+        type: "WATCHING",
+        status: "ONLINE",
+      },
     ];
 
     function pickStatus() {
