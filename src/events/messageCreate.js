@@ -17,6 +17,7 @@ module.exports = {
    * @returns {Promise<*>}
    */
   async execute(message, client) {
+    /**
     let emojies = [
       "<:lol:733280435190104125>",
       "⬆",
@@ -28,6 +29,7 @@ module.exports = {
       message.react(emojies[Math.floor(Math.random() * emojies.length)]);
       message.react(emojies[Math.floor(Math.random() * emojies.length)]);
     }
+     */
     if (afkUsers.has(message.author.id)) {
       // Get the user's previous username
       let user = afkUsers.get(message.author.id);
