@@ -17,12 +17,23 @@ module.exports = {
    * @returns {Promise<*>}
    */
   async execute(message, client) {
-    
-    let emojies = ["<:lol:733280435190104125>","⬆","<:thanossmirk:752120115973193808>","<:KEKW:729747600353263647>","<:melon~1:933284351133761606>"]
-  if(message.channel.id === "745283907670245406"){
-    message.react(emojies[Math.floor(Math.random() * emojies.length)])
-    message.react(emojies[Math.floor(Math.random() * emojies.length)])
-  }
+    if (
+      message.channel.id === "745283907670245406" ||
+      message.channel.id === "802783156281016340"
+    ) {
+      const EMOJIREGEX =
+        /((?<!\\)<:[^:]+:(\d+)>)|\p{Emoji_Presentation}|\p{Extended_Pictographic}/gmu;
+      let emojies = message.content.match(EMOJIREGEX);
+      if (emojies) {
+        emojies.forEach((a) => {
+          if (a.startsWith("<")) {
+            message.react(a.slice(2, -1));
+          } else {
+            message.react(a);
+          }
+        });
+      }
+    }
     if (afkUsers.has(message.author.id)) {
       // Get the user's previous username
       let user = afkUsers.get(message.author.id);
@@ -53,15 +64,19 @@ module.exports = {
         }
       });
     }
-
+    // Prefix is a list of prefixes as a array. Check if the message starts with any of the prefixes
+    let rPrefix = prefix.reduce((acc, cur) => {
+      if (message.content.startsWith(cur)) acc.push(cur);
+      return acc;
+    }, [])[0];
     if (
       message.author?.bot ||
       !message.guild ||
-      !message.content.startsWith(prefix)
+      !message.content.startsWith(rPrefix)
     )
       return;
 
-    const args = message.content.slice(prefix.length).trim().split(" ");
+    const args = message.content.slice(rPrefix.length).trim().split(" ");
     const cmd = args.shift().toLowerCase();
     const command =
       client.commands.get(cmd) ||
@@ -69,7 +84,9 @@ module.exports = {
 
     if (!command) {
       // Check if a tag exists for the similar
-      let a = tagsCache.get(message.content.slice(prefix.length).split(" ")[0]);
+      let a = tagsCache.get(
+        message.content.slice(rPrefix.length).split(" ")[0]
+      );
       if (a && a.enabled) {
         // Reply with the content
         await message.reply({
