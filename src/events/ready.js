@@ -5,6 +5,7 @@ const {
   tagsCache,
   guildCache,
 } = require("../utils/Cache");
+const { Constants } = require("discord.js");
 const Blacklist = require("../schema/blacklist");
 const { BlacklistChannel } = require("../schema/blacklist");
 const { RulesChannel } = require("../schema/rules");
@@ -17,8 +18,34 @@ const { MessageEmbed } = require("discord.js");
 const path = require("path");
 module.exports = {
   name: "ready",
-  once: true,
+  // once: true,
   async execute(client) {
+    // <------------- SLASH COMMAND HANDLING START------------->
+    const functionList = [{ name: "role selector", value: "role-selector" }];
+    const guildId = "952514062904860692";
+    const guild = client.guilds.cache.get(guildId);
+    let commands;
+
+    if (guild) {
+      commands = guild.commands;
+    } else {
+      commands = client.appication.commands;
+    }
+
+    commands.create({
+      name: "function",
+      description: "run a admin only function",
+      options: [
+        {
+          name: "name",
+          description: "name of the function",
+          type: Constants.ApplicationCommandOptionTypes.STRING,
+          choices: functionList,
+          required: true,
+        },
+      ],
+    });
+    // <------------- SLASH COMMAND HANDLING END------------->
     console.log(`Logged in as ${client.user.tag}`);
     // From the temporary file stored as 'restart.txt' in the main project directory, read the content of it express it in terms of ${message.id} ${message.channel.id} ${message.guild.id}
     fs.readFile(path.join(__dirname, "../../restart.txt"), (err, data) => {
