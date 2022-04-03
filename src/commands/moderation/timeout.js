@@ -19,7 +19,9 @@ module.exports = {
         !message.guild.me.permissions.has("MODERATE_MEMBERS")
       )
         return;
-      let member = message.mentions.members.first();
+      let member =
+        message.mentions.members.first() ||
+        message.guild.members.cache.get(args[0]);
       if (!member) return await message.reply("No user was given.");
       const time = args[1];
       if (!time) return await message.reply("No time was given");

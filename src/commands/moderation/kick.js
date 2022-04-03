@@ -13,7 +13,9 @@ module.exports = {
    */
   run: async ({ client, message, args }) => {
     try {
-      let member = message.mentions.members.first();
+      let member =
+        message.mentions.members.first() ||
+        message.guild.members.cache.get(args[0]);
       if (!member) return message.reply("You need to mention someone to kick!");
       const reason = args.slice(1).join(" ");
       if (!reason) return message.reply("No reason was given");
