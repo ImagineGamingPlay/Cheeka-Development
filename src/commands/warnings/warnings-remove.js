@@ -73,7 +73,7 @@ module.exports = {
         }
       );
     } else if (!isNaN(warnId)) {
-      warnId = args[0] - 1;
+      warnId = args[1] - 1;
       warningsSchema.findOne(
         {
           guild: message.guildId,
