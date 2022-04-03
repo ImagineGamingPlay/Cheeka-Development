@@ -6,7 +6,7 @@ module.exports = {
   description: "Marks you away from keyboard.",
   aliases: ["away"],
   permissions: [],
-  disabledChannel: [],
+  disabledChannel: ["743528053019508848"], //main chat
   category: "General",
   cooldown: 30,
   /**

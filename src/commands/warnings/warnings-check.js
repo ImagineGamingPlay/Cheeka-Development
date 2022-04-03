@@ -8,10 +8,13 @@ module.exports = {
   permissions: ["KICK_MEMBERS"],
   category: "Moderation",
   run: async ({ client, message, args }) => {
-    const target = message.mentions.members.first();
-    
-    if (!target) message.reply("Please mention a user to check their warnings!");
-    
+    const target =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
+
+    if (!target)
+      message.reply("Please mention a user to check their warnings!");
+
     warningsSchema.findOne(
       {
         guild: message.guildId,

@@ -7,7 +7,9 @@ module.exports = {
   permissions: ["KICK_MEMBERS"],
   category: "Moderation",
   run: async ({ client, message, args }) => {
-    const target = message.mentions.members.first();
+    const target =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
     const reason = args.slice(1).join(" ") || "No reason provided";
     const warnDate = new Date(message.createdTimestamp).toLocaleDateString();
 
