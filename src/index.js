@@ -2,7 +2,7 @@ const { Client, Collection, MessageEmbed } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
 
-console.log('APRIL FOOL 😂');
+console.log("APRIL FOOL 😂");
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../.env"),
@@ -14,6 +14,7 @@ const client = (global.client = new Client({
 }));
 
 /* Config Files (public) */
+const channels = (global.channels = require("./utils/channels.json"));
 const config = (global.config = require("../config.json"));
 
 module.exports = { client };
