@@ -7,6 +7,7 @@ module.exports = {
     "get a meme out from r/memes and sends it in the required channel",
   category: "Fun",
   cooldown: 5,
+  aliases: ["memes", "meeme"],
   run: async ({ client, message, args }) => {
     // https://meme-api.herokuapp.com/gimme use this to generate memes with node fetch
     const body = await (
