@@ -9,7 +9,7 @@ module.exports = {
     "get a meme out from r/memes and sends it in the required channel",
   category: "Fun",
   cooldown: 5,
-  run: async (client, message, args) => {
+  run: async ({ client, message, args }) => {
     https.get(url, (result) => {
       var body = "";
       result.on("data", (chunk) => {
@@ -31,7 +31,7 @@ module.exports = {
               .setColor("RANDOM")
               .setURL(link);
 
-            message.channel.send({ embeds: [textembed] });
+            message.reply({ embeds: [textembed] });
           }
 
           var image = index.preview.images[0].source.url.replace("&amp;", "&");
@@ -43,14 +43,14 @@ module.exports = {
               .setColor("RANDOM")
               .setURL(link);
 
-            message.channel.send({ embeds: [textembed] });
+            message.reply({ embeds: [textembed] });
           }
           const imageembed = new MessageEmbed()
             .setTitle(`${title}`)
             .setImage(image)
             .setColor("RANDOM")
             .setURL(link);
-          message.channel.send({ embeds: [imageembed] });
+          message.reply({ embeds: [imageembed] });
         })
         .on("error", function (e) {
           console.log("Got an error: ", e);
