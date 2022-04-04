@@ -43,8 +43,8 @@ module.exports = {
     }
     // The code might begin in code blocks that is ``` and there might be a extra "js" annotation saying it's a javascript code.
     // Create a regex to replace the ``` if the code starts and ends with it along with the js if it is available at the starting after codeblock
-    code = code.replace(/```/g, "");
     code = code.replace(/```js/g, "");
+    code = code.replace(/```/g, "");
     code = code.replace(/token/g, "[Something Important]");
 
     try {
