@@ -14,7 +14,7 @@ const client = (global.client = new Client({
 }));
 
 /* Config Files (public) */
-const channels = (global.channels = require("./utils/channels.json"));
+const c = (global.c = require("./utils/channels.json"));
 const config = (global.config = require("../config.json"));
 
 module.exports = { client };
