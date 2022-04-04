@@ -37,7 +37,7 @@ module.exports = {
           .setTitle("Thanks Leaderboard")
           .setDescription(
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-              .map((i) => `**#${i}.** ??? with 0 Thanks.`)
+              .map((i) => `**#${i}.** ??? with \`0\` Thanks.`)
               .join("\n")
           )
           .setColor("#32a852"),
