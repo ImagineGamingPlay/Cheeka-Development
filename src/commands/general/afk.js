@@ -8,7 +8,7 @@ module.exports = {
   permissions: [],
   disabledChannel: ["743528053019508848"], //main chat
   category: "General",
-  cooldown: 30,
+  cooldown: 120,
   /**
    * @param client {Client} A discord.js client
    * @param message {Message} A discord.js message
@@ -29,13 +29,13 @@ module.exports = {
     // Check if the user has provided a reason, it can be more than one word but must be less than 50
     let reason = args.join(" ");
     if (reason === "") reason = "No reason provided.";
-    if (reason.length > 50) {
+    if (reason.length > 60) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
             .setColor("RED")
             .setDescription(
-              "Your reason is too long! You can only provide 50 characters!"
+              "Your reason is too long! You can only provide 60 characters!"
             ),
         ],
       });
