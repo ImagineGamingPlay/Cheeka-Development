@@ -46,7 +46,7 @@ module.exports = {
               [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                 .map((i) => {
                   if (top10[i - 1]) {
-                    return `**#${i}.** ${top10[i - 1]} with \`${
+                    return `**#${i}.** <@!${top10[i - 1].id}> with \`${
                       top10[i - 1].thanks
                     }\` Thanks.`;
                   } else {
