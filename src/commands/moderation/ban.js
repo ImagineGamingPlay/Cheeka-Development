@@ -20,6 +20,21 @@ module.exports = {
         message.guild.members.cache.get(args[0]);
       if (!member) return message.reply("You need to mention someone to ban!");
       const reason = args.slice(1).join(" ");
+      
+      if(member.user.id === message.author.id) return message.channel.send("u cant ban youself")
+      const mentionedPosition = member.roles.highest.position 
+        const memberPosition = message.member.roles.highest.position 
+        const botPosition = message.guild.me.roles.highest.position 
+
+        if(memberPosition <= mentionedPosition) { 
+            const kickErr = new MessageEmbed()
+            .setDescription('**You cannot kick this member because their role is higher/equal to yours!**')
+            return message.channel.send({ embeds: [kickErr] }) 
+        } else if (botPosition <= mentionedPosition) { 
+            const kickErr1 = new MessageEmbed()
+            .setDescription('**I cannot kick this member because their role is higher/equal to mine!**')
+            message.channel.send({ embeds: [kickErr1] }) 
+        } 
       //Notifcation Embed
       const em = new MessageEmbed()
         .setTitle(`Server Ban`)
