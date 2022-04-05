@@ -25,7 +25,7 @@ module.exports = {
     const answer = answers[Math.floor(Math.random() * answers.length)];
 
     if (!question) return message.reply("you need to ask a question!");
-    if (question.length >= 2) return message.reply("uh that is not really a question...")
+    if (question.length <= 2) return message.reply("uh that is not really a question...")
 
     const ballEmbed = new MessageEmbed()
       .setAuthor({
