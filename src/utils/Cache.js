@@ -43,4 +43,4 @@ module.exports.afkUsers = new Map();
 /**
  * @type {Map<string, string>}
  */
-module.exports.video = new Map();
+module.exports.video = null
