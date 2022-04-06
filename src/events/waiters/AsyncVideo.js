@@ -17,12 +17,12 @@ module.exports = {
       let results = await service.channels.list({
         part: ['snippet', 'statistics', 'contentDetails'],
         id: 'UCzBQ65qoUGqNPcbiNQN2pJA'
-      })
+      }).catch(console.error)
       let result = results.data.items[0]
       let videos = await service.playlistItems.list({
         part: ['snippet', 'status'],
         playlistId: result.contentDetails.relatedPlaylists.uploads
-      })
+      }).catch(console.error)
       let content = "Imagine just uploaded a video!\n" + videos.data.items[0]
       if(guild.videoRole) content = guild.videoRole.toString() + content
       await channel?.send({
