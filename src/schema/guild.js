@@ -9,6 +9,7 @@ const GuildData = new Schema({
   infoChannel: String,
   infoMessage: String,
   videoChannel: String,
+  videoRole: String,
 });
 
 /**
