@@ -23,7 +23,7 @@ module.exports = {
         part: ['snippet', 'status'],
         playlistId: result.contentDetails.relatedPlaylists.uploads
       }).catch(console.error)
-      let content = "Imagine just uploaded a video!\n" + videos.data.items[0]
+      let content = "Imagine just uploaded a video!\nhttps://www.youtube.com/watch?v=" + videos.data.items[0].snippet.resourceId.videoId
       if(guild.videoRole) content = guild.videoRole.toString() + content
       await channel?.send({
         content: content
