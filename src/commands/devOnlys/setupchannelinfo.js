@@ -29,7 +29,7 @@ module.exports = {
     let channel = message.mentions.channels.first();
     if (!channel) {
       return message.channel.send(
-        "You need to provide a channel to set the leaderboard to!"
+        "You need to provide a channel to set the embed to!"
       );
     }
     // Send a message to the channel
@@ -50,7 +50,7 @@ module.exports = {
             {name: "Subscriber Count", value: result.statistics.subscriberCount},
             {name: "View Count", value: result.statistics.viewCount, inline: true},
             {name: "Video Count", value: result.statistics.videoCount, inline: true},
-            {name: "Last Uploaded Video", value: videos.data.items[0]}
+            {name: "Last Uploaded Video", value: "https://www.youtube.com/watch?v=" + videos.data.items[0].snippet.resourceId.videoId}
           )
           .setColor("#2200ff")
           .setThumbnail(result.snippet.thumbnails.medium.url),
