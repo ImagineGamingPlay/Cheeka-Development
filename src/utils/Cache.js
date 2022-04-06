@@ -39,3 +39,8 @@ module.exports.guildCache = new Map();
  * @type {Map<string, string>}
  */
 module.exports.afkUsers = new Map();
+
+/**
+ * @type {Map<string, string>}
+ */
+module.exports.video = new Map();
