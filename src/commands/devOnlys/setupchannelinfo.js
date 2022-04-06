@@ -3,7 +3,7 @@ const { MessageEmbed, Client, Message } = require("discord.js");
 const { GuildData } = require("../../schema/guild");
 const { guildCache } = require("../../utils/Cache");
 const {google} = require('googleapis')
-let service = google.youtube({ version: 'v3', auth: "Google API Key" });
+const service = google.youtube({ version: 'v3', auth: "Google API Key" });
 
 module.exports = {
   name: "setupci",
