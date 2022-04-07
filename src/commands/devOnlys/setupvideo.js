@@ -25,7 +25,7 @@ module.exports = {
       return message.channel.send({ embeds: [notowner] });
     // Make sure a channel is provided
     let channel = message.mentions.channels.first();
-    let role = message.mentions.roles.first()
+    let role = message.mentions.roles.first();
     if (!channel) {
       return message.channel.send(
         "You need to provide a channel to set the notifier to!"
@@ -39,7 +39,7 @@ module.exports = {
       {
         id: message.guild.id,
         videoChannel: channel.id,
-        videoRole: role.id || null,
+        videoRole: role?.id || null,
       },
       { upsert: true }
     );
@@ -47,7 +47,11 @@ module.exports = {
       id: message.guild.id,
     };
     guildA["videoChannel"] = channel.id;
-    guildA["videoRole"] = role.id || null;
+    guildA["videoRole"] = role?.id || null;
     guildCache.set(message.guild.id, guildA);
+    // Reply the message saying "Done, I've settuped the video channel!"
+    message.channel.send(
+      `Done, I've settuped the video channel to ${channel}!`
+    );
   },
 };
