@@ -39,3 +39,10 @@ module.exports.guildCache = new Map();
  * @type {Map<string, string>}
  */
 module.exports.afkUsers = new Map();
+
+/**
+ * @type {Map<string, string>}
+ */
+
+//I made it so that it checks for a new video every 3 minutes, and if .video is null or .video is similar to the newest checked video's Id, it returns and won't execute the rest of the code
+module.exports.video = null

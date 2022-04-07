@@ -6,6 +6,10 @@ const GuildData = new Schema({
   ruleMessage: String,
   leaderboardChannel: String,
   leaderboardMessage: String,
+  infoChannel: String,
+  infoMessage: String,
+  videoChannel: String,
+  videoRole: String,
 });
 
 /**
