@@ -4,8 +4,8 @@ const {google} = require('googleapis')
 const service = google.youtube({ version: 'v3', auth: "Google API Key" });
 
 module.exports = {
-  // Time will be in milliseconds, run this every 1 minute
-  time: 60000,
+  // To avoid spamming the API too much, the interval is 3 minutes
+  time: 180000,
   run: async function (client) {
     let results = await service.channels.list({
       part: ['snippet', 'statistics', 'contentDetails'],
