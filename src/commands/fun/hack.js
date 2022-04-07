@@ -14,9 +14,22 @@ module.exports = {
 
     if (target.id === message.author.id)
       return message.reply("You can't hack yourself dummy.");
+
     if (target.id === client.user.id)
       return message.reply("I am too strong for this, you can't.");
+
     if (target.user.bot) return message.reply("Bots are too dumb to hack.");
+
+    if (target.id === message.guild.ownerId)
+      return message.reply(
+        "That guy is too powerful for me to hack... He is the owner afterall..."
+      );
+
+    if (config.devs.includes(target.id))
+      return message.reply(
+        "That guy is too powerful for me to hack... They are the one who made me afterall..."
+      );
+
     let username = target.user.tag;
 
     const text = [
