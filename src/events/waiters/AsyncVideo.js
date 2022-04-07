@@ -28,7 +28,7 @@ module.exports = {
           console.log(error);
         });
       let content = "Imagine just uploaded a video!\nhttps://www.youtube.com/watch?v=" + videoId
-      if(guild.videoRole) content = guild.videoRole.toString() + content
+      if(guild.videoRole) content = "<@&" + guild.videoRole.toString() + "> " + content
       await channel?.send({
         content: content
       })
