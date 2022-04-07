@@ -50,7 +50,7 @@ module.exports = {
             {name: "Subscriber Count", value: result.statistics.subscriberCount},
             {name: "View Count", value: result.statistics.viewCount, inline: true},
             {name: "Video Count", value: result.statistics.videoCount, inline: true},
-            {name: "Last Uploaded Video", value: "https://www.youtube.com/watch?v=" + videos.data.items[0].snippet.resourceId.videoId}
+            {name: "Last Uploaded Video", value: `[${videos.data.items[0].snippet.title}](https://www.youtube.com/watch?v=${videos.data.items[0].snippet.resourceId.videoId} "Watch the latest video!")`}
           )
           .setColor("#2200ff")
           .setThumbnail(result.snippet.thumbnails.medium.url),
