@@ -9,7 +9,7 @@ module.exports = {
   name: "interactionCreate",
   async execute(interaction, client) {
     const handleCommands = (interaction, client) => {
-      const { commandName, options } = interaction;
+      return;
     };
 
     const handleSelectMenus = async (interaction, client) => {

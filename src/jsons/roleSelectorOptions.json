@@ -1,0 +1,22 @@
+{
+  "optionsArr": [
+    {
+      "label": "Good Guy",
+      "description": "be the good guy",
+      "value": "952541064529584159",
+      "emoji": "🥇"
+    },
+    {
+      "label": "Netural Guy",
+      "description": "be the netural guy",
+      "value": "959801205553504366",
+      "emoji": "🥈"
+    },
+    {
+      "label": "Bad Guy",
+      "description": "be the bad guy",
+      "value": "959801093775323206",
+      "emoji": "🥉"
+    }
+  ]
+}
