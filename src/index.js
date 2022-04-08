@@ -2,8 +2,6 @@ const { Client, Collection, MessageEmbed } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
 
-console.log("APRIL FOOL 😂");
-
 require("dotenv").config({
   path: path.resolve(__dirname, "../.env"),
 });
