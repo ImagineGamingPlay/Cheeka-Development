@@ -14,8 +14,8 @@ module.exports = {
 
       return str;
     };
-    if (!args) {
-      return message.channel.send(
+    if (!args || args.length == 0) {
+      return message.reply(
         "You need to provide a class to get information about!"
       );
     }

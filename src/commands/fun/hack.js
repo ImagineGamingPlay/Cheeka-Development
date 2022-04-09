@@ -3,6 +3,7 @@ module.exports = {
   description: "hack somone on discord, just for fun ofc",
   // cooldown: 5000,
   disabledChannel: [c.main_chat],
+  category: "Fun",
   run: async ({ client, message, args }) => {
     const target =
       message.mentions.members.first() ||

@@ -5,6 +5,7 @@ module.exports = {
   description: "Shows the current member count of the server.",
   aliases: ["members", "member", "memcount", "usercount"],
   usage: "membercount",
+  category: "General",
   run: async ({ client, message, args }) => {
     const memberCount = message.guild.memberCount;
     const botCount = message.guild.botcount;

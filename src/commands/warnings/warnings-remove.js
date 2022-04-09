@@ -6,6 +6,7 @@ module.exports = {
   description: "remove a warning from a member",
   aliases: ["warn-remove", "warn-del"],
   permissions: ["KICK_MEMBERS"],
+  category: "Moderation",
   run: async ({ client, message, args }) => {
     let warnId = args[1];
     const target =
