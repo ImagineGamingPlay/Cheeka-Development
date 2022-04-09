@@ -34,7 +34,6 @@ module.exports = {
             .addField("Input", `\`\`\`js\n${command}\n\`\`\``),
         ],
       });
-      exe;
       exec(command, async (err, stdout, stderr) => {
         if (err) return console.log(err);
         let res = stdout || stderr;
