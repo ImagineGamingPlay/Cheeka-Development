@@ -11,14 +11,16 @@ const client = (global.client = new Client({
   allowedMentions: { parse: ["users"] },
 }));
 
-/* Config Files (public) */
-const c = (global.c = require("./jsons/channels.json"));
-const config = (global.config = require("../config.json"));
+async function init() {
+  await client.login(process.env.token);
 
-module.exports = { client };
+  /* Config Files (public) */
+  const c = (global.c = require("./jsons/channels.json"));
+  const config = (global.config = require("../config.json"));
+  module.exports = { client };
 
-["commands", "events", "mongoose", "error"].forEach((handler) => {
-  require(`./handlers/${handler}`);
-});
-
-client.login(process.env.token).catch((e) => console.log(e));
+  ["commands", "events", "mongoose", "error"].forEach((handler) => {
+    require(`./handlers/${handler}`);
+  });
+}
+init().catch((err) => console.error(err));
