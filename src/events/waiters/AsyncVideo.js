@@ -13,7 +13,7 @@ module.exports = {
         id: "UCzBQ65qoUGqNPcbiNQN2pJA",
       })
       .catch(console.error);
-    let result = results.data.items[0];
+    let result = results?.data.items[0];
     let videos = await service.playlistItems
       .list({
         part: ["snippet", "status"],

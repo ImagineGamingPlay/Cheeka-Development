@@ -11,10 +11,8 @@ module.exports = {
       if (!guild.infoChannel) return;
       let channel = await client.channels
         .fetch(guild?.infoChannel)
-        .catch((error) => {
-          console.log(error);
-        });
-      let message = await channel.messages
+        .catch((error) => {});
+      let message = await channel?.messages
         .fetch(guild?.infoMessage)
         .catch((error) => console.log(error));
       let results = await service.channels.list({
