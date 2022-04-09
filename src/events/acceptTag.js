@@ -17,6 +17,12 @@ module.exports = {
    */
   async execute(interaction, client) {
     if (!interaction.isButton()) return;
+    // If the interaction's customId doesn't start with a or d return
+    if (
+      !interaction.customId.startsWith("a") &&
+      !interaction.customId.startsWith("d")
+    )
+      return;
     // Make sure that the user has KICK_MEMBERS permission
     await interaction.deferReply({
       ephemeral: true,

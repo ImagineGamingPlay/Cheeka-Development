@@ -75,6 +75,6 @@ module.exports = {
     };
     if (interaction.isCommand()) handleCommands(interaction, client);
     else if (interaction.isSelectMenu()) handleSelectMenus(interaction, client);
-    else if ((interaction, isButton())) handleButtons(interaction, client);
+    else if (interaction.isButton()) handleButtons(interaction, client);
   },
 };
