@@ -6,7 +6,7 @@ const { devs } = require("../../../config.json");
 module.exports = {
   name: "tag",
   description: "Tag system in modified form.",
-  aliases: ["t"],
+  aliases: ["t", "tags"],
   category: "General",
   disabledChannel: [],
   /**
