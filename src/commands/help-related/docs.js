@@ -4,7 +4,7 @@ module.exports = {
   name: "docs",
   description: "Get information from discord.js documentation.",
   usage: "docs <command>",
-  category: "help-related",
+  category: "Help",
   aliases: ["documentation"],
   run: async ({ client, message, args }) => {
     const replaceDisco = (str) => {
@@ -14,12 +14,17 @@ module.exports = {
 
       return str;
     };
-
+    if (!args) {
+      return message.channel.send(
+        "You need to provide a class to get information about!"
+      );
+    }
     const query = args.join(" ");
     const branch = "stable";
     const doc = await Docs.fetch(branch).catch(() => null);
 
-    if (!doc) return message.reply("Could not find docs");
+    if (!doc)
+      return message.reply("Could not find the object/method/property.");
     const result = await doc.resolveEmbed(query);
 
     if (!result)
