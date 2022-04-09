@@ -1,3 +1,5 @@
+const { MessageEmbed } = require("discord.js");
+
 process.on("unhandledRejection", (reason, p) => {
   console.log(reason, p);
   client.channels.cache.get("958000637944164462").send({

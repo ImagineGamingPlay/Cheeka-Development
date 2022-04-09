@@ -5,7 +5,7 @@ const service = google.youtube({ version: "v3", auth: process.env.yt_key });
 
 module.exports = {
   // Time will be in milliseconds, run this every 1 minute
-  time: 60000,
+  time: 10000,
   run: async function (client) {
     Array.from(guildCache.values()).forEach(async (guild) => {
       if (!guild.infoChannel) return;
@@ -26,7 +26,7 @@ module.exports = {
         part: ["snippet", "status"],
         playlistId: result.contentDetails.relatedPlaylists.uploads,
       });
-      await message?.send({
+      await message?.edit({
         embeds: [
           new MessageEmbed()
             .setTitle("Channel Statistics")
@@ -45,7 +45,10 @@ module.exports = {
                 value: result.statistics.videoCount,
                 inline: true,
               },
-              { name: "Last Uploaded Video", value: videos.data.items[0] }
+              {
+                name: "Last Uploaded Video",
+                value: `[${videos.data.items[0].snippet.title}](https://www.youtube.com/watch?v=${videos.data.items[0].snippet.resourceId.videoId} "Watch the latest video!")`,
+              }
             )
             .setColor("#2200ff")
             .setThumbnail(result.snippet.thumbnails.medium.url),
