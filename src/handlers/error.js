@@ -1,8 +1,9 @@
 const { MessageEmbed } = require("discord.js");
+const channel = client.channels.cache.get("958000637944164462");
 
 process.on("unhandledRejection", (reason, p) => {
   console.log(reason, p);
-  client.channels.cache.get("958000637944164462").send({
+  channel.send({
     embeds: [
       new MessageEmbed()
         .setTitle("Unhandled Rejection")
@@ -14,7 +15,7 @@ process.on("unhandledRejection", (reason, p) => {
 });
 process.on("uncaughtException", (err, origin) => {
   console.log(err, origin);
-  client.channels.cache.get("958000637944164462").send({
+  channel.send({
     embeds: [
       new MessageEmbed()
         .setTitle("Uncaught Exception")
@@ -26,7 +27,7 @@ process.on("uncaughtException", (err, origin) => {
 });
 process.on("uncaughtExceptionMonitor", (err, origin) => {
   console.log(err, origin);
-  client.channels.cache.get("958000637944164462").send({
+  channel.send({
     embeds: [
       new MessageEmbed()
         .setTitle("Uncaught Exception")
@@ -38,7 +39,7 @@ process.on("uncaughtExceptionMonitor", (err, origin) => {
 });
 process.on("multipleResolves", (type, promise, reason) => {
   console.log(type, promise, reason);
-  client.channels.cache.get("958000637944164462").send({
+  channel.send({
     embeds: [
       new MessageEmbed()
         .setTitle("Multiple Resolves")
