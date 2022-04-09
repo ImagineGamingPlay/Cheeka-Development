@@ -34,8 +34,10 @@ module.exports = {
             .addField("Input", `\`\`\`js\n${command}\n\`\`\``),
         ],
       });
-      exec(command, async (err, res) => {
+      exe;
+      exec(command, async (err, stdout, stderr) => {
         if (err) return console.log(err);
+        let res = stdout || stderr;
         message.channel.send({
           embeds: [
             new MessageEmbed()
