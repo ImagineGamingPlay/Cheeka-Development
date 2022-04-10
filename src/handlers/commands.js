@@ -1,7 +1,4 @@
-const { Collection } = require("discord.js");
 const fs = require("fs");
-
-client.commands = new Collection();
 
 const commandFolders = fs.readdirSync("./src/commands").forEach((folder) => {
   // let commands = filesConfig(`./src/commands/${folder}`, ".js");

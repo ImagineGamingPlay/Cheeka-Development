@@ -11,7 +11,10 @@ const client = (global.client = new Client({
   allowedMentions: { parse: ["users"] },
 }));
 
-async function init() {
+client.commands = new Collection();
+client.buttons = new Collection();
+
+(async function () {
   await client.login(process.env.token);
 
   /* Config Files (public) */
@@ -19,8 +22,11 @@ async function init() {
   const config = (global.config = require("../config.json"));
   module.exports = { client };
 
-  ["commands", "events", "mongoose", "error"].forEach((handler) => {
+  const handlers = ["commands", "events", "mongoose", "error", "buttons"];
+
+  for (const handler of handlers) {
     require(`./handlers/${handler}`);
-  });
-}
-init().catch((err) => console.error(err));
+  }
+})().catch((err) => console.error(err));
+
+console.log("Hello World! I'm ready to go!");

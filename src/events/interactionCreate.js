@@ -3,16 +3,15 @@ const {
   MessageActionRow,
   MessageSelectMenu,
   MessageButton,
+  ButtonInteraction,
 } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   async execute(interaction, client) {
-    const handleCommands = (interaction, client) => {
+    if (interaction.isCommand()) {
       return;
-    };
-
-    const handleSelectMenus = async (interaction, client) => {
+    } else if (interaction.isSelectMenu()) {
       const { values, customId } = interaction;
 
       if (customId === "role-selector-menu") {
@@ -55,26 +54,50 @@ module.exports = {
           }
         }
       }
-    };
+    } else if (interaction.isButton()) {
+      const button = client.buttons.get(interaction.customId);
 
-    const handleButtons = async (interaction, client) => {
-      if (interaction.customId === "show-my-roles") {
-        const rolesEmbed = new MessageEmbed()
-          .setTitle(`Roles of ${interaction.member.user.username}`)
-          .setDescription(
-            `${
-              member.roles.cache
-                .map((r) => r)
-                .join(" ")
-                .replace("@everyone", " ") || "You got no roles apparently..."
-            }`
-          );
-
-        interaction.reply({ embeds: [rolesEmbed] });
+      if (!button) {
+        return await interaction.reply({
+          content: "Button not handled. Please contact the devs!",
+          ephemeral: true,
+        });
+      } else if (
+        button.permissions &&
+        !interaction.member.permissions.has(button.permissions)
+      ) {
+        return await interaction.reply({
+          content:
+            "You do not have the required permissions to use this button.",
+          ephemeral: true,
+        });
+      } else if (
+        button.devOnly &&
+        !config.devs.includes(interaction.member.id)
+      ) {
+        return await interaction.reply({
+          content: "This button is only available for developers.",
+          ephemeral: true,
+        });
+      } else if (
+        button.ownerOnly &&
+        interaction.guild.ownerId !== interaction.member.id
+      ) {
+        return await interaction.reply({
+          content: "This button is only available for the guild owner.",
+          ephemeral: true,
+        });
       }
-    };
-    if (interaction.isCommand()) handleCommands(interaction, client);
-    else if (interaction.isSelectMenu()) handleSelectMenus(interaction, client);
-    else if (interaction.isButton()) handleButtons(interaction, client);
+
+      try {
+        await button.run(client, interaction);
+      } catch (err) {
+        console.log(err);
+        await interaction.reply({
+          content: `An error occured. Please contact the devs! Error: \`\`\`${err}\`\`\``,
+          ephemeral: true,
+        });
+      }
+    }
   },
 };
