@@ -1,6 +1,5 @@
 //Snipe Command
 const { MessageEmbed } = require("discord.js");
-const { MessagePagination } = require("spud.js");
 
 module.exports = {
   name: "snipe",
@@ -61,10 +60,9 @@ module.exports = {
       // Send the embed
       embeds.push(embed);
     }
-    const pagination = new MessagePagination({
-      message,
+    // Send the embeds
+    message.channel.send({
       embeds,
-      replyOptions: { mention: true, message },
     });
   },
 };
