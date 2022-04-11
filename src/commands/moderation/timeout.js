@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["tm", "tmout"],
   disabledChannel: [],
   category: "Moderation",
-  permissions: ["KICK_MEMBERS"],
+  permissions: ["KICK_MEMBERS", "MODERATE_MEMBERS"],
   /**
    * @param client {Client} A discord.js client
    * @param message {Message} A discord.js message
@@ -14,11 +14,6 @@ module.exports = {
    */
   run: async ({ client, message, args }) => {
     try {
-      if (
-        !message.member.permissions.has("MODERATE_MEMBERS") ||
-        !message.guild.me.permissions.has("MODERATE_MEMBERS")
-      )
-        return;
       let member =
         message.mentions.members.first() ||
         message.guild.members.cache.get(args[0]);
@@ -32,10 +27,10 @@ module.exports = {
         await message.reply(
           "Please make sure the syntax is correct: .timeout <@user> <time> <reason>"
         );
-      await member.send(
-        `You were timed out for **${time}** for doing **${reason}**`
-      );
       await member.timeout(ttime);
+      await member
+        .send(`You were timed out for **${time}** for doing **${reason}**`)
+        .catch((err) => {});
       await message.reply(
         `**${member.user.tag}** got timed out for **${time}** for doing **${reason}**`
       );

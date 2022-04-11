@@ -88,7 +88,7 @@ module.exports = {
         message.content.slice(rPrefix.length).split(" ")[0]
       );
       if (a && a.enabled) {
-        // Reply with the content
+        // Reply witgith the content
         await message.reply({
           content: a.content,
           allowedMentions: [{ repliedUser: false, everyone: false }],
