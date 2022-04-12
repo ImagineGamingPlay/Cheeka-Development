@@ -1,4 +1,6 @@
 const Docs = require("discord.js-docs");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "docs",
@@ -6,6 +8,11 @@ module.exports = {
   usage: "docs <command>",
   category: "Help",
   aliases: ["documentation"],
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     const replaceDisco = (str) => {
       str

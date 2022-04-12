@@ -11,10 +11,9 @@ module.exports = {
   aliases: ["reloadall", "restart"],
   disabledChannel: [],
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @param args {Array} A array of the arguments passed to the command
-   * @returns {Promise<*>} Returns a promise that might return anything
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     let msg = await message.channel.send({

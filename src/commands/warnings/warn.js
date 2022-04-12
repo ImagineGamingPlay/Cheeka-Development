@@ -1,11 +1,18 @@
 const { MessageEmbed } = require("discord.js");
 const warningsSchema = require("../../schema/warnings");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "warn",
   description: "warn a member",
   permissions: ["KICK_MEMBERS"],
   category: "Moderation",
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     const target =
       message.mentions.members.first() ||

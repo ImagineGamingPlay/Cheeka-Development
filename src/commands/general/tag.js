@@ -2,6 +2,8 @@ const TagSchema = require("../../schema/tags.js");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { tagsCache } = require("../../utils/Cache.js");
 const { devs } = require("../../../config.json");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "tag",
@@ -10,10 +12,9 @@ module.exports = {
   category: "General",
   disabledChannel: [],
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @param args {Array} A array of the arguments passed to the command
-   * @returns {Promise<*>} Returns a promise that might return anything
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     // Make sure a arg is provided

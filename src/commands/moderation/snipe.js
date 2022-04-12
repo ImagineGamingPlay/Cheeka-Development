@@ -1,6 +1,7 @@
 //Snipe Command
 const { MessageEmbed } = require("discord.js");
-
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 module.exports = {
   name: "snipe",
   category: "Moderation",
@@ -10,11 +11,9 @@ module.exports = {
   guildOnly: true,
 
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @param args {Array} A array of the arguments passed to the command
-   * @returns {Promise<*>} Returns a promise that might return anything
    *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     //fetch the snipes

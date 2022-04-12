@@ -1,4 +1,6 @@
-const { MessageEmbed} = require("discord.js");
+const { MessageEmbed } = require("discord.js");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "role",
@@ -6,6 +8,11 @@ module.exports = {
   aliases: ["roles"],
   category: "Moderation",
   permissions: ["MANAGE_ROLES"],
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     const query = args[0];
     const role =
@@ -15,7 +22,7 @@ module.exports = {
       message.guild.members.cache.get(args[2]);
     const reason = args.slice(2).join(" ") || "No reason provided";
     const choices = ["add", "remove", "check"];
-    
+
     if (!choices.includes(query))
       return message.reply(
         "Action invalid. The available actions are: add, remove, check"

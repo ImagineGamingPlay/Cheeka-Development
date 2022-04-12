@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { afkUsers } = require("../../utils/Cache");
-
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 module.exports = {
   name: "afk",
   description: "Marks you away from keyboard.",
@@ -10,10 +11,9 @@ module.exports = {
   category: "General",
   cooldown: 120,
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @param args {Array} A array of the arguments passed to the command
-   * @returns {Promise<*>} Returns a promise that might return anything
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     // Make sure the user is not already afk

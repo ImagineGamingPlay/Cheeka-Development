@@ -1,12 +1,18 @@
 const warningsSchema = require("../../schema/warnings");
 const { MessageEmbed } = require("discord.js");
-
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 module.exports = {
   name: "warnings-remove",
   description: "remove a warning from a member",
   aliases: ["warn-remove", "warn-del"],
   permissions: ["KICK_MEMBERS"],
   category: "Moderation",
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     let warnId = args[1];
     const target =

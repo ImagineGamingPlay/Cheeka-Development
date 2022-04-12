@@ -1,6 +1,8 @@
 const { MessageEmbed, Permissions } = require("discord.js");
 const { userCache } = require("../../utils/Cache");
 const moment = require("moment");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 const status = {
   online: "Online",
@@ -18,10 +20,9 @@ module.exports = {
   disabledChannel: [],
   cooldown: 10,
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @param args {Array} A array of the arguments passed to the command
-   * @returns {Promise<*>} Returns a promise that might return anything
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     // Check if the user has mentioned anyone

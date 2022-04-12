@@ -1,4 +1,6 @@
 const { MessageEmbed } = require("discord.js");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "avatar",
@@ -6,6 +8,11 @@ module.exports = {
   category: "General",
   aliases: ["av"],
   usage: "avatar [user]",
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     try {
       const user =

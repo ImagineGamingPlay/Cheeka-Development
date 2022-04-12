@@ -1,5 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { cBlackListCache } = require("../../utils/Cache");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 const { BlacklistChannel } = require("../../schema/blacklist");
 module.exports = {
   name: "disablechannel",
@@ -8,9 +10,9 @@ module.exports = {
   disabledChannel: [],
   category: "Owner",
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @returns {Promise<*>} Returns a promise that might return anything
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     const query = args[0]?.toLowerCase();

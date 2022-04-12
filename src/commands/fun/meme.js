@@ -1,5 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const fetch = require("node-fetch");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "meme",
@@ -8,6 +10,11 @@ module.exports = {
   category: "Fun",
   cooldown: 5,
   aliases: ["memes", "meeme"],
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     // https://meme-api.herokuapp.com/gimme use this to generate memes with node fetch
     const body = await (

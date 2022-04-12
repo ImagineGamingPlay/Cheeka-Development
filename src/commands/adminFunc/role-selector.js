@@ -10,6 +10,11 @@ module.exports = {
   description: "send a message with role select menu",
   permissions: ["MANAGE_ROLES"],
   category: "General",
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     const roleSelectorEmbed = new MessageEmbed()
       .setTitle("Personalize Your Server Profile")

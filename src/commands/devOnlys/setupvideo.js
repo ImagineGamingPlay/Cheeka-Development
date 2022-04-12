@@ -1,7 +1,8 @@
-const Discord = require("discord.js");
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { GuildData } = require("../../schema/guild");
 const { guildCache } = require("../../utils/Cache");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "setupvid",
@@ -11,10 +12,9 @@ module.exports = {
   disabledChannel: [],
   category: "Owner",
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @returns {Promise<*>} Returns a promise that might return anything
-   * @param args {Array} A array of the arguments passed to the command
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     const notowner = new MessageEmbed()

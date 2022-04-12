@@ -3,6 +3,8 @@ const { RulesChannel } = require("../../schema/rules");
 const { GuildData } = require("../../schema/guild");
 const { rulesCache, guildCache } = require("../../utils/Cache");
 const { prefix, devs } = require("../../../config.json");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "rule",
@@ -11,6 +13,11 @@ module.exports = {
   disabledChannel: [],
   category: "General",
   cooldown: 5,
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async function ({ client, message, args }) {
     const query = args[0]?.toLowerCase();
     // If query is a number

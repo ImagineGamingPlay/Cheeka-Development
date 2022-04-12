@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
-
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 module.exports = {
   name: "servercount",
   description: "view the number of servers the bot is in, and their names.",
@@ -8,10 +9,9 @@ module.exports = {
   disabledChannel: [],
   category: "Moderation",
   /**
-   * @param client {Client} A discord.js client
-   * @param message {Message} A discord.js message
-   * @param args {Array} A array of the arguments passed to the command
-   * @returns {Promise<*>} Returns a promise that might return anything
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
     const guilds = [];

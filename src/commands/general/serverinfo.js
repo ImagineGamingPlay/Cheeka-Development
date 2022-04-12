@@ -1,4 +1,6 @@
 const { MessageEmbed } = require("discord.js");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "serverinfo",
@@ -8,6 +10,11 @@ module.exports = {
   permissions: [],
   disabledChannel: [],
   cooldown: 5,
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     const serverinfoEmbed = new MessageEmbed()
       .setTitle("Server Information")

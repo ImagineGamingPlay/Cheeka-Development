@@ -1,4 +1,6 @@
 const { MessageEmbed } = require("discord.js");
+const CommandStructure =
+  require("../../structure/CommandStructure").CommandStructure;
 
 module.exports = {
   name: "membercount",
@@ -6,6 +8,11 @@ module.exports = {
   aliases: ["members", "member", "memcount", "usercount"],
   usage: "membercount",
   category: "General",
+  /**
+   *
+   * @param {CommandStructure}
+   * @returns {Promise<*>}
+   */
   run: async ({ client, message, args }) => {
     const memberCount = message.guild.memberCount;
     const botCount = message.guild.botcount;
