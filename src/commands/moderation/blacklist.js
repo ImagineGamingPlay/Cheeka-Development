@@ -6,9 +6,10 @@ const { blackListCache } = require("../../utils/Cache");
 module.exports = {
   name: "blacklist",
   description: "Blacklist users from using a command.",
-  devCmd: true,
+  devCmd: false,
   disabledChannel: [],
-  category: "Owner",
+  permissions: ["BAN_MEMBERS"],
+  category: "Moderation",
   /**
    *
    * @param {CommandStructure}

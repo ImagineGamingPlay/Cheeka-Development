@@ -113,6 +113,7 @@ module.exports = {
       reason: reason,
       moderator: message.author.id,
       active: true,
+      guild: message.guild.id,
     });
   },
 };

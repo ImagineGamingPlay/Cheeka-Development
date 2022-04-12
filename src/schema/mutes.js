@@ -1,8 +1,8 @@
 const { Schema, model } = require("mongoose");
 
-const BansData = new Schema({
+const MutesData = new Schema({
   id: String,
-  unbanOn: Number | null,
+  unmuteOn: Number | null,
   reason: String | null,
   moderator: String | null,
   active: (Boolean = true),
@@ -10,6 +10,6 @@ const BansData = new Schema({
 });
 
 /**
- * @typedef {Schema<BansData>}
+ * @typedef {Schema<MutesData>}
  */
-module.exports.BansModel = model("Ban_Data", BansData);
+module.exports.MutesModel = model("Mute_Data", MutesData);
