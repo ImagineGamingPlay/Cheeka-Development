@@ -128,7 +128,7 @@ module.exports = {
       }
     }
 
-    // setInterval(pickStatus, 10 * 1000);
+    setInterval(pickStatus, 10 * 1000);
 
     //<------- AUTO CHANGING STATUS END ------->
     Blacklist.find({}, (err, data) => {
