@@ -9,6 +9,7 @@ require("dotenv").config({
 const client = (global.client = new Client({
 	intents: 32767,
 	allowedMentions: { parse: ["users"] },
+	partials: ["CHANNEL"],
 }));
 
 client.commands = new Collection();
@@ -29,7 +30,7 @@ for (const handler of handlers) {
 }
 
 process.on("unhandledRejection", (reason, p) => {
-	if(reason?.message  === "The request is missing a valid API key.") return;
+	if (reason?.message === "The request is missing a valid API key.") return;
 	let channel = client.channels.cache.get("958000637944164462");
 	console.log(reason, p);
 	channel?.send({
