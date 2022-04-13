@@ -22,6 +22,8 @@ module.exports = {
   async execute(oldMessage, message, client) {
     if(oldMessage?.content === message?.content) return;
     if(oldMessage?.author?.bot) return;
+    //Check if difference between both oldMessage and message is below 60000ms
+    if (message.editedTimestamp - oldMessage.createdTimestamp  >= 60000) return;
     if (
       message.channel.id === "745283907670245406" ||
       message.channel.id === "802783156281016340"
