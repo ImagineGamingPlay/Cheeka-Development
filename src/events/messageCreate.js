@@ -186,7 +186,7 @@ module.exports = {
       }
     } else {
       return message.reply(
-        "Sorry you are blacklisted form running the commands."
+        "Sorry you are blacklisted from running the commands."
       );
     }
   },
