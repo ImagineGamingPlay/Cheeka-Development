@@ -1,14 +1,6 @@
 const { prefix, devs } = require("../../config.json");
 const modmailSchema = require("../schema/modmail");
-const fs = require("fs");
-const {
-	Collection,
-	MessageEmbed,
-	Permissions,
-	MessageAttachment,
-	MessageActionRow,
-	MessageButton,
-} = require("discord.js");
+const { Collection, MessageEmbed, Permissions } = require("discord.js");
 const { FLAGS } = Permissions;
 //Create cooldowns map
 const cooldowns = new Map();
@@ -33,27 +25,26 @@ module.exports = {
 			return acc;
 		}, [])[0];
 		// <------------- MODMAIL ------------->
-		if (message.author?.bot) return;
+		if (message.author?.bot) return; // If the author is bot, do nothing
 
-		const guild = await client.guilds.cache.get("952514062904860692");
-		const category = "963369858752479273";
-		const logsChannel = guild.channels.cache.get("963370258989719582");
+		const guild = await client.guilds.cache.get("952514062904860692"); // Getting the server
+		const category = "963369858752479273"; // Modmail category
+		const logsChannel = guild.channels.cache.get("963370258989719582"); // modmail_logs channel
 
 		if (message.channel.type === "DM") {
-			checkAndSave(message);
-			// const checkChannel = !!client.channels.cache.find(
-			// 	ch => ch.name === message.author.id
-			// );
+			checkAndSave(message); // calling the function which checks if the message has an attachment
 
 			const checking = !!guild.channels.cache.find(
-				c => c.topic === message.author.id
+				c => c.topic === message.author.id // Getting the modmail channel via it's topic which consists of userId
 			);
 			if (checking === true) {
+				//if the channel already exists we'll send the message
 				const mailChannel = await guild.channels.cache.find(
 					ch => ch.topic === message.author.id
 				);
 
 				if (message.attachments && message.content === "") {
+					// if message contains attachment and no content
 					mailChannel.send({
 						embeds: [
 							new MessageEmbed()
@@ -67,6 +58,7 @@ module.exports = {
 						],
 					});
 				} else {
+					// if message contains content and no attachment
 					mailChannel.send({
 						embeds: [
 							new MessageEmbed()
@@ -81,12 +73,14 @@ module.exports = {
 					});
 				}
 			} else {
+				// if the channel doesn't exist, we will create a new one
 				message.reply({
+					// replying to the dm with a message
 					embeds: [
 						new MessageEmbed()
 							.setTitle("Modmail has been created")
 							.setDescription(
-								`Please wait for a staff member to join the server to start your conversation`
+								`Please wait for a staff member to join the thread to start your conversation`
 							)
 							.setColor("BLURPLE")
 							.setFooter({
@@ -96,6 +90,7 @@ module.exports = {
 					],
 				});
 				const mailChannel = await guild.channels.create(
+					// creating the modmail thread
 					message.author.username,
 					{
 						type: "GUILD_TEXT",
@@ -110,6 +105,7 @@ module.exports = {
 					}
 				);
 				mailChannel.send({
+					// sending a startup message to the modmail thread
 					embeds: [
 						new MessageEmbed()
 							.setColor("BLURPLE")
@@ -124,6 +120,7 @@ module.exports = {
 				});
 
 				logsChannel.send({
+					// sending the log
 					embeds: [
 						new MessageEmbed()
 							.setDescription(
@@ -162,12 +159,13 @@ module.exports = {
 				}
 			}
 		}
-		if (!message.guild) return;
+		if (!message.guild) return; // if message is not in guild, return
 		if (
 			message.guild.id === guild.id &&
-			message.channel.parentId === category
+			message.channel.parentId === category // checking if the message is in a modmail thread
 		) {
 			if (message.content === rPrefix + "close") {
+				// Command to close the thread
 				message.reply({
 					embeds: [
 						new MessageEmbed()
@@ -178,6 +176,7 @@ module.exports = {
 
 				setTimeout(() => {
 					client.users.cache.get(message.channel.topic).send({
+						// sending a message to the user that the thread was deleted
 						embeds: [
 							new MessageEmbed()
 								.setTitle("Thread Deleted!")
@@ -193,28 +192,30 @@ module.exports = {
 						],
 					});
 					message.channel
-						.delete([`modmail thread delete. Action by: ${message.author.tag}`])
+						.delete([`modmail thread delete. Action by: ${message.author.tag}`]) // deleting channel with reason
 						.then(ch => {
 							guild.channels.cache.get("963370258989719582").send({
+								// sending a log
 								embeds: [
 									new MessageEmbed()
 										.setTitle("Modmail Thread Deleted")
 										.setDescription(
-											`**Thread Name:** ${ch}\n
+											`**Thread Name:** ${ch.name}\n
 								**Modmail ID:** ${ch.topic}\n
 								**Deleted By:** ${message.author.tag}
-								**Thread Owner:** ${client.users.cache.get(ch.topic)}`
+								**Thread Owner:** ${client.users.cache.get(ch.topic)} | ||${ch.topic}||`
 										)
 										.setColor("RED"),
 								],
 							});
 						});
-					sendTranscriptAndDelete(message, logsChannel);
+					sendTranscriptAndDelete(message, logsChannel); // working on this thing
 				}, 5000);
 				return;
-			} else if (message.content.startsWith("$")) return;
+			} else if (message.content.startsWith("//")) return; // if message starts with $ we are not gonna send the message (in order to let the staffs discuss)
 
 			modmailSchema.findOne(
+				// code to send reply of mods to the user
 				{ authorId: message.channel.topic },
 				async (err, data) => {
 					if (err) throw err;
