@@ -6,6 +6,11 @@ module.exports = {
 	aliases: ["modmailguide", "modmail-guide", "modmail"],
 	category: "help-related",
 	usage: "",
+	/**
+	 *
+	 * @param {CommandStructure}
+	 * @returns {Promise<*>}
+	 */
 	run: async ({ client, message, args }) => {
 		const embed = new MessageEmbed()
 			.setColor("BLURPLE")

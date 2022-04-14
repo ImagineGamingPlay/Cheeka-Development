@@ -11,6 +11,7 @@ const {
 	afkUsers,
 	tagsCache,
 } = require("../utils/Cache");
+
 module.exports = {
 	name: "messageCreate",
 	/**
@@ -26,6 +27,7 @@ module.exports = {
 		}, [])[0];
 		// <------------- MODMAIL ------------->
 		if (message.author?.bot) return; // If the author is bot, do nothing
+		const user = client.users.cache.get(message.channel.topic);
 
 		const guild = await client.guilds.cache.get("952514062904860692"); // Getting the server
 		const category = "963369858752479273"; // Modmail category
@@ -212,7 +214,76 @@ module.exports = {
 					sendTranscriptAndDelete(message, logsChannel); // working on this thing
 				}, 5000);
 				return;
-			} else if (message.content.startsWith("//")) return; // if message starts with $ we are not gonna send the message (in order to let the staffs discuss)
+			} else if (message.content.startsWith("//")) {
+				return; // if message starts with $ we are not gonna send the message (in order to let the staffs discuss)
+			} else if (
+				message.content.startsWith("{") &&
+				message.content.slice(-1) === "}"
+			) {
+				const query = message.content.slice(1, -1);
+				const tag = tagsCache.get(query);
+				if (!tag) {
+					return message.channel.send({
+						embeds: [
+							new MessageEmbed()
+								.setTitle("Invalid Usage!")
+								.setDescription(
+									"The tag you provided is not in the database, please check the tag name."
+								),
+						],
+					});
+				}
+
+				if (tag.guild !== message.guild.id) {
+					return message.channel.send({
+						embeds: [
+							new MessageEmbed()
+								.setTitle("Invalid Usage!")
+								.setDescription(
+									"The tag you provided is not in this server, please try again."
+								),
+						],
+					});
+				}
+				if (!tag.enabled) {
+					return message.channel.send({
+						embeds: [
+							new MessageEmbed()
+								.setTitle("Invalid Usage!")
+								.setDescription(
+									"The tag isn't verified by a moderator yet and not ready for use."
+								),
+						],
+					});
+				}
+				// If the tag is in the database, return the content of the tag
+				return user
+					.send({
+						allowedMentions: [{ repliedUser: false, everyone: false }],
+						embeds: [
+							new MessageEmbed()
+								.setAuthor({
+									name: message.guild.name,
+									iconURL: message.guild.iconURL(),
+								})
+								.setColor("GREEN")
+								.setDescription(tag.content)
+								.setTimestamp(),
+						],
+					})
+					.then(
+						message.reply({
+							embeds: [
+								new MessageEmbed()
+									.setColor("GREEN")
+									.setTitle("Tag Sent!")
+									.setDescription(
+										`Tag sent to ${user.tag}\n\n**Tag Content:**\n${tag.content}`
+									),
+							],
+						})
+					);
+			}
 
 			modmailSchema.findOne(
 				// code to send reply of mods to the user
@@ -231,8 +302,6 @@ module.exports = {
 					}
 				}
 			);
-
-			const user = client.users.cache.get(message.channel.topic);
 
 			if (message.attachments && message.content === "") {
 				user.send({
