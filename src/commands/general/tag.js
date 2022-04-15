@@ -1,5 +1,11 @@
 const TagSchema = require("../../schema/tags.js");
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const fs = require("fs");
+const {
+	MessageEmbed,
+	MessageActionRow,
+	MessageButton,
+	MessageAttachment,
+} = require("discord.js");
 const { tagsCache } = require("../../utils/Cache.js");
 const { devs } = require("../../../config.json");
 const CommandStructure =
@@ -276,6 +282,31 @@ module.exports = {
 					],
 				});
 			}
+		}
+
+		if (args[0] === "list") {
+			const tagsArr = Array.from(
+				require("../../utils/Cache").tagsCache.values()
+			)
+				.map(a => a.name)
+				.join("\n");
+			// let tagsFile = new MessageAttachment(
+			// 	Buffer.from(tagsArr, "utf-8"),
+			// 	"tags.txt"
+			// );
+			return message.reply({
+				embeds: [
+					{
+						title: "Tags list for " + message.guild.name,
+						description: tagsArr,
+						footer: {
+							text: "use tags via -<tagname>",
+							icon_url: message.guild.iconURL(),
+						},
+						color: "BLURPLE",
+					},
+				],
+			});
 		}
 
 		// So if non of these arguments are satisified fetch the tag through the cache that is a map
