@@ -23,10 +23,20 @@ const c = (global.c = require("./jsons/channels.json"));
 const config = (global.config = require("../config.json"));
 module.exports = { client };
 
-const handlers = ["commands", "events", "mongoose", "buttons", "selectMenus"];
+const handlerFiles = [
+	"commands",
+	"events",
+	"mongoose",
+	"buttons",
+	"selectMenus",
+];
+const functionFiles = ["modmail"];
 
-for (const handler of handlers) {
-	require(`./handlers/${handler}`);
+for (const file of handlerFiles) {
+	require(`./handlers/${file}`);
+}
+for (const file of functionFiles) {
+	require(`./functions/${file}`);
 }
 
 process.on("unhandledRejection", (reason, p) => {
