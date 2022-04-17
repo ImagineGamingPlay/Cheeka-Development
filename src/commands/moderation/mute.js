@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const CommandStructure =
   require("../../structure/CommandStructure").CommandStructure;
-const ms = require("moment");
+const ms = require("ms");
 const { MutesModel } = require("../../schema/mutes");
 module.exports = {
   name: "mute",
@@ -51,6 +51,7 @@ module.exports = {
         ],
       });
     }
+
     if (member.id === message.author.id) {
       return message.channel.send({
         embeds: [
@@ -60,6 +61,17 @@ module.exports = {
         ],
       });
     }
+    // Make sure that the user doesn't already have Muted role
+    if (member.roles.cache.some((r) => r.name === "Muted")) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`This member is already muted!`),
+        ],
+      });
+    }
+
     const embed = new MessageEmbed()
       .setColor("RED")
       .setDescription(

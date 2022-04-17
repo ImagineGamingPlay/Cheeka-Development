@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const CommandStructure =
   require("../../structure/CommandStructure").CommandStructure;
-const ms = require("moment");
+const ms = require("ms");
 const { BansModel } = require("../../schema/bans");
 module.exports = {
   name: "ban",

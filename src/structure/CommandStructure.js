@@ -1,16 +1,16 @@
 // Export a default client, message and args structure
 
-// import * as discordJs from "discord.js";
-// import { client } from "..";
+const { Message } = require("discord.js");
+const client = require("../index").client;
 
-// export const CommandStructure = {
-//   client: client,
-//   /**
-//    * @type {discordJs.Message}
-//    */
-//   message: discordJs.Message,
-//   /**
-//    * @type {string[]} args
-//    */
-//   args: [],
-// };
+exports.CommandStructure = {
+  client: client,
+  /**
+   * @type {Message}
+   */
+  message: Message,
+  /**
+   * @type {string[]} args
+   */
+  args: [],
+};

@@ -5,7 +5,10 @@ const MutesData = new Schema({
   unmuteOn: Number | null,
   reason: String | null,
   moderator: String | null,
-  active: (Boolean = true),
+  active: {
+    type: Boolean,
+    default: true,
+  },
   guild: String,
 });
 
