@@ -1,6 +1,7 @@
 const ms = require("ms");
 const CommandStructure =
   require("../../structure/CommandStructure").CommandStructure;
+const { MessageEmbed } = require("discord.js");
 module.exports = {
   name: "timeout",
   description: "Timeouts a member",
@@ -14,29 +15,99 @@ module.exports = {
    * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
-    try {
-      let member =
-        message.mentions.members.first() ||
-        message.guild.members.cache.get(args[0]);
-      if (!member) return await message.reply("No user was given.");
-      const time = args[1];
-      if (!time) return await message.reply("No time was given");
-      const reason = args.slice(2).join(" ");
-      if (!reason) return await message.reply("No reason was given");
-      let ttime = ms(time);
-      if (ttime === undefined)
-        await message.reply(
-          "Please make sure the syntax is correct: .timeout <@user> <time> <reason>"
-        );
-      await member.timeout(ttime);
+    const member =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
+    if (!member) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`You need to mention a member to timeout!`),
+        ],
+      });
+    }
+    args.shift();
+    let duration = null;
+    let reason = "No reason provided";
+    if (args.length > 0) {
+      if (ms(args[0]).isValid()) {
+        duration = ms(args[0]);
+        args.shift();
+      }
+      if (args.length > 0) {
+        reason = args.join(" ");
+      }
+    }
+    if (!member.kickable) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `I can't timeout this member because I don't have the permissions to do so!`
+            ),
+        ],
+      });
+    }
+    if (member.id === message.author.id) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`You can't timeout yourself!`),
+        ],
+      });
+    }
+
+    // Make sure that message author has role higher than the member
+    if (
+      message.member.roles.highest.comparePositionTo(member.roles.highest) < 1
+    ) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `You can't timeout this member because you don't have the permissions to do so!`
+            ),
+        ],
+      });
+    }
+
+    if (duration) {
       await member
-        .send(`You were timed out for **${time}** for doing **${reason}**`)
-        .catch((err) => {});
-      await message.reply(
-        `**${member.user.tag}** got timed out for **${time}** for doing **${reason}**`
-      );
-    } catch (e) {
-      return await message.reply(`${e}`);
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setColor("RED")
+              .setDescription(
+                `You have been timed out in ${message.guild.name} for ${duration} for the following reason: ${reason}`
+              ),
+          ],
+        })
+        .catch(() => {});
+
+      await member.timeout(duration, reason);
+
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("GREEN")
+            .setDescription(
+              `${member.user.tag} has been timed out for ${duration} for the following reason: ${reason}`
+            ),
+        ],
+      });
+    } else {
+      // Send need duration
+      message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`You need to specify a duration for the timeout!`),
+        ],
+      });
     }
   },
 };

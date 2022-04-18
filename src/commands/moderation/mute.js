@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const CommandStructure =
   require("../../structure/CommandStructure").CommandStructure;
-const humanize = require("pretty-ms");
+// Create a function that takes string (1d3h3m6s) as an argument and returns a number of milliseconds
 const ms = (s) => {
   const units = [
     { name: "d", amount: 86400000 },
@@ -19,12 +19,15 @@ const ms = (s) => {
   }
   return total;
 };
-const { BansModel } = require("../../schema/bans");
+
+const humanize = require("pretty-ms");
+
+const { MutesModel } = require("../../schema/mutes");
 module.exports = {
-  name: "ban",
-  description: "Bans a member",
-  permissions: ["BAN_MEMBERS"],
-  aliases: ["b"],
+  name: "mute",
+  description: "Mute a member",
+  permissions: ["MANAGE_MESSAGES"],
+  aliases: ["m"],
   category: "Moderation",
   disabledChannel: [],
   /**
@@ -33,23 +36,23 @@ module.exports = {
    * @returns {Promise<*>}
    */
   run: async ({ client, message, args }) => {
-    // Get the first mention from the message
-    const member = message.mentions.members.first();
-    // If there is no member, send a embed
+    const member =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
     if (!member) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor("RED")
-          .setDescription(`You need to mention a member to ban!`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`You need to mention a member to mute!`),
+        ],
+      });
     }
-    // Shift one arg to remove the user mention
     args.shift();
-    // Get the another arg, if there is no arg make the ban permanent and reason to be "No reason provided", if there is another arg check using ms() if it's invalid join it and make it the reason else shift the arg and check for another, if it exists its the real reason
     let duration = null;
     let reason = "No reason provided";
     if (args.length > 0) {
-      if (ms(args[0]) > 1) {
+      if (ms(args[0]) > 0) {
         duration = ms(args[0]);
         args.shift();
       }
@@ -57,51 +60,42 @@ module.exports = {
         reason = args.join(" ");
       }
     }
-
-    // Make sure the member is actually bannable
-    if (!member.bannable) {
-      return message.reply({
+    if (!member.kickable) {
+      return message.channel.send({
         embeds: [
           new MessageEmbed()
             .setColor("RED")
             .setDescription(
-              `I can't ban this member because I don't have the permissions to do so!`
+              `I can't mute this member because I don't have the permissions to do so!`
             ),
         ],
       });
     }
 
-    // Make sure that message author is not trying to ban themself
     if (member.id === message.author.id) {
-      return message.reply({
+      return message.channel.send({
         embeds: [
           new MessageEmbed()
             .setColor("RED")
-            .setDescription(`You can't ban yourself!`),
+            .setDescription(`You can't mute yourself!`),
+        ],
+      });
+    }
+    // Make sure that the user doesn't already have Muted role
+    if (member.roles.cache.some((r) => r.name === "Muted")) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`This member is already muted!`),
         ],
       });
     }
 
-    // Make sure that author has role higher than the member
-    if (
-      message.member.roles.highest.comparePositionTo(member.roles.highest) < 1
-    ) {
-      return message.reply({
-        embeds: [
-          new MessageEmbed()
-            .setColor("RED")
-            .setDescription(
-              `You can't ban this member because you don't have the permissions to do so!`
-            ),
-        ],
-      });
-    }
-
-    // Send a message to the banned user with a message embed saying that he was banned, the reason, the moderator, the duration and the guild as the author and timestamp set.
     const embed = new MessageEmbed()
       .setColor("RED")
       .setDescription(
-        `${member.user.tag} has been banned from **${message.guild.name}**`
+        `${member.user.tag} has been muted from **${message.guild.name}**`
       )
       .addField("Reason", reason)
       .addField("Moderator", message.author.tag)
@@ -117,20 +111,35 @@ module.exports = {
       })
       .catch(() => {});
 
-    // Now, ban the mentioned member permanently
-    await member.ban({
-      reason: reason,
-    });
+    // Now add mute role to the member
+    const muteRole = (await message.guild.roles.fetch()).find(
+      (r) => r.name === "Muted"
+    );
+    if (!muteRole) {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `No mute role found! Please create a role called \`Muted\` and assign it to the bot.`
+            ),
+        ],
+      });
+    }
+
+    await member.roles.add(muteRole);
     await message.reply({
       embeds: [embed],
     });
-    BansModel.create({
+    // Add user to the muted table
+    MutesModel.create({
       id: member.id,
-      unbanOn: duration ? duration + Date.now() : null,
-      reason: reason,
-      moderator: message.author.id,
-      active: true,
       guild: message.guild.id,
+      moderator: message.author.id,
+      reason: reason,
+      active: true,
+      role: muteRole.id,
+      unmuteOn: duration ? duration + Date.now() : null,
     });
   },
 };

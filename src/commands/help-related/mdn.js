@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: "mdn",
 	description: "Search MDN for a given term.",
-	category: "help-related",
+	category: "Help",
 	run: async ({ client, message, args }) => {
 		const query = args.join(" ");
 
