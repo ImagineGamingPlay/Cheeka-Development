@@ -1,7 +1,24 @@
 const { MessageEmbed } = require("discord.js");
 const CommandStructure =
   require("../../structure/CommandStructure").CommandStructure;
-const ms = require("ms");
+const humanize = require("pretty-ms");
+const ms = (s) => {
+  const units = [
+    { name: "d", amount: 86400000 },
+    { name: "h", amount: 3600000 },
+    { name: "m", amount: 60000 },
+    { name: "s", amount: 1000 },
+  ];
+  let total = 0;
+  for (const unit of units) {
+    const regex = new RegExp(`(\\d+)${unit.name}`);
+    const match = s.match(regex);
+    if (match) {
+      total += parseInt(match[1]) * unit.amount;
+    }
+  }
+  return total;
+};
 const { BansModel } = require("../../schema/bans");
 module.exports = {
   name: "ban",
@@ -32,7 +49,7 @@ module.exports = {
     let duration = null;
     let reason = "No reason provided";
     if (args.length > 0) {
-      if (ms(args[0]).isValid()) {
+      if (ms(args[0]) > 1) {
         duration = ms(args[0]);
         args.shift();
       }
@@ -88,7 +105,7 @@ module.exports = {
       )
       .addField("Reason", reason)
       .addField("Moderator", message.author.tag)
-      .addField("Duration", duration ? duration.humanize() : "Permanent")
+      .addField("Duration", duration ? humanize(duration) : "Permanent")
       .setAuthor({
         name: message.guild.name,
         iconURL: message.guild.iconURL(),
@@ -109,7 +126,7 @@ module.exports = {
     });
     BansModel.create({
       id: member.id,
-      unbanOn: duration ? duration.valueOf() + Date.now() : null,
+      unbanOn: duration ? duration + Date.now() : null,
       reason: reason,
       moderator: message.author.id,
       active: true,

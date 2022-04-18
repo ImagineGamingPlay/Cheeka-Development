@@ -10,6 +10,7 @@ const MutesData = new Schema({
     default: true,
   },
   guild: String,
+  role: String,
 });
 
 /**

@@ -1,11 +1,12 @@
 const { BansModel } = require("../../schema/bans");
 const { MutesModel } = require("../../schema/mutes");
+const { MessageEmbed } = require("discord.js");
 
 const client = require("../../index").client;
 
 module.exports = {
   // Time will be in milliseconds, run this every 1 minute
-  time: 60000,
+  time: 30000,
   /**
    *
    * @param {client} client
@@ -36,8 +37,20 @@ module.exports = {
           await member.roles.remove(mute.role);
           // Update the mute to inactive
           await MutesModel.findOneAndUpdate({ id: mute.id }, { active: false });
+          // Send message to the user
+          member.send({
+            embeds: [
+              new MessageEmbed()
+                .setColor("GREEN")
+                .setDescription(
+                  `Your mute has expired! You're able to talk again!`
+                ),
+            ],
+          });
         })
-        .catch(() => {});
+        .catch((e) => {
+          console.log(e);
+        });
     }
   },
 };
