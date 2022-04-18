@@ -39,12 +39,12 @@ module.exports = {
 			overflow = true;
 		}
 
-		for (let { uri, title, summary } of documents) {
+		for (let { mdn_url, title, summary } of documents) {
 			summary = summary.replace(/(\r\n|\n|\r)/gm, "");
 
 			mdnEmbed.addField(
 				title,
-				`${summary}\n[**Link**](https://developer.mozilla.org${uri})`
+				`${summary}\n[**Link**](https://developer.mozilla.org/${mdn_url})`
 			);
 		}
 

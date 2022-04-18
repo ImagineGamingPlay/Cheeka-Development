@@ -1,5 +1,6 @@
 const modmailSchema = require("../schema/modmail");
-const { MessageEmbed, Permissions } = require("discord.js");
+const fs = require("fs");
+const { MessageEmbed, Permissions, MessageAttachment } = require("discord.js");
 const { FLAGS } = Permissions;
 const { tagsCache } = require("../utils/Cache");
 const { config } = require("dotenv");
@@ -147,7 +148,7 @@ client.on("messageCreate", async message => {
 		message.guild.id === guild.id &&
 		message.channel.parentId === category // checking if the message is in a modmail thread
 	) {
-		if (message.content === "- " + "close") {
+		if (message.content === "-" + "close") {
 			// Command to close the thread
 			message.reply({
 				embeds: [
@@ -174,6 +175,8 @@ client.on("messageCreate", async message => {
 							}),
 					],
 				});
+
+				sendTranscriptAndDelete(message, logsChannel); // working on this thing
 				message.channel
 					.delete([`modmail thread delete. Action by: ${message.author.tag}`]) // deleting channel with reason
 					.then(ch => {
@@ -194,7 +197,6 @@ client.on("messageCreate", async message => {
 							],
 						});
 					});
-				sendTranscriptAndDelete(message, logsChannel); // working on this thing
 			}, 5000);
 			return;
 		} else if (message.content.startsWith("//")) {
@@ -360,23 +362,21 @@ async function sendTranscriptAndDelete(message, channel) {
 		async (err, data) => {
 			if (err) throw err;
 			if (data) {
-				// fs.writeFileSync(
-				// 	`../${message.channel.topic}.txt`,
-				// 	data.content.join("\n\n")
-				// );
-				// await channel.send({
-				// 	files: [
-				// 		{
-				// 			attachment: new MessageAttachment(
-				// 				fs.createReadStream(`../${message.channel.topic}.txt`)
-				// 			),
-				// 		},
-				// 	],
-				// });
-				// fs.unlinkSync(`../${message.channel.name}.txt`);
-				// await modmailSchema.findOneAndDelete({
-				// 	authorId: message.channel.topic,
-				// });
+			// 	fs.writeFileSync(
+			// 		`../${message.channel.topic}.txt`,
+			// 		data.content.join("\n\n")
+			// 	);
+
+			// 	let transcriptFile = new MessageAttachment(
+			// 		fs.createReadStream(`../${message.channel.topic}.txt`)
+			// 	);
+			// 	await channel.send({
+			// 		files: [transcriptFile],
+			// 	});
+			// 	fs.unlinkSync(`../${message.channel.name}.txt`);
+			// 	await modmailSchema.findOneAndDelete({
+			// 		authorId: message.channel.topic,
+			// 	});
 			}
 		}
 	);
