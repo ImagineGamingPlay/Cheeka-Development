@@ -36,7 +36,8 @@ module.exports = {
           await member.roles.remove(mute.role);
           // Update the mute to inactive
           await MutesModel.findOneAndUpdate({ id: mute.id }, { active: false });
-        });
+        })
+        .catch(() => {});
     }
   },
 };

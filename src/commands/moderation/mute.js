@@ -118,6 +118,7 @@ module.exports = {
       moderator: message.author.id,
       reason: reason,
       active: true,
+      role: muteRole.id,
       unmuteOn: duration ? duration.valueOf() + Date.now() : null,
     });
   },
