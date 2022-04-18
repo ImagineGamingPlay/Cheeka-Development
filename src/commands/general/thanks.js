@@ -96,14 +96,14 @@ module.exports = {
 			],
 		});
 
-		client.channels.cache.get("952514063873761329").send({
+		client.channels.cache.get("805744599095050260").send({
 			embeds: [
 				{
 					color: "BLURPLE",
 					title: "New thank detected!",
 					description: `**Target:** ${user.user.tag} | ||${user.user.id}||\n**By:** ${message.author.tag} | ||${message.author.id}||\n**Total Thanks:** ${thanks.thanks}\n**Channel:** ${message.channel}\n**Message:** [Click here](${message.url})`,
-				}
-			]
-		})
+				},
+			],
+		});
 	},
 };
