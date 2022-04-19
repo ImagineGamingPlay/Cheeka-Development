@@ -290,22 +290,23 @@ module.exports = {
 			)
 				.map(a => a.name)
 				.join("\n");
-			// let tagsFile = new MessageAttachment(
-			// 	Buffer.from(tagsArr, "utf-8"),
-			// 	"tags.txt"
-			// );
+			let tagsFile = new MessageAttachment(
+				Buffer.from(tagsArr, "utf-8"),
+				"tags.txt"
+			);
 			return message.reply({
-				embeds: [
-					{
-						title: "Tags list for " + message.guild.name,
-						description: tagsArr,
-						footer: {
-							text: "use tags via -<tagname>",
-							icon_url: message.guild.iconURL(),
-						},
-						color: "BLURPLE",
-					},
-				],
+				files: [tagsFile],
+				// embeds: [
+				// 	{
+				// 		title: "Tags list for " + message.guild.name,
+				// 		description: tagsArr,
+				// 		footer: {
+				// 			text: "use tags via -<tagname>",
+				// 			icon_url: message.guild.iconURL(),
+				// 		},
+				// 		color: "BLURPLE",
+				// 	},
+				// ],
 			});
 		}
 
