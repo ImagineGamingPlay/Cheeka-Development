@@ -28,6 +28,7 @@ client.on("messageCreate", async message => {
 			);
 
 			if (message.attachments && message.content === "") {
+				message.react("✅");
 				// if message contains attachment and no content
 				mailChannel.send({
 					embeds: [
@@ -43,6 +44,7 @@ client.on("messageCreate", async message => {
 				});
 			} else {
 				// if message contains content and no attachment
+				message.react("✅");
 				mailChannel.send({
 					embeds: [
 						new MessageEmbed()
@@ -115,6 +117,7 @@ client.on("messageCreate", async message => {
 			});
 
 			if (message.attachments && message.content === "") {
+				message.react("✅");
 				mailChannel.send({
 					embeds: [
 						new MessageEmbed()
@@ -128,6 +131,7 @@ client.on("messageCreate", async message => {
 					],
 				});
 			} else {
+				message.react("✅");
 				mailChannel.send({
 					embeds: [
 						new MessageEmbed()
@@ -289,6 +293,7 @@ client.on("messageCreate", async message => {
 		);
 
 		if (message.attachments && message.content === "") {
+			message.react("✅");
 			user.send({
 				embeds: [
 					new MessageEmbed()
@@ -302,6 +307,7 @@ client.on("messageCreate", async message => {
 				],
 			});
 		} else {
+			message.react("✅");
 			user.send({
 				embeds: [
 					new MessageEmbed()
@@ -362,21 +368,20 @@ async function sendTranscriptAndDelete(message, channel) {
 		async (err, data) => {
 			if (err) throw err;
 			if (data) {
-			// 	fs.writeFileSync(
-			// 		`../${message.channel.topic}.txt`,
-			// 		data.content.join("\n\n")
-			// 	);
-
-			// 	let transcriptFile = new MessageAttachment(
-			// 		fs.createReadStream(`../${message.channel.topic}.txt`)
-			// 	);
-			// 	await channel.send({
-			// 		files: [transcriptFile],
-			// 	});
-			// 	fs.unlinkSync(`../${message.channel.name}.txt`);
-			// 	await modmailSchema.findOneAndDelete({
-			// 		authorId: message.channel.topic,
-			// 	});
+				// 	fs.writeFileSync(
+				// 		`../${message.channel.topic}.txt`,
+				// 		data.content.join("\n\n")
+				// 	);
+				// 	let transcriptFile = new MessageAttachment(
+				// 		fs.createReadStream(`../${message.channel.topic}.txt`)
+				// 	);
+				// 	await channel.send({
+				// 		files: [transcriptFile],
+				// 	});
+				// 	fs.unlinkSync(`../${message.channel.name}.txt`);
+				// 	await modmailSchema.findOneAndDelete({
+				// 		authorId: message.channel.topic,
+				// 	});
 			}
 		}
 	);
