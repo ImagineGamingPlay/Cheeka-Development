@@ -408,7 +408,8 @@ module.exports = {
     //Blacklist here
     const data = blackListCache.get(message.author?.id);
     const blacklistedChannel = cBlackListCache.get(message.channel.id);
-    if (blacklistedChannel) {
+    const isMemAStaff = message.member?.roles.cache.has("743528012921831596");
+    if (blacklistedChannel && !isMemAStaff) {
       let a = await message.reply(
         "You are not allowed to use commands in this channel!"
       );
@@ -424,7 +425,7 @@ module.exports = {
       /**
        * @type string[]
        */
-      if (command.disabledChannel) {
+      if (command.disabledChannel && !isMemAStaff) {
         // Make sure that the command is not disabled in the channel
         if (command.disabledChannel.includes(message.channel.id)) {
           let a = await message.reply(
@@ -448,7 +449,7 @@ module.exports = {
         const cooldown_amount = command.cooldown * 1000;
 
         //If time_stamps has a key with the author's id then check the expiration time to send a message to a user.
-        if (time_stamps.has(message.author.id)) {
+        if (time_stamps.has(message.author.id) && !isMemAStaff) {
           const expiration_time =
             time_stamps.get(message.author.id) + cooldown_amount;
 
