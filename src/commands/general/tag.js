@@ -175,7 +175,8 @@ module.exports = {
 			}
 			if (
 				message.member.permissions.has("MANAGE_MESSAGES") ||
-				devs.includes(message.member.id)
+				devs.includes(message.member.id) ||
+				message.author.id === message.guild.ownerId
 			) {
 				TagSchema.deleteOne({
 					name: args[1],
