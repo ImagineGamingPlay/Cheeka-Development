@@ -1,3 +1,4 @@
+const { messageWebHookURL } = require("../../config.json");
 const {MessageEmbed, WebhookClient} = require("discord.js");
 
 module.exports = {
@@ -32,7 +33,7 @@ module.exports = {
         }
 
        const deleteLogger = new WebhookClient({
-            url: "https://discord.com/api/webhooks/952951404098646036/I_X0kZD4yGRCoAXuUOBwNPXScXiy-y4Y4R4MZPgI2MS_aDIGCAr87GnHWyM2OJULCo_0",
+            url: messageWebHookURL,
         })
         
         await deleteLogger.send({embeds: [deletedLogEmbed]});
