@@ -30,7 +30,7 @@ const handlerFiles = [
 	"buttons",
 	"selectMenus",
 ];
-const functionFiles = ["modmail"];
+const functionFiles = ["modmail", "tip"];
 
 for (const file of handlerFiles) {
 	require(`./handlers/${file}`);
