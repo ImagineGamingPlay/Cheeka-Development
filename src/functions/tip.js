@@ -1,4 +1,4 @@
-const tipsSchema = require("../schema/tips");
+// const tipsSchema = require("../schema/tips");
 
 client.on("typingStart", typing => {
 	if (typing.channel.id !== "743528053019508848") return;
