@@ -1,10 +1,7 @@
 const modmailSchema = require("../schema/modmail");
-const fs = require("fs");
-const { MessageEmbed, Permissions, MessageAttachment } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const { FLAGS } = Permissions;
 const { tagsCache } = require("../utils/Cache");
-const { config } = require("dotenv");
-const fun = require("../events/messageCreate");
 
 client.on("messageCreate", async message => {
 	// <------------- MODMAIL ------------->

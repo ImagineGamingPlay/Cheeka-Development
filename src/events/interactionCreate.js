@@ -92,7 +92,6 @@ module.exports = {
 			}
 
 			try {
-				await interaction.deferReply();
 				await selectMenu.run(client, interaction);
 			} catch (err) {
 				console.log(err);

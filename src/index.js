@@ -1,6 +1,7 @@
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
+const { description } = require("./commands/adminFunc/tips");
 
 require("dotenv").config({
 	path: path.resolve(__dirname, "../.env"),
@@ -11,6 +12,33 @@ const client = (global.client = new Client({
 	allowedMentions: { parse: ["users"] },
 	partials: ["CHANNEL"],
 }));
+
+client.config = {
+	colors: {
+		primary: "#5865F2", // blurple
+		success: "#2ECC71", // green
+		error: "#E74C3C", // red
+		warning: "#E67E22", // orange
+	},
+	errEmbed: (message, title, description) => {
+		return message.reply({
+			embeds: [
+				{
+					title: title,
+					description: description,
+					color: client.config.colors.error,
+				},
+			],
+		});
+	},
+	handleError: error => {
+		console.error(error);
+		return client.config.errEmbed(
+			"Error!",
+			`An error has occured, please try again later.\n\n**Error: **\`\`\`js\n${error}\`\`\``
+		);
+	},
+};
 
 client.commands = new Collection();
 client.buttons = new Collection();
@@ -24,11 +52,11 @@ const config = (global.config = require("../config.json"));
 module.exports = { client };
 
 const handlerFiles = [
+	"selectMenus",
+	"buttons",
+	"mongoose",
 	"commands",
 	"events",
-	"mongoose",
-	"buttons",
-	"selectMenus",
 ];
 const functionFiles = ["modmail", "tip"];
 
