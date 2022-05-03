@@ -11,7 +11,7 @@ client.on("typingStart", async typing => {
 	// 	"We got fun commands, too? Try `-help` and select the **fun** category! We got commands like 8ball, meme, hack etc!",
 	// ];
 
-	const frequency = 40;
+	const frequency = 100;
 	const randomTip = Math.floor(Math.random() * tips.length);
 	const randomNum = Math.floor(Math.random() * frequency);
 
