@@ -16,7 +16,6 @@ module.exports = {
 	permissions: [Permissions.FLAGS.ADMINISTRATOR],
 	run: async ({ client, message, args }) => {
 		const method = args[0];
-		const tip = args.slice(1).join(" ");
 
 		if (
 			!method ||
@@ -35,6 +34,10 @@ module.exports = {
 		}
 
 		if (method === "add") {
+			const tip = args.slice(1).join(" ");
+			if (!tip) {
+				return message.reply("Please mention the tip you want to add!")
+			}
 			tipSchema.findOne(
 				{
 					tip: tip,
