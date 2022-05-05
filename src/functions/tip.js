@@ -1,19 +1,23 @@
 const tipsSchema = require("../schema/tips");
+const disabledCategories = [
+	"743528047365586956", // info
+	"811276960608419860", // coding guides
+	"936233447503044618", // member codes
+	"937321789384704010", // hire and collab
+	"936247915230425118", // showcase
+	"936241367875731467", // promote
+	"923185925222178856", // archived
+];
 
 client.on("typingStart", async typing => {
-	// if (typing.channel.id !== "743528053019508848") return;
+	if (disabledCategories.includes(typing.channel.parentId)) return;
 
 	let tips = [];
 	await tipsSchema.find({}).then(data => (tips = data.map(obj => obj.tip)));
 
-	// const tips = [
-	// 	"You can dm the bot to create a modmail?! You can directly talk to the staff team or the bot development team through this feature!",
-	// 	"We got fun commands, too? Try `-help` and select the **fun** category! We got commands like 8ball, meme, hack etc!",
-	// ];
-
 	const frequency = 40;
 	const randomTip = Math.floor(Math.random() * tips.length);
-	const randomNum = Math.floor(Math.random() * frequency);
+	const randomNum = 1; //Math.floor(Math.random() * frequency);
 
 	if (randomNum !== 1) return;
 
