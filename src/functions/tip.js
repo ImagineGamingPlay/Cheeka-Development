@@ -15,9 +15,9 @@ client.on("typingStart", async typing => {
 	let tips = [];
 	await tipsSchema.find({}).then(data => (tips = data.map(obj => obj.tip)));
 
-	const frequency = 40;
+	const frequency = 100;
 	const randomTip = Math.floor(Math.random() * tips.length);
-	const randomNum = 1; //Math.floor(Math.random() * frequency);
+	const randomNum = Math.floor(Math.random() * frequency);
 
 	if (randomNum !== 1) return;
 
