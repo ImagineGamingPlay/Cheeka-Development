@@ -96,7 +96,7 @@ module.exports = {
 				enabled: false,
 			});
 			let id = tag._id.valueOf();
-			client.channels.fetch("958056394630787115").then(channel => {
+			client.channels.fetch("972362384872189972").then(channel => {
 				let messageEmbed = new MessageEmbed()
 					.setTitle("New Tag Submission")
 					// Set description as the content
@@ -175,7 +175,8 @@ module.exports = {
 			}
 			if (
 				message.member.permissions.has("MANAGE_MESSAGES") ||
-				devs.includes(message.member.id)
+				devs.includes(message.member.id) ||
+				message.author.id === message.guild.ownerId
 			) {
 				TagSchema.deleteOne({
 					name: args[1],

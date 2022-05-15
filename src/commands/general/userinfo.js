@@ -37,43 +37,43 @@ module.exports = {
       return (~~(Math.random() * 16)).toString(16);
     });
 
-    if (message.member.permissions.has("KICK_MEMBERS")) {
+    if (member.permissions.has("KICK_MEMBERS")) {
       permissions.push("Kick Members");
     }
 
-    if (message.member.permissions.has("BAN_MEMBERS")) {
+    if (member.permissions.has("BAN_MEMBERS")) {
       permissions.push("Ban Members");
     }
 
-    if (message.member.permissions.has("ADMINISTRATOR")) {
+    if (member.permissions.has("ADMINISTRATOR")) {
       permissions.push("Administrator");
     }
 
-    if (message.member.permissions.has("MANAGE_MESSAGES")) {
+    if (member.permissions.has("MANAGE_MESSAGES")) {
       permissions.push("Manage Messages");
     }
 
-    if (message.member.permissions.has("MANAGE_CHANNELS")) {
+    if (member.permissions.has("MANAGE_CHANNELS")) {
       permissions.push("Manage Channels");
     }
 
-    if (message.member.permissions.has("MENTION_EVERYONE")) {
+    if (member.permissions.has("MENTION_EVERYONE")) {
       permissions.push("Mention Everyone");
     }
 
-    if (message.member.permissions.has("MANAGE_NICKNAMES")) {
+    if (member.permissions.has("MANAGE_NICKNAMES")) {
       permissions.push("Manage Nicknames");
     }
 
-    if (message.member.permissions.has("MANAGE_ROLES")) {
+    if (member.permissions.has("MANAGE_ROLES")) {
       permissions.push("Manage Roles");
     }
 
-    if (message.member.permissions.has("MANAGE_WEBHOOKS")) {
+    if (member.permissions.has("MANAGE_WEBHOOKS")) {
       permissions.push("Manage Webhooks");
     }
 
-    if (message.member.permissions.has("MANAGE_EMOJIS_AND_STICKERS")) {
+    if (member.permissions.has("MANAGE_EMOJIS_AND_STICKERS")) {
       permissions.push("Manage Emojis");
     }
 
