@@ -1,10 +1,4 @@
-const {
-	MessageEmbed,
-	MessageActionRow,
-	MessageSelectMenu,
-	MessageButton,
-	ButtonInteraction,
-} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton, ButtonInteraction } = require("discord.js");
 
 module.exports = {
 	name: "interactionCreate",
@@ -19,27 +13,17 @@ module.exports = {
 					content: "selectMenu not handled. Please contact the devs!",
 					ephemeral: true,
 				});
-			} else if (
-				selectMenu.permissions &&
-				!interaction.member.permissions.has(selectMenu.permissions)
-			) {
+			} else if (selectMenu.permissions && !interaction.member.permissions.has(selectMenu.permissions)) {
 				return await interaction.reply({
-					content:
-						"You do not have the required permissions to use this selectMenu.",
+					content: "You do not have the required permissions to use this selectMenu.",
 					ephemeral: true,
 				});
-			} else if (
-				selectMenu.devOnly &&
-				!config.devs.includes(interaction.member.id)
-			) {
+			} else if (selectMenu.devOnly && !config.devs.includes(interaction.member.id)) {
 				return await interaction.reply({
 					content: "This selectMenu is only available for developers.",
 					ephemeral: true,
 				});
-			} else if (
-				selectMenu.ownerOnly &&
-				interaction.guild.ownerId !== interaction.member.id
-			) {
+			} else if (selectMenu.ownerOnly && interaction.guild.ownerId !== interaction.member.id) {
 				return await interaction.reply({
 					content: "This selectMenu is only available for the guild owner.",
 					ephemeral: true,
@@ -57,42 +41,32 @@ module.exports = {
 				});
 			}
 		} else if (interaction.isButton()) {
-			const selectMenu = client.buttons.get(interaction.customId);
+			const button = client.buttons.get(interaction.customId);
 
-			if (!selectMenu) {
+			if (!button) {
 				return await interaction.reply({
-					content: "selectMenu not handled. Please contact the devs!",
+					content: "Button not handled. Please contact the devs!",
 					ephemeral: true,
 				});
-			} else if (
-				selectMenu.permissions &&
-				!interaction.member.permissions.has(selectMenu.permissions)
-			) {
+			} else if (button.permissions && !interaction.member.permissions.has(button.permissions)) {
 				return await interaction.reply({
-					content:
-						"You do not have the required permissions to use this selectMenu.",
+					content: "You do not have the required permissions to use this button.",
 					ephemeral: true,
 				});
-			} else if (
-				selectMenu.devOnly &&
-				!config.devs.includes(interaction.member.id)
-			) {
+			} else if (button.devOnly && !config.devs.includes(interaction.member.id)) {
 				return await interaction.reply({
-					content: "This selectMenu is only available for developers.",
+					content: "This button is only available for developers.",
 					ephemeral: true,
 				});
-			} else if (
-				selectMenu.ownerOnly &&
-				interaction.guild.ownerId !== interaction.member.id
-			) {
+			} else if (button.ownerOnly && interaction.guild.ownerId !== interaction.member.id) {
 				return await interaction.reply({
-					content: "This selectMenu is only available for the guild owner.",
+					content: "This button is only available for the guild owner.",
 					ephemeral: true,
 				});
 			}
 
 			try {
-				await selectMenu.run(client, interaction);
+				await button.run(client, interaction);
 			} catch (err) {
 				console.log(err);
 				await interaction.reply({
