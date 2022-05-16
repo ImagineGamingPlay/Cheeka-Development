@@ -31,9 +31,9 @@ client.config = {
 			],
 		});
 	},
-	handleError: error => {
-		console.error(error);
+	handleError: (error, message) => {
 		return client.config.errEmbed(
+			message,
 			"Error!",
 			`An error has occured, please try again later.\n\n**Error: **\`\`\`js\n${error}\`\`\``
 		);

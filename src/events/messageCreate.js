@@ -165,18 +165,22 @@ module.exports = {
 				);
 			}
 			//Ends of cooldown system
-			const member = message.member;
+			const { member, guild } = message;
 
 			if (
 				command.roles &&
-				commands.roles.length > 0 &&
+				command.roles.length > 0 &&
 				!member.roles.cache.has(r => command.roles.includes(r.name))
 			) {
 				message.reply("You donot have the required roles to use this command!");
 			}
 
-			if (command.devCmd && !devs.includes(member.id)) {
+			if (command.devOnly && !devs.includes(member.id)) {
 				return message.reply("This command can only be used by developers!");
+			}
+
+			if (command.ownerOnly && member.id === guild.ownerId) {
+				return message.reply("This command can only be used by the owner!");
 			}
 
 			if (command.permissions && command.permissions.length > 0) {

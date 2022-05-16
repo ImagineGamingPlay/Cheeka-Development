@@ -1,5 +1,10 @@
 const modmailSchema = require("../schema/modmail");
-const { MessageEmbed, Permissions } = require("discord.js");
+const {
+	MessageEmbed,
+	MessageActionRow,
+	MessageButton,
+	Permissions,
+} = require("discord.js");
 const { FLAGS } = Permissions;
 const { tagsCache } = require("../utils/Cache");
 
@@ -177,6 +182,25 @@ client.on("messageCreate", async message => {
 					],
 				});
 
+				if (!user) {
+					return message.reply({
+						embeds: [
+							{
+								title: "The user doesn't exist. You can delete this channel.",
+								color: client.config.colors.error,
+							},
+						],
+						components: [
+							new MessageActionRow().addComponents(
+								new MessageButton()
+									.setLabel("Delete")
+									.setStyle("DANGER")
+									.setCustomId("modmail-delete")
+							),
+						],
+					});
+				}
+
 				sendTranscriptAndDelete(message, logsChannel); // working on this thing
 				message.channel
 					.delete([`modmail thread delete. Action by: ${message.author.tag}`]) // deleting channel with reason
@@ -200,7 +224,7 @@ client.on("messageCreate", async message => {
 					});
 			}, 5000);
 			return;
-		} else if (message.content.startsWith("//")) {
+		} else if (message.content.startsWith("$", "//")) {
 			return; // if message starts with $ we are not gonna send the message (in order to let the staffs discuss)
 		} else if (
 			message.content.startsWith("{") &&
