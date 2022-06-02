@@ -1,39 +1,33 @@
-const { prefix, devs } = require("../../config.json");
-const { Collection, MessageEmbed, Permissions } = require("discord.js");
+const { prefix, devs } = require('../../config.json');
+const { Collection, MessageEmbed, Permissions } = require('discord.js');
 //Create cooldowns map
 const cooldowns = new Map();
 //Blacklist system
-const {
-	blackListCache,
-	cBlackListCache,
-	afkUsers,
-	tagsCache,
-} = require("../utils/Cache");
+const { blackListCache, cBlackListCache, afkUsers, tagsCache } = require('../utils/Cache');
 
 module.exports = {
-	name: "messageCreate",
+	name: 'messageCreate',
 	/**
 	 * @param message {Message}
 	 * @param client {Client}
 	 * @returns {Promise<*>}
 	 */
 	async execute(message, client) {
+		if (message.content.includes('imagine is not cool')) {
+			message.channel.send('How dare you consider Imagine is not cool?! You gotta be banned.');
+		}
 		// Prefix is a list of prefixes as a array. Check if the message starts with any of the prefixes
 		let rPrefix = prefix.reduce((acc, cur) => {
 			if (message.content.startsWith(cur)) acc.push(cur);
 			return acc;
 		}, [])[0];
 
-		if (
-			message.channel.id === "745283907670245406" ||
-			message.channel.id === "802783156281016340"
-		) {
-			const EMOJIREGEX =
-				/((?<!\\)<:[^:]+:(\d+)>)|\p{Emoji_Presentation}|\p{Extended_Pictographic}/gmu;
+		if (message.channel.id === '745283907670245406' || message.channel.id === '802783156281016340') {
+			const EMOJIREGEX = /((?<!\\)<:[^:]+:(\d+)>)|\p{Emoji_Presentation}|\p{Extended_Pictographic}/gmu;
 			let emojies = message.content.match(EMOJIREGEX);
 			if (emojies) {
-				emojies.forEach(a => {
-					if (a.startsWith("<")) {
+				emojies.forEach((a) => {
+					if (a.startsWith('<')) {
 						message.react(a.slice(2, -1));
 					} else {
 						message.react(a);
@@ -52,43 +46,34 @@ module.exports = {
 			afkUsers.delete(message.author.id);
 			// Reply to the user that they are no longer afk
 			message.reply({
-				embeds: [new MessageEmbed().setColor("GREEN").setTitle("AFK Removed!")],
+				embeds: [new MessageEmbed().setColor('GREEN').setTitle('AFK Removed!')],
 			});
 		}
 		if (!message.author?.bot) {
-			message.mentions.members.forEach(user => {
+			message.mentions.members.forEach((user) => {
 				if (afkUsers.has(user.id)) {
 					let userA = afkUsers.get(user.id);
 					message.reply({
 						embeds: [
 							new MessageEmbed()
-								.setColor("RANDOM")
+								.setColor('RANDOM')
 								.setTitle(`User AFK`)
-								.addField("User", user.user.tag, false)
-								.addField("Reason", userA.reason, false),
+								.addField('User', user.user.tag, false)
+								.addField('Reason', userA.reason, false),
 						],
 					});
 				}
 			});
 		}
-		if (
-			message.author?.bot ||
-			!message.guild ||
-			!message.content.startsWith(rPrefix)
-		)
-			return;
+		if (message.author?.bot || !message.guild || !message.content.startsWith(rPrefix)) return;
 
 		const args = message.content.slice(rPrefix.length).trim().split(/ +/);
 		const cmd = args.shift().toLowerCase();
-		const command =
-			client.commands.get(cmd) ||
-			client.commands.find(a => a.aliases && a.aliases.includes(cmd));
+		const command = client.commands.get(cmd) || client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
 
 		if (!command) {
 			// Check if a tag exists for the similar
-			let a = tagsCache.get(
-				message.content.slice(rPrefix.length).split(/ +/)[0]
-			);
+			let a = tagsCache.get(message.content.slice(rPrefix.length).split(/ +/)[0]);
 			if (a && a.enabled) {
 				// Reply witgith the content
 				await message.reply({
@@ -102,9 +87,7 @@ module.exports = {
 		const data = blackListCache.get(message.author?.id);
 		const blacklistedChannel = cBlackListCache.get(message.channel.id);
 		if (blacklistedChannel) {
-			let a = await message.reply(
-				"You are not allowed to use commands in this channel!"
-			);
+			let a = await message.reply('You are not allowed to use commands in this channel!');
 			setTimeout(() => {
 				a.delete();
 				message.delete().catch(() => {});
@@ -120,9 +103,7 @@ module.exports = {
 			if (command.disabledChannel) {
 				// Make sure that the command is not disabled in the channel
 				if (command.disabledChannel.includes(message.channel.id)) {
-					let a = await message.reply(
-						"This command is disabled in this channel!"
-					);
+					let a = await message.reply('This command is disabled in this channel!');
 					setTimeout(() => {
 						a.delete();
 						message.delete().catch(() => {});
@@ -142,132 +123,53 @@ module.exports = {
 
 				//If time_stamps has a key with the author's id then check the expiration time to send a message to a user.
 				if (time_stamps.has(message.author.id)) {
-					const expiration_time =
-						time_stamps.get(message.author.id) + cooldown_amount;
+					const expiration_time = time_stamps.get(message.author.id) + cooldown_amount;
 
 					if (current_time < expiration_time) {
 						const time_left = (expiration_time - current_time) / 1000;
 
-						return message.reply(
-							`Please wait ${time_left.toFixed(1)} more seconds before using ${
-								command.name
-							}`
-						);
+						return message.reply(`Please wait ${time_left.toFixed(1)} more seconds before using ${command.name}`);
 					}
 				}
 
 				//If the author's id is not in time_stamps then add them with the current time.
 				time_stamps.set(message.author.id, current_time);
 				//Delete the user's id once the cooldown is over.
-				setTimeout(
-					() => time_stamps.delete(message.author.id),
-					cooldown_amount
-				);
+				setTimeout(() => time_stamps.delete(message.author.id), cooldown_amount);
 			}
 			//Ends of cooldown system
 			const { member, guild } = message;
 
-			if (
-				command.roles &&
-				command.roles.length > 0 &&
-				!member.roles.cache.has(r => command.roles.includes(r.name))
-			) {
-				message.reply("You donot have the required roles to use this command!");
+			if (command.roles && command.roles.length > 0 && !member.roles.cache.has((r) => command.roles.includes(r.name))) {
+				message.reply('You donot have the required roles to use this command!');
 			}
 
 			if (command.devOnly && !devs.includes(member.id)) {
-				return message.reply("This command can only be used by developers!");
+				return message.reply('This command can only be used by developers!');
 			}
 
 			if (command.ownerOnly && member.id === guild.ownerId) {
-				return message.reply("This command can only be used by the owner!");
+				return message.reply('This command can only be used by the owner!');
 			}
 
 			if (command.permissions && command.permissions.length > 0) {
 				if (!member.permissions.has(command.permissions))
 					if (!devs.includes(member.id))
-						return message.reply(
-							"You don't have the required permissions to use this command!"
-						);
+						return message.reply("You don't have the required permissions to use this command!");
 			}
-			if (command.guildOnly && !message.guild)
-				return message.reply("This command can only be used in a guild!");
-
+			if (command.guildOnly && !message.guild) return message.reply('This command can only be used in a guild!');
 			try {
-				await command.run({ client, message, args });
+				await command.run({ client, message, args }).then(async (res) => {
+					if (command.deleteTrigger) {
+						await message.delete().catch(() => {});
+					}
+				});
 			} catch (err) {
 				console.log(err);
+			} finally {
 			}
 		} else {
-			return message.reply(
-				"Sorry you are blacklisted form running the commands."
-			);
+			return message.reply('Sorry you are blacklisted form running the commands.');
 		}
 	},
 };
-
-// function checkAndSave(message) {
-// 	modmailSchema.findOne(
-// 		{
-// 			authorId: message.author.id,
-// 		},
-// 		async (err, data) => {
-// 			if (err) throw err;
-// 			if (data) {
-// 				if (message.attachments && message.content === "") {
-// 					data.content.push(
-// 						`${message.author.tag} : ${message.attachments.first().proxyURL}`
-// 					);
-// 				} else {
-// 					data.content.push(`${message.author.tag} : ${message.content}`);
-// 				}
-// 			} else {
-// 				if (message.attachments && message.content === "") {
-// 					data = new modmailSchema({
-// 						authorId: message.author.id,
-// 						content: `${message.author.tag} : ${
-// 							message.attachments.first().proxyURL
-// 						}`,
-// 					});
-// 				} else {
-// 					data = new modmailSchema({
-// 						authorId: message.author.id,
-// 						content: `${message.author.tag} : ${message.content}`,
-// 					});
-// 				}
-// 			}
-
-// 			data.save();
-// 		}
-// 	);
-// }
-
-// async function sendTranscriptAndDelete(message, channel) {
-// 	modmailSchema.findOne(
-// 		{
-// 			authorId: message.channel.topic,
-// 		},
-// 		async (err, data) => {
-// 			if (err) throw err;
-// 			if (data) {
-// 				// fs.writeFileSync(
-// 				// 	`../${message.channel.topic}.txt`,
-// 				// 	data.content.join("\n\n")
-// 				// );
-// 				// await channel.send({
-// 				// 	files: [
-// 				// 		{
-// 				// 			attachment: new MessageAttachment(
-// 				// 				fs.createReadStream(`../${message.channel.topic}.txt`)
-// 				// 			),
-// 				// 		},
-// 				// 	],
-// 				// });
-// 				// fs.unlinkSync(`../${message.channel.name}.txt`);
-// 				// await modmailSchema.findOneAndDelete({
-// 				// 	authorId: message.channel.topic,
-// 				// });
-// 			}
-// 		}
-// 	);
-// }

@@ -1,13 +1,13 @@
-const { MessageEmbed } = require("discord.js");
-const CommandStructure =
-	require("../../structure/CommandStructure").CommandStructure;
+const { MessageEmbed } = require('discord.js');
+const CommandStructure = require('../../structure/CommandStructure').CommandStructure;
 module.exports = {
-	name: "purge",
-	description: "clear a certain amount of messages",
-	aliases: ["clear", "clr", "prg"],
-	permissions: ["MANAGE_MESSAGES"],
+	name: 'purge',
+	description: 'clear a certain amount of messages',
+	aliases: ['clear', 'clr', 'prg'],
+	permissions: ['MANAGE_MESSAGES'],
 	disabledChannel: [],
-	category: "Moderation",
+	category: 'Moderation',
+	deleteTrigger: true,
 	/**
 	 *
 	 * @param {CommandStructure}
@@ -17,12 +17,10 @@ module.exports = {
 		const query = args[0];
 
 		if (query > 100) {
-			return message.reply(
-				"You cannnot delete more than 100 messages at once!"
-			);
+			return message.reply('You cannnot delete more than 100 messages at once!');
 		}
 		if (isNaN(query)) {
-			return message.reply("Invalid amount given, amount must be a number!");
+			return message.reply('Invalid amount given, amount must be a number!');
 		}
 		try {
 			const amount = parseInt(query);
@@ -35,12 +33,12 @@ module.exports = {
 					.send({
 						embeds: [
 							{
-								color: "GREEN",
+								color: 'GREEN',
 								title: `:broom: Successfully deleted ${amount} messages!`,
 							},
 						],
 					})
-					.then(msg => {
+					.then((msg) => {
 						setTimeout(() => {
 							msg.delete();
 						}, 3000);

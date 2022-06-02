@@ -30,13 +30,14 @@
 			"\troles: [$5],",
 			"\tdevOnly: ${6:false},",
 			"\townerOnly: ${7:false},",
+			"\tdeleteTrigger: ${8:false},",
 			"\t/**",
 			"\t*",
 			"\t* @param {CommandStructure}",
 			"\t* @returns {Promise<*>}",
 			"\t*/",
 			"\trun: async({ client, message, args }) => {",
-			"\t\t$8",
+			"\t\t$9",
 			"\t},",
 			"};"
 		]
