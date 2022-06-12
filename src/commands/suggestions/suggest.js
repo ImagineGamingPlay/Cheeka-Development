@@ -16,6 +16,8 @@ module.exports = {
     const suggestion = args.join(" ");
     const suggestionChannel =
       message.guild.channels.cache.get("953482520542978141");
+    const suggestChannel =
+          message.guild.channels.cache.get(`suggestion-channel-id-in-igp`)
 
     if (!suggestion) return message.reply("Please specify a suggestion!");
 
@@ -36,6 +38,7 @@ module.exports = {
         text: "Wanna suggest something too? try .suggest <suggestion>",
       });
 
+    if(message.guild.id !== `697495719816462436`){
     try {
       const suggestedMsg = await suggestionChannel.send({
         embeds: [suggestEmbed],
@@ -49,6 +52,22 @@ module.exports = {
       );
     } catch (err) {
       console.log(err);
+    }
+    } else {
+     try {
+      const suggestedMsg = await suggestChannel.send({
+        embeds: [suggestEmbed],
+      });
+
+      await suggestedMsg.react("✔");
+      await suggestedMsg.react("❌");
+
+      await message.reply(
+        `Your suggestion has been sent in <#${suggestChannel.id}>`
+      );
+    } catch (err) {
+      console.log(err);
+    }
     }
   },
 };
