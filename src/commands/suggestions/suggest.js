@@ -15,7 +15,7 @@ module.exports = {
   run: async ({ client, message, args }) => {
     const suggestion = args.join(" ");
     const suggestionChannel =
-      message.guild.channels.cache.get("953482520542978141");
+      client.channels.cache.get("953482520542978141");
 
     if (!suggestion) return message.reply("Please specify a suggestion!");
 
