@@ -9,7 +9,7 @@ const devs = [
 
 module.exports = {
 	name: "hack",
-	description: "hack somone on discord, just for fun ofc",
+	description: "hack someone on discord, just for fun ofc",
 	// cooldown: 5000,
 	disabledChannel: [c.main_chat],
 	category: "Fun",
