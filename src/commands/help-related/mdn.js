@@ -1,16 +1,16 @@
-const axios = require("axios");
-const { MessageEmbed } = require("discord.js");
+const axios = require('axios');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: "mdn",
-	description: "Search MDN for a given term.",
-	category: "Help",
+	name: 'mdn',
+	description: 'Search MDN for a given term.',
+	category: 'Help',
 	run: async ({ client, message, args }) => {
-		const query = args.join(" ");
-
-		const URI = `https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(
-			query
-		)}&locale=en-US`;
+		const query = args.join(' ');
+		if (!query) {
+			return client.config.errEmbed(message, 'Missing Arugment!', 'Please provide an argument to search for!');
+		}
+		const URI = `https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(query)}&locale=en-US`;
 		const documents = (await axios(URI)).data.documents;
 
 		if (!documents) {
@@ -18,7 +18,7 @@ module.exports = {
 				embeds: [
 					{
 						title: `No results found for "${query}"`,
-						color: "RED",
+						color: 'RED',
 						timestamp: new Date(),
 					},
 				],
@@ -27,10 +27,10 @@ module.exports = {
 
 		const mdnEmbed = new MessageEmbed()
 			.setAuthor({
-				name: "MDN documentation",
-				iconURL: "https://avatars.githubusercontent.com/u/7565578?s=200&v=4",
+				name: 'MDN documentation',
+				iconURL: 'https://avatars.githubusercontent.com/u/7565578?s=200&v=4',
 			})
-			.setColor("BLURPLE");
+			.setColor('BLURPLE');
 
 		let overflow = false;
 
@@ -40,20 +40,15 @@ module.exports = {
 		}
 
 		for (let { mdn_url, title, summary } of documents) {
-			summary = summary.replace(/(\r\n|\n|\r)/gm, "");
+			summary = summary.replace(/(\r\n|\n|\r)/gm, '');
 
-			mdnEmbed.addField(
-				title,
-				`${summary}\n[**Link**](https://developer.mozilla.org/${mdn_url})`
-			);
+			mdnEmbed.addField(title, `${summary}\n[**Link**](https://developer.mozilla.org/${mdn_url})`);
 		}
 
 		if (overflow) {
 			mdnEmbed.addField(
-				"Too many results!",
-				`Visit more results [here!](https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(
-					query
-				)})`
+				'Too many results!',
+				`Visit more results [here!](https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(query)})`
 			);
 		}
 
