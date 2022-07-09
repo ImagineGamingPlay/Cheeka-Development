@@ -72,7 +72,7 @@ client.on("messageCreate", async message => {
 						)
 						.setColor("BLURPLE")
 						.setFooter({
-							text: "Please have a valid reason to create modmai thread",
+							text: "Please have a valid reason to create modmail thread",
 						})
 						.setTimestamp(),
 				],
