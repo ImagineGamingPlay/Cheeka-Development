@@ -79,7 +79,7 @@ module.exports = {
 			new MessageButton()
 			.setStyle(`PRIMARY`)
 			.setCustomId(`snipe_display`)
-			.setLabel(`${page + 1}/${snipeEmbeds.length}`)
+			.setLabel(`${current.page + 1}/${snipeEmbeds.length}`)
 			.setDisabled(true),
 			new MessageButton()
 			.setStyle(`SECONDARY`)
@@ -159,13 +159,15 @@ module.exports = {
 					break
 				}
 			}
+			let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
 			if(current.page === 0) [0, 1].forEach(n => rowNav.components[n].setDisabled(true))
 			else [0, 1].forEach(n => rowNav.components[n].setDisabled(false))
-			if(current.page + 1 === current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
+			if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 			else [3, 4].forEach(n => rowNav.components[n].setDisabled(false))
 			[0, 1].forEach(n => rowSelect.components[n].setDisabled(false).setStyle('SECONDARY'))
 			if(current.type === 'snipe') rowSelect.components[0].setDisabled(true).setStyle('SUCCESS')
 			else rowSelect.components[1].setDisabled(true).setStyle('SUCCESS')
+			rowNav.components[2].setLabel(`${current.page + 1}/${length}`)
 			i.update({
 				embeds: [
 					current.type = "snipe" ?
@@ -174,6 +176,10 @@ module.exports = {
 				],
 				components: [rowNav, rowSelect]
 			})
+		})
+		collector.on(`end`, () => {
+			[rowNav, rowSelect].forEach(row => row.components.forEach(button => button.setDisabled(true)))
+			msg.edit({ components: [rowNav, rowSelect] })
 		})
 	},
 };
