@@ -8,19 +8,20 @@ module.exports = {
     //collect data and add to snipes
     if (newMessage.author?.bot) return;
     const division = 1950; //as an embed description can only have upto 4096 characters, we are dividing it to fit both old and new messages
-    const orginalMsg =
-      oldMessage.content.slice(0, division) +
-      (oldMessage.content.length > division ? " ..." : ""); //this line makes that if the content is more than 1950 characters, it'll add an ... at the end
-    const editedMsg =
-      newMessage.content.slice(0, division) +
-      (newMessage.content.length > division ? " ..." : ""); //does the same as above but for edited message
     // Set the message to eSnipe
-    client.eSnipe.set(newMessage.channel.id, {
-      prevs: orginalMsg,
-      currs: editedMsg,
+    let eSnipes = client.eSnipe.get(newMessage.channel.id)
+    eSnipes.push({
+      before: {
+        content: oldMessage.content,
+        attachments: oldMessage.attachments
+      },
+      after: {
+        content: newMessage.content,
+        attachments: newMessage.attachments
+      },
       time: Date.now(),
-      author: newMessage.author,
-      channel: newMessage.channel,
-    });
+      author: newMessage.author
+    })
+    client.eSnipe.set(newMessage.channel.id, eSnipes);
   },
 };
