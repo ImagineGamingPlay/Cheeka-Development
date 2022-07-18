@@ -145,7 +145,7 @@ module.exports = {
 					break
 				}
 				case `last`: {
-					current.page = (current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length)
+					current.page = (current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length) - 1
 					break
 				}
 				case `tosnipe`: {
