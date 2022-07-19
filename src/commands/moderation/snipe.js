@@ -116,9 +116,7 @@ module.exports = {
     		if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 		let msg = await message.channel.send({
 			embeds: [
-				current.type === "snipe" ?
-				snipeEmbeds[current.page] ?? embedNoSnipe :
-				eSnipeEmbeds[current.page] ?? embedNoESnipe
+				snipeEmbeds[current.page] ?? embedNoSnipe
 			],
 			components: [rowNav, rowSelect]
 		})
@@ -167,8 +165,7 @@ module.exports = {
 			if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 			else [3, 4].forEach(n => rowNav.components[n].setDisabled(false))
 			rowSelect.components.forEach(button => button.setDisabled(false).setStyle('SECONDARY'))
-			if(current.type === 'snipe') rowSelect.components[0].setDisabled(true).setStyle('SUCCESS')
-			else rowSelect.components[1].setDisabled(true).setStyle('SUCCESS')
+			rowSelect.components[current.type === 'snipe' ? 0 : 1].setDisabled(true).setStyle('SUCCESS')
 			rowNav.components[2].setLabel(`${current.page + 1}/${length}`)
 			i.update({
 				embeds: [
