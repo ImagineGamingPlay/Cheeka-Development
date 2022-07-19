@@ -9,11 +9,11 @@ module.exports={
         //collect data and add to snipes
         let snipes = client.snipes.get(message.channel.id) ?? []
         snipes.push({
-            message: message.content,
+            message: message.content ?? ``,
             author: message.author,
             time: Date.now(),
-            attachment: message.attachments,        
+            attachments: message.attachments        
         })
-        client.snipes.set(message.channel.id, snipes);
+        client.snipes.set(message.channel.id, snipes)
     }
 }
