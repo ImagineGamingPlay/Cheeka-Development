@@ -54,7 +54,7 @@ module.exports = {
 				{name: `Content Before`, value: snipe.before.content.substring(0, 1023) || `\u200B`, inline: true},
 				{name: `\u200B`, value: `\u200B`, inline: true}, //Blank Field
 				{name: `Attachments Before`, value: snipeFilesBefore.length > 1024 ? `Too many Attachment${snipe.attachments.size === 1 ? '' : 's'} to Display` : snipeFilesBefore, inline: true},
-				{name: `Content After`, value: snipe.After.content.substring(0, 1023) || `\u200B`, inline: true},
+				{name: `Content After`, value: snipe.after.content.substring(0, 1023) || `\u200B`, inline: true},
 				{name: `\u200B`, value: `\u200B`, inline: true}, //Blank Field
 				{name: `Attachments After`, value: snipeFilesAfter.length > 1024 ? `Too many Attachment${snipe.attachments.size === 1 ? '' : 's'} to Display` : snipeFilesAfter, inline: true}
 			)
