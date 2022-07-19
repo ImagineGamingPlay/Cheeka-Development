@@ -112,8 +112,8 @@ module.exports = {
 		.setColor(`RED`)
 		.setTitle(`No Edit Snipe`)
 		.setDescription(`There is nothing to edit snipe in ${channel}`)
-    let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
-    if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
+    		let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
+    		if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 		let msg = await message.channel.send({
 			embeds: [
 				current.type === "snipe" ?
