@@ -20,8 +20,8 @@ module.exports = {
 		const channel =
 			message.mentions?.channels?.first() ?? message.guild?.channels?.cache?.get(args[0]) ?? message.channel
 		let channelId = channel.id
-		let snipes = client.snipes.get(channelId),
-		    eSnipe = client.eSnipe.get(channelId)
+		let snipes = client.snipes.get(channelId) ?? [],
+		    eSnipe = client.eSnipe.get(channelId) ?? []
 		// Check for the snipe in eSnipe
 		let snipeEmbeds = snipes.map((snipe) => {
 			let embed = new MessageEmbed()
