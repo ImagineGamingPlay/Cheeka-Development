@@ -27,38 +27,38 @@ module.exports = {
 			let embed = new MessageEmbed()
 			.setColor('#303136')
 			.setTitle('Snipe')
-			.setDescription(snipe.content.substring(0, 4095) || `\u200B`) //\u200B is an invisible character
+			.setDescription(snipe.message.substring(0, 4095) || `\u200B`) //\u200B is an invisible character
 			.addFields(
-				{name: `Author`, value: `${snipe.author}`, inline: true},
+				{name: `Author`, value: `${snipe.author || `Unknown`}`, inline: true},
 				{name: `Channel`, value: `<#${channelId}>`, inline: true},
-				{name: `Time`, value: `<t:${snipe.time}:R>`, inline: true}
+				{name: `Time`, value: `<t:${Math.floor(snipe.time / 1000)}:R>`, inline: true}
 			)
-			.setImage(snipe.author.displayAvatarURL({dynamic: true}))
-			let snipeFiles = snipe.attachments.map(file => `[${file.name}](${file.url})`).join(`\n`)
-			if(snipe.attachments.size) embed.addField(
+			.setThumbnail(snipe.author?.displayAvatarURL({dynamic: true}))
+			let snipeFiles = snipe.attachments?.map(file => `[${file.name}](${file.url})`).join(`\n`)
+			if(snipe.attachments?.size) embed.addField(
 				`Attachment${snipe.attachments.size === 1 ? '' : 's'}`,
 				snipeFiles.length > 1024 ? `Too many Attachment${snipe.attachments.size === 1 ? '' : 's'} to Display` : snipeFiles
-			)
+      )
 			return embed
 		})
 		let eSnipeEmbeds = eSnipe.map((snipe) => {
-			let snipeFilesBefore = snipe.before.attachments.map(file => `[${file.name}](${file.url})`).join(`\n`),
-			    snipeFilesAfter = snipe.after.attachments.map(file => `[${file.name}](${file.url})`).join(`\n`)
+			let snipeFilesBefore = snipe.before.attachments.map(file => `[${file.name}](${file.url})`).join(`\n`) || `\u200B`,
+			    snipeFilesAfter = snipe.after.attachments.map(file => `[${file.name}](${file.url})`).join(`\n`) || `\u200B`
 			return new MessageEmbed()
 			.setColor('#303136')
 			.setTitle('Edit Snipe')
 			.addFields(
-				{name: `Author`, value: `${snipe.author}`, inline: true},
+				{name: `Author`, value: `${snipe.author || `Unknown`}`, inline: true},
 				{name: `Channel`, value: `<#${channelId}>`, inline: true},
-				{name: `Time`, value: `<t:${snipe.time}:R>`, inline: true},
+				{name: `Time`, value: `<t:${Math.floor(snipe.time / 1000)}:R>`, inline: true},
 				{name: `Content Before`, value: snipe.before.content.substring(0, 1023) || `\u200B`, inline: true},
 				{name: `\u200B`, value: `\u200B`, inline: true}, //Blank Field
-				{name: `Attachments Before`, value: snipeFilesBefore.length > 1024 ? `Too many Attachment${snipe.attachments.size === 1 ? '' : 's'} to Display` : snipeFilesBefore, inline: true},
+				{name: `Attachments Before`, value: snipeFilesBefore?.length > 1024 ? `Too many Attachment${snipe.attachments?.size === 1 ? '' : 's'} to Display` : snipeFilesBefore, inline: true},
 				{name: `Content After`, value: snipe.after.content.substring(0, 1023) || `\u200B`, inline: true},
 				{name: `\u200B`, value: `\u200B`, inline: true}, //Blank Field
-				{name: `Attachments After`, value: snipeFilesAfter.length > 1024 ? `Too many Attachment${snipe.attachments.size === 1 ? '' : 's'} to Display` : snipeFilesAfter, inline: true}
+				{name: `Attachments After`, value: snipeFilesAfter?.length > 1024 ? `Too many Attachment${snipe.attachments?.size === 1 ? '' : 's'} to Display` : snipeFilesAfter, inline: true}
 			)
-			.setImage(snipe.author.displayAvatarURL({dynamic: true}))
+			.setThumbnail(snipe.author.displayAvatarURL({dynamic: true}))
 		})
 		let current = {
 			type: "snipe",
@@ -99,7 +99,7 @@ module.exports = {
 			.setEmoji(`🗑️`)
 			.setDisabled(true),
 			new MessageButton()
-			.setStyle(`SUCCESS`)
+			.setStyle(`SECONDARY`)
 			.setCustomId(`snipe_toedit`)
 			.setLabel(`Edit Snipe`)
 			.setEmoji(`✏️`)
@@ -112,11 +112,13 @@ module.exports = {
 		.setColor(`RED`)
 		.setTitle(`No Edit Snipe`)
 		.setDescription(`There is nothing to edit snipe in ${channel}`)
+    let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
+    if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 		let msg = await message.channel.send({
 			embeds: [
-				current.type = "snipe" ?
-				snipeEmbeds[current.page] || embedNoSnipe :
-				eSnipeEmbeds[current.page] || embedNoESnipe
+				current.type === "snipe" ?
+				snipeEmbeds[current.page] ?? embedNoSnipe :
+				eSnipeEmbeds[current.page] ?? embedNoESnipe
 			],
 			components: [rowNav, rowSelect]
 		})
@@ -164,15 +166,15 @@ module.exports = {
 			else [0, 1].forEach(n => rowNav.components[n].setDisabled(false))
 			if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 			else [3, 4].forEach(n => rowNav.components[n].setDisabled(false))
-			[0, 1].forEach(n => rowSelect.components[n].setDisabled(false).setStyle('SECONDARY'))
+			rowSelect.components.forEach(button => button.setDisabled(false).setStyle('SECONDARY'))
 			if(current.type === 'snipe') rowSelect.components[0].setDisabled(true).setStyle('SUCCESS')
 			else rowSelect.components[1].setDisabled(true).setStyle('SUCCESS')
 			rowNav.components[2].setLabel(`${current.page + 1}/${length}`)
 			i.update({
 				embeds: [
-					current.type = "snipe" ?
-					snipeEmbeds[current.page] || embedNoSnipe :
-					eSnipeEmbeds[current.page] || embedNoESnipe
+					current.type === "snipe" ?
+					snipeEmbeds[current.page] ?? embedNoSnipe :
+					eSnipeEmbeds[current.page] ?? embedNoESnipe
 				],
 				components: [rowNav, rowSelect]
 			})
