@@ -6,7 +6,6 @@ module.exports={
     name: "messageDelete",
     async execute(message, client) {
         //collect data and add to snipes
-        if (message.author?.bot) return
         let snipes = client.snipes.get(message.channel.id) ?? []
         snipes.push({
             message: message.content,
