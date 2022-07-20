@@ -38,7 +38,7 @@ module.exports = {
 			if(snipe.attachments?.size) embed.addField(
 				`Attachment${snipe.attachments.size === 1 ? '' : 's'}`,
 				snipeFiles.length > 1024 ? `Too many Attachment${snipe.attachments.size === 1 ? '' : 's'} to Display` : snipeFiles
-      )
+      			)
 			return embed
 		})
 		let eSnipeEmbeds = eSnipe.map((snipe) => {
