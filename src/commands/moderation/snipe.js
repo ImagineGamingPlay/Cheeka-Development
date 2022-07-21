@@ -1,5 +1,5 @@
 //Snipe Command
-const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
+const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment } = require('discord.js');
 const CommandStructure = require('../../structure/CommandStructure').CommandStructure;
 module.exports = {
 	name: 'snipe',
@@ -80,7 +80,7 @@ module.exports = {
 			.setStyle(`PRIMARY`)
 			.setCustomId(`snipe_display`)
 			.setLabel(`${current.page + 1}/${snipeEmbeds.length}`)
-			.setDisabled(true),
+      .setDisabled(snipes.length ? false : true),
 			new MessageButton()
 			.setStyle(`SECONDARY`)
 			.setCustomId(`snipe_after`)
@@ -131,50 +131,82 @@ module.exports = {
 			time: 120000
 		})
 		collector.on(`collect`, async i => {
-			switch(i.customId.split(`_`)[1]) {
-				case `first`: {
-					current.page = 0
-					break
+			if(i.customId === `snipe_display`) {
+				let files = []
+				if(current.type === `snipe`) {
+					let snipe = snipes[current.page]
+					if(snipe.message) files.push(new MessageAttachment(Buffer.from(snipe.message, 'utf-8'), "content.txt"))
+					if(snipe.attachments.size) files.push(new MessageAttachment(Buffer.from(
+						snipe.attachments
+							.map(file => `${file.name} - ${file.url}`)
+							.join(`\n`),
+						'utf-8'
+					), "attachments.txt"))
+				} else {
+					let eSnip = eSnipe[current.page]
+					if(eSnip.before.content) files.push(new MessageAttachment(Buffer.from(eSnip.before.content, 'utf-8'), "content-before.txt"))
+					if(eSnip.before.attachments.size) files.push(new MessageAttachment(Buffer.from(
+						eSnip.before.attachments
+							.map(file => `${file.name} - ${file.url}`)
+							.join(`\n`),
+						'utf-8'
+					), "attachments-before.txt"))
+					if(eSnip.after.content) files.push(new MessageAttachment(Buffer.from(eSnip.after.content, 'utf-8'), "content-after.txt"))
+					if(eSnip.after.attachments.size) files.push(new MessageAttachment(Buffer.from(
+						eSnip.after.attachments
+							.map(file => `${file.name} - ${file.url}`)
+							.join(`\n`),
+						'utf-8'
+					), "attachments-after.txt"))
 				}
-				case `before`: {
-					current.page--
-					break
+				i.reply({ content: `Raw Message`, files, ephemeral: true })
+			} else {
+				switch(i.customId.split(`_`)[1]) {
+					case `first`: {
+						current.page = 0
+						break
+					}
+					case `before`: {
+						current.page--
+						break
+					}
+					case `after`: {
+						current.page++
+						break
+					}
+					case `last`: {
+						current.page = (current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length) - 1
+						break
+					}
+					case `tosnipe`: {
+						current.page = 0
+						current.type = 'snipe'
+						break
+					}
+					case `toedit`: {
+						current.page = 0
+						current.type = 'edit'
+						break
+					}
 				}
-				case `after`: {
-					current.page++
-					break
-				}
-				case `last`: {
-					current.page = (current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length) - 1
-					break
-				}
-				case `tosnipe`: {
-					current.page = 0
-					current.type = 'snipe'
-					break
-				}
-				case `toedit`: {
-					current.page = 0
-					current.type = 'edit'
-					break
-				}
+				let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
+				if(current.page === 0) [0, 1].forEach(n => rowNav.components[n].setDisabled(true))
+				else [0, 1].forEach(n => rowNav.components[n].setDisabled(false))
+				if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
+				else [3, 4].forEach(n => rowNav.components[n].setDisabled(false))
+        rowNav.components[2].setDisabled((current.type === 'snipe' ? snipes.length : eSnipe.length) ? false : true)
+				rowSelect.components.forEach(button => button.setDisabled(false).setStyle('SECONDARY'))
+				rowSelect.components[current.type === 'snipe' ? 0 : 1].setDisabled(true).setStyle('SUCCESS')
+				rowNav.components[2].setLabel(`${current.page + 1}/${length}`)
+				i.update({
+					embeds: [
+						current.type === "snipe" ?
+						snipeEmbeds[current.page] ?? embedNoSnipe :
+						eSnipeEmbeds[current.page] ?? embedNoESnipe
+					],
+					components: [rowNav, rowSelect]
+				})
 			}
-			let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
-			if(current.page === 0) [0, 1].forEach(n => rowNav.components[n].setDisabled(true))
-			else [0, 1].forEach(n => rowNav.components[n].setDisabled(false))
-			if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
-			else [3, 4].forEach(n => rowNav.components[n].setDisabled(false))
-			rowSelect.components.forEach(button => button.setDisabled(false).setStyle('SECONDARY'))
-			rowSelect.components[current.type === 'snipe' ? 0 : 1].setDisabled(true).setStyle('SUCCESS')
-			rowNav.components[2].setLabel(`${current.page + 1}/${length}`)
-			i.update({
-				embeds: [
-					current.type === "snipe" ?
-					snipeEmbeds[current.page] ?? embedNoSnipe :
-					eSnipeEmbeds[current.page] ?? embedNoESnipe
-				],
-				components: [rowNav, rowSelect]
-			})
 		})
 		collector.on(`end`, () => {
 			[rowNav, rowSelect].forEach(row => row.components.forEach(button => button.setDisabled(true)))
