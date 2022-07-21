@@ -5,10 +5,11 @@ client.snipes = new Collection();
 module.exports={
     name: "messageDelete",
     async execute(message, client) {
+        
         if(message.author?.bot) return
         //collect data and add to snipes
         let snipes = client.snipes.get(message.channel.id) ?? []
-        snipes.push({
+        snipes.unshift({
             message: message.content ?? ``,
             author: message.author,
             time: Date.now(),
