@@ -9,7 +9,7 @@ module.exports = {
     if(newMessage.author?.bot || oldMessage.editedTimestamp === newMessage.editedTimestamp) return;
     // Set the message to eSnipe
     let eSnipes = client.eSnipe.get(newMessage.channel.id) ?? []
-    eSnipes.push({
+    eSnipes.unshift({
       before: {
         content: oldMessage.content,
         attachments: oldMessage.attachments
