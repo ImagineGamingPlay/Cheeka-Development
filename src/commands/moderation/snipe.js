@@ -1,5 +1,5 @@
 //Snipe Command
-const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment } = require('discord.js');
+const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent } = require('discord.js');
 const CommandStructure = require('../../structure/CommandStructure').CommandStructure;
 module.exports = {
 	name: 'snipe',
@@ -96,8 +96,7 @@ module.exports = {
 			.setStyle(`SUCCESS`)
 			.setCustomId(`snipe_tosnipe`)
 			.setLabel(`Snipe`)
-			.setEmoji(`🗑️`)
-			.setDisabled(true),
+			.setEmoji(`🗑️`),
 			new MessageButton()
 			.setStyle(`SECONDARY`)
 			.setCustomId(`snipe_toedit`)
@@ -130,11 +129,34 @@ module.exports = {
 			},
 			time: 120000
 		})
+		client.modalCollector.set(msg.id, collector)
 		collector.on(`collect`, async i => {
-			if(i.customId === `snipe_display`) {
+			if(i.customId === 'snipe_display') {
+				let length = (current.type === 'snipe' ? snipeEmbeds : eSnipeEmbeds).length
+				if(!length) return i.reply({ content: `There is nothing to search!`, ephemeral: true })
+				let modal = new Modal()
+				.setCustomId('snipe_page')
+				.setTitle('Page')
+				.addComponents(
+				  	new MessageActionRow()
+				  		.addComponents(
+				    			new TextInputComponent()
+						    .setCustomId('page_input')
+						    .setLabel('Page')
+						    .setPlaceholder(`Between 1 and ${length}`)
+						    .setMinLength(1)
+						    .setMaxLength(`${length}`.length)
+						    .setRequired(true)
+						    .setStyle('SHORT')
+						  )
+				)
+				await i.showModal(modal)
+		      	}
+			else if(i.customId === (current.type === 'snipe' ? 'snipe_tosnipe' : 'snipe_toedit')) {
 				let files = []
 				if(current.type === `snipe`) {
 					let snipe = snipes[current.page]
+          if(!snipe) return i.reply({ content: 'There is nothing to view!', ephemeral: true })
 					if(snipe.message) files.push(new MessageAttachment(Buffer.from(snipe.message, 'utf-8'), "content.txt"))
 					if(snipe.attachments.size) files.push(new MessageAttachment(Buffer.from(
 						snipe.attachments
@@ -144,6 +166,7 @@ module.exports = {
 					), "attachments.txt"))
 				} else {
 					let eSnip = eSnipe[current.page]
+          if(!eSnip) return i.reply({ content: 'There is nothing to view!', ephemeral: true })
 					if(eSnip.before.content) files.push(new MessageAttachment(Buffer.from(eSnip.before.content, 'utf-8'), "content-before.txt"))
 					if(eSnip.before.attachments.size) files.push(new MessageAttachment(Buffer.from(
 						eSnip.before.attachments
@@ -161,6 +184,7 @@ module.exports = {
 				}
 				i.reply({ content: `Raw Message`, files, ephemeral: true })
 			} else {
+			        let toReturn = false
 				switch(i.customId.split(`_`)[1]) {
 					case `first`: {
 						current.page = 0
@@ -188,17 +212,27 @@ module.exports = {
 						current.type = 'edit'
 						break
 					}
+          				case `page`: {
+            					let embeds = current.type === 'snipe' ? snipeEmbeds : eSnipeEmbeds
+            					let page = i.fields.getTextInputValue('page_input')
+           					if(!embeds[parseInt(page) - 1]) {
+							await i.reply({ content: `**${page}** is not a valid page number!\nThe page number must be between 1 and ${embeds.length}!`, ephemeral: true })
+							return toReturn = true
+						}
+						current.page = parseInt(page) - 1
+						break
+				  	}
 				}
+				if(toReturn) return
 				let length = current.type === 'snipe' ? snipeEmbeds.length : eSnipeEmbeds.length
 				if(current.page === 0) [0, 1].forEach(n => rowNav.components[n].setDisabled(true))
 				else [0, 1].forEach(n => rowNav.components[n].setDisabled(false))
 				if(current.page + 1 === length || !length) [3, 4].forEach(n => rowNav.components[n].setDisabled(true))
 				else [3, 4].forEach(n => rowNav.components[n].setDisabled(false))
-        rowNav.components[2].setDisabled((current.type === 'snipe' ? snipes.length : eSnipe.length) ? false : true)
-				rowSelect.components.forEach(button => button.setDisabled(false).setStyle('SECONDARY'))
-				rowSelect.components[current.type === 'snipe' ? 0 : 1].setDisabled(true).setStyle('SUCCESS')
+				rowSelect.components.forEach(button => button.setStyle('SECONDARY'))
+				rowSelect.components[current.type === 'snipe' ? 0 : 1].setStyle('SUCCESS')
 				rowNav.components[2].setLabel(`${current.page + 1}/${length}`)
-				i.update({
+				await i.update({
 					embeds: [
 						current.type === "snipe" ?
 						snipeEmbeds[current.page] ?? embedNoSnipe :
@@ -209,8 +243,9 @@ module.exports = {
 			}
 		})
 		collector.on(`end`, () => {
+      			client.modalCollector.delete(msg.id);
 			[rowNav, rowSelect].forEach(row => row.components.forEach(button => button.setDisabled(true)))
-			msg.edit({ components: [rowNav, rowSelect] })
+			msg.edit({ components: [rowNav, rowSelect] }).catch(() => {})
 		})
 	},
 };
