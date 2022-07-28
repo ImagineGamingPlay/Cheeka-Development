@@ -1,4 +1,4 @@
-const { Collection } = require("discord.js");
+const { Collection, Collector } = require("discord.js");
 client.modalCollector = new Collection()
 
 module.exports = {
@@ -12,6 +12,6 @@ module.exports = {
 	async execute(interaction, client) {
 		if(!interaction.isModalSubmit()) return;
     		let collector = client.modalCollector.get(interaction.message.id);
-    		if(collector && collector instanceof Discord.Collector) collector.emit(`collect`, interaction);
+    		if(collector && collector instanceof Collector) collector.emit(`collect`, interaction);
 	},
 };
