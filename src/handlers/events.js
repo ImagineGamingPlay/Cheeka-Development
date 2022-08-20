@@ -1,8 +1,8 @@
-const fs = require("fs");
+const fs = require('fs');
 
 const eventFiles = fs
-  .readdirSync("./src/events")
-  .filter((file) => file.endsWith(".js"));
+  .readdirSync('./src/events')
+  .filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
   const event = require(`../events/${file}`);
@@ -14,8 +14,8 @@ for (const file of eventFiles) {
 }
 
 const waitersFiles = fs
-  .readdirSync("./src/events/waiters")
-  .filter((file) => file.endsWith(".js"));
+  .readdirSync('./src/events/waiters')
+  .filter(file => file.endsWith('.js'));
 // So, create a setInterval() for each waiter file
 for (const file of waitersFiles) {
   const waiter = require(`../events/waiters/${file}`);

@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const {Schema, model} = require('mongoose');
 
 const TagSchema = new Schema({
   name: String,
@@ -11,4 +11,4 @@ const TagSchema = new Schema({
   verifiedBy: String,
 });
 
-module.exports = model("TagSystem", TagSchema);
+module.exports = model('TagSystem', TagSchema);

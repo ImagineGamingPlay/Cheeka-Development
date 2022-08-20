@@ -1,11 +1,11 @@
-const fs = require("fs");
+const fs = require('fs');
 
-const buttonFolders = fs.readdirSync("./src/buttons").forEach((folder) => {
+const buttonFolders = fs.readdirSync('./src/buttons').forEach(folder => {
   let buttons = fs
     .readdirSync(`./src/buttons/${folder}`)
-    .filter((file) => file.endsWith(".js"));
+    .filter(file => file.endsWith('.js'));
 
-  buttons.forEach((f) => {
+  buttons.forEach(f => {
     const button = require(`../buttons/${folder}/${f}`);
     client.buttons.set(button.id, button);
   });

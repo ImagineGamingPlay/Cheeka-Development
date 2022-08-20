@@ -1,19 +1,19 @@
-const { MessageEmbed } = require("discord.js");
+const {MessageEmbed} = require('discord.js');
 const CommandStructure =
-  require("../../structure/CommandStructure").CommandStructure;
+  require('../../structure/CommandStructure').CommandStructure;
 
 module.exports = {
-  name: "avatar",
-  description: "Get the avatar of a user",
-  category: "General",
-  aliases: ["av"],
-  usage: "avatar [user]",
+  name: 'avatar',
+  description: 'Get the avatar of a user',
+  category: 'General',
+  aliases: ['av'],
+  usage: 'avatar [user]',
   /**
    *
    * @param {CommandStructure}
    * @returns {Promise<*>}
    */
-  run: async ({ client, message, args }) => {
+  run: async ({client, message, args}) => {
     try {
       const user =
         message.mentions.users.first() ||
@@ -22,9 +22,9 @@ module.exports = {
 
       const username = user.username || user.user.username;
       const avatarEmbed = new MessageEmbed()
-        .setColor("BLURPLE")
+        .setColor('BLURPLE')
         .setTitle(`${username}'s Avatar`)
-        .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))
+        .setImage(user.displayAvatarURL({dynamic: true, size: 2048}))
         .setFooter({
           text: `Requested by ${message.author.tag}`,
           iconURL: message.author.displayAvatarURL({
@@ -33,7 +33,7 @@ module.exports = {
           }),
         });
 
-      message.reply({ embeds: [avatarEmbed] });
+      message.reply({embeds: [avatarEmbed]});
     } catch (err) {
       console.error(err);
       message.reply(`\`\`\`${err}\`\`\``);

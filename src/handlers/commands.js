@@ -1,12 +1,12 @@
-const fs = require("fs");
+const fs = require('fs');
 
-const commandFolders = fs.readdirSync("./src/commands").forEach((folder) => {
+const commandFolders = fs.readdirSync('./src/commands').forEach(folder => {
   // let commands = filesConfig(`./src/commands/${folder}`, ".js");
   let commands = fs
     .readdirSync(`./src/commands/${folder}`)
-    .filter((file) => file.endsWith(".js"));
+    .filter(file => file.endsWith('.js'));
 
-  commands.forEach((f) => {
+  commands.forEach(f => {
     const command = require(`../commands/${folder}/${f}`);
     client.commands.set(command.name, command);
   });

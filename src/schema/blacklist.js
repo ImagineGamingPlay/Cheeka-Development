@@ -1,11 +1,11 @@
 const {Schema, model} = require('mongoose');
 
 const Blacklist = new Schema({
-    UserId: String,
+  UserId: String,
 });
 
 const BlacklistChannel = new Schema({
-    channelId: String,
+  channelId: String,
 });
 /**
  * @type {Model<Blacklist>}

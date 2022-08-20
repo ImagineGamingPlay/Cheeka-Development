@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 if (!process.env.mongodb) {
-  console.log("❌ Not Connected to mongodb");
+  console.log('❌ Not Connected to mongodb');
 } else {
   mongoose.connect(
     process.env?.mongodb,
@@ -10,8 +10,8 @@ if (!process.env.mongodb) {
       useNewUrlParser: true,
     },
     () => {
-      console.log("✅ Connected to mongodb");
-    }
+      console.log('✅ Connected to mongodb');
+    },
   );
 }
 module.exports = mongoose;

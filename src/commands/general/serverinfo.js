@@ -1,12 +1,12 @@
-const { MessageEmbed } = require("discord.js");
+const {MessageEmbed} = require('discord.js');
 const CommandStructure =
-  require("../../structure/CommandStructure").CommandStructure;
+  require('../../structure/CommandStructure').CommandStructure;
 
 module.exports = {
-  name: "serverinfo",
-  description: "Get information about the server",
-  aliases: ["server", "guild", "guildinfo"],
-  category: "General",
+  name: 'serverinfo',
+  description: 'Get information about the server',
+  aliases: ['server', 'guild', 'guildinfo'],
+  category: 'General',
   permissions: [],
   disabledChannel: [],
   cooldown: 5,
@@ -15,9 +15,9 @@ module.exports = {
    * @param {CommandStructure}
    * @returns {Promise<*>}
    */
-  run: async ({ client, message, args }) => {
+  run: async ({client, message, args}) => {
     const serverinfoEmbed = new MessageEmbed()
-      .setTitle("Server Information")
+      .setTitle('Server Information')
       .setThumbnail(message.guild.iconURL())
       .setFooter({
         text: `Requested by ${message.member.user.tag}`,
@@ -26,80 +26,80 @@ module.exports = {
       .setTimestamp()
       .setAuthor({
         name: `${message.guild.name}`,
-        iconURL: message.guild.iconURL({ dynamic: true }),
+        iconURL: message.guild.iconURL({dynamic: true}),
       })
-      .setColor("BLURPLE")
+      .setColor('BLURPLE')
       .addFields(
         {
-          name: "Server Name",
+          name: 'Server Name',
           value: `${message.guild.name}`,
           inline: true,
         },
-        { name: "Server ID", value: `${message.guild.id}`, inline: true },
+        {name: 'Server ID', value: `${message.guild.id}`, inline: true},
         {
-          name: "Server Owner",
+          name: 'Server Owner',
           value: `<@${message.guild.ownerId}>`,
           inline: true,
         },
         {
-          name: "Total Members",
+          name: 'Total Members',
           value: `${message.guild.members.cache.size}`,
           inline: true,
         },
         {
-          name: "Total Bots",
+          name: 'Total Bots',
           value: `${
-            message.guild.members.cache.filter((member) => member.user.bot).size
+            message.guild.members.cache.filter(member => member.user.bot).size
           }`,
           inline: true,
         },
         {
-          name: "Total Emojis",
+          name: 'Total Emojis',
           value: `${message.guild.emojis.cache.size}`,
           inline: true,
         },
         {
-          name: "Animated Emojis",
+          name: 'Animated Emojis',
           value: `${
-            message.guild.emojis.cache.filter((emoji) => emoji.animated).size
+            message.guild.emojis.cache.filter(emoji => emoji.animated).size
           }`,
           inline: true,
         },
         {
-          name: "Total Text Channels",
+          name: 'Total Text Channels',
           value: `${
             message.guild.channels.cache.filter(
-              (channel) => channel.type === "GUILD_TEXT"
+              channel => channel.type === 'GUILD_TEXT',
             ).size
           }`,
           inline: true,
         },
         {
-          name: "Total Voice Channels",
+          name: 'Total Voice Channels',
           value: `${
             message.guild.channels.cache.filter(
-              (channel) => channel.type === "GUILD_VOICE"
+              channel => channel.type === 'GUILD_VOICE',
             ).size
           }`,
           inline: true,
         },
         {
-          name: "Created At",
+          name: 'Created At',
           value: `${message.guild.createdAt.toDateString()}`,
           inline: true,
         },
         {
-          name: "Total Roles",
+          name: 'Total Roles',
           value: `${message.guild.roles.cache.size}`,
           inline: true,
         },
         {
-          name: "Total Boosters",
+          name: 'Total Boosters',
           value: `${message.guild.premiumSubscriptionCount}`,
           inline: true,
-        }
+        },
       );
 
-    message.channel.send({ embeds: [serverinfoEmbed] });
+    message.channel.send({embeds: [serverinfoEmbed]});
   },
 };

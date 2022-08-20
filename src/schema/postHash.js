@@ -1,9 +1,9 @@
-const { Schema, model } = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 const PostHash = new Schema({
-	hash: String,
-	text: String | null,
-	img: String | null,
+  hash: String,
+  text: String | null,
+  img: String | null,
 });
 
 /**

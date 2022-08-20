@@ -1,9 +1,9 @@
-const { model, Schema } = require("mongoose");
+const {model, Schema} = require('mongoose');
 
 module.exports = model(
-	"modmail",
-	new Schema({
-		authorId: String,
-		content: Array,
-	})
+  'modmail',
+  new Schema({
+    authorId: String,
+    content: Array,
+  }),
 );

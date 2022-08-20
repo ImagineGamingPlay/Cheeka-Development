@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const {Schema, model} = require('mongoose');
 
 const BansData = new Schema({
   id: String,
@@ -15,4 +15,4 @@ const BansData = new Schema({
 /**
  * @typedef {Schema<BansData>}
  */
-module.exports.BansModel = model("Ban_Data", BansData);
+module.exports.BansModel = model('Ban_Data', BansData);

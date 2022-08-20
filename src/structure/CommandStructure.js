@@ -1,7 +1,7 @@
 // Export a default client, message and args structure
 
-const { Message } = require("discord.js");
-const client = require("../index").client;
+const {Message} = require('discord.js');
+const client = require('../index').client;
 
 exports.CommandStructure = {
   client: client,
