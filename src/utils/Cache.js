@@ -1,5 +1,3 @@
-const { model } = require("../handlers/mongoose");
-
 /**
  * @type Map<string, any>
  */
@@ -36,6 +34,11 @@ module.exports.userCache = new Map();
 module.exports.guildCache = new Map();
 
 /**
+ * @type {Map<string, PostHash}
+ */
+module.exports.hashCache = new Map();
+
+/**
  * @type {Map<string, string>}
  */
 module.exports.afkUsers = new Map();
@@ -45,4 +48,4 @@ module.exports.afkUsers = new Map();
  */
 
 //I made it so that it checks for a new video every 3 minutes, and if .video is null or .video is similar to the newest checked video's Id, it returns and won't execute the rest of the code
-module.exports.video = null
+module.exports.video = null;

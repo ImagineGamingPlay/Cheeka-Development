@@ -1,7 +1,6 @@
 const { Client, Collection, MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { description } = require('./commands/adminFunc/tips');
 
 require('dotenv').config({
 	path: path.resolve(__dirname, '../.env'),
