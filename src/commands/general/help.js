@@ -38,6 +38,7 @@ module.exports = {
         'Please select a category from the selection menu given below to view commands.',
       );
     let cat = Object.keys(categories).map(category => {
+      if(!category) return;
       return {
         label: category,
         value: 'help_' + category,
