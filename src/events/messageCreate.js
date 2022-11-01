@@ -23,6 +23,11 @@ module.exports = {
         "How dare you consider Imagine is not cool?! You gotta be banned."
       );
     }
+   if(message.content.toLowerCase().includes(...[`thanks`, `ty`, `thnx`, `thx`, `thankyou`, `thank you`])){
+      message.channel.send(
+        `Want to thank the person who helped you? Use \`.thanks @user\` and make their day`
+     );
+   }
     // Prefix is a list of prefixes as a array. Check if the message starts with any of the prefixes
     let rPrefix = prefix.reduce((acc, cur) => {
       if (message.content.startsWith(cur)) acc.push(cur);
