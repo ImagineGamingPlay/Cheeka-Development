@@ -11,7 +11,7 @@ module.exports = {
   name: 'tips',
   description: 'edit a tip to the database',
   aliases: ['tip'],
-  category: 'admin',
+  category: 'Administrator',
   usage: 'addtip <tip>',
   permissions: [Permissions.FLAGS.ADMINISTRATOR],
   run: async ({client, message, args}) => {

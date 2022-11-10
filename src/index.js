@@ -42,7 +42,7 @@ client.config = {
 client.commands = new Collection();
 client.buttons = new Collection();
 client.selectMenus = new Collection();
-
+client.slashcommands = new Collection();
 client.login(process.env.token);
 
 /* Config Files (public) */
@@ -55,6 +55,7 @@ const handlerFiles = [
   'mongoose',
   'commands',
   'events',
+  'slashcommands'
 ];
 const functionFiles = ['modmail', 'tip'];
 
@@ -64,6 +65,20 @@ for (const file of handlerFiles) {
 for (const file of functionFiles) {
   require(`./functions/${file}`);
 }
+
+console.log(`————————————————— Slash Commands ———————————————————`)
+
+fs.readdirSync(`./src/slashcommands`).forEach(subfolder => {
+  
+const slashcommandsFiles = fs.readdirSync(`./src/slashcommands/${subfolder}`).filter(file => file.endsWith('js'));
+  
+for (const file of slashcommandsFiles) {
+  const slash = require(`./slashcommands/${subfolder}/${file}`)
+  console.log(`Slash Commands - ${file} loaded.`)
+  client.slashcommands.set(slash.data.name, slash)
+}
+})
+
 
 process.on('unhandledRejection', (reason, p) => {
   if (reason?.message === 'The request is missing a valid API key.') return;

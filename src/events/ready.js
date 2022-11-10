@@ -31,7 +31,7 @@ module.exports = {
     if (guild) {
       commands = guild.commands;
     } else {
-      commands = client.appication.commands;
+      commands = client.application.commands;
     }
 
     commands.create({

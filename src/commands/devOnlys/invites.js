@@ -9,6 +9,7 @@ const {
 module.exports = {
   name: 'invites',
   aliases: ['inv'],
+  category: "Owner",
   description: 'Check invite of a user',
   /**
    *
