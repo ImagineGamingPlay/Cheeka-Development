@@ -216,6 +216,7 @@ module.exports = {
 
     // if args[0] is edit, make sure that tagName and content are provided, content can be more than 1 string so make sure to join them, Please verify that the tag is owned by the same person, if the person has permission to MANAGE_MESSAGES then allow him to edit the tag wherether not he is the tag owner or not
     if (args[0] === 'edit') {
+      const tag = tagsCache.get(args[1]);
       if (!args[1] || !args[2]) {
         return message.channel.send({
           embeds: [
@@ -256,6 +257,10 @@ module.exports = {
           owner: message.author.id,
           createdAt: new Date().toISOString(),
           guild: message.guild.id,
+          enabled: true,
+          verifiedAt: tag.verifiedAt,
+          verifiedBy: tag.verifiedBy,
+          _id: tag._id
         });
         await TagSchema.updateOne(
           {name: args[1]},
