@@ -18,6 +18,7 @@ module.exports = {
    * @returns {Promise<*>}
    */
   async execute(message, client) {
+    if(message.author?.bot) return;
     if (message.content.includes("imagine is not cool")) {
       message.channel.send(
         "How dare you consider Imagine is not cool?! You gotta be banned."
