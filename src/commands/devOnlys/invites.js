@@ -10,6 +10,7 @@ module.exports = {
   name: 'invites',
   aliases: ['inv'],
   description: 'Check invite of a user',
+  category: "General",
   /**
    *
    * @param {Client} client

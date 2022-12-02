@@ -9,6 +9,7 @@ module.exports = {
   devOnly: false,
   ownerOnly: false,
   deleteTrigger: true,
+  category: "Moderation",
   run: async ({client, message, args}) => {
     const method = args[0]; // ? Checking: Done
 
