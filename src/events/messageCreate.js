@@ -200,7 +200,9 @@ module.exports = {
       try {
         await command.run({ client, message, args }).then(async (res) => {
           if (command.deleteTrigger) {
+            setTimeout(async() => {
             await message.delete().catch(() => {});
+            }, 4000)
           }
         });
       } catch (err) {
