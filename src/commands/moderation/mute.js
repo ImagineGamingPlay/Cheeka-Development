@@ -22,7 +22,6 @@ const ms = s => {
 
 const humanize = require('pretty-ms');
 
-const {MutesModel} = require('../../schema/mutes');
 module.exports = {
   name: 'mute',
   description: 'Mute a member',
@@ -82,8 +81,8 @@ module.exports = {
         ],
       });
     }
-    // Make sure that the user doesn't already have Muted role
-    if (member.roles.cache.some(r => r.name === 'Muted')) {
+    // Make sure that the user doesn't already have timeout
+    if(member.isCommunicationDisabled()) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
@@ -113,34 +112,10 @@ module.exports = {
       .catch(() => {});
 
     // Now add mute role to the member
-    const muteRole = (await message.guild.roles.fetch()).find(
-      r => r.name === 'Muted',
-    );
-    if (!muteRole) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor('RED')
-            .setDescription(
-              `No mute role found! Please create a role called \`Muted\` and assign it to the bot.`,
-            ),
-        ],
-      });
-    }
-
-    await member.roles.add(muteRole);
+    await member.timeout(duration, reason)
+    //await member.roles.add(muteRole);
     await message.reply({
       embeds: [embed],
-    });
-    // Add user to the muted table
-    MutesModel.create({
-      id: member.id,
-      guild: message.guild.id,
-      moderator: message.author.id,
-      reason: reason,
-      active: true,
-      role: muteRole.id,
-      unmuteOn: duration ? duration + Date.now() : null,
     });
   },
 };

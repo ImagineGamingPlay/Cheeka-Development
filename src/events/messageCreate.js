@@ -135,7 +135,7 @@ module.exports = {
           return;
         }
       }
-      if (command.cooldown) {
+      if (command.cooldown && !devs.includes(message.author.id)) {
         //If cooldowns map doesn't have a command.name key then create one.
         if (!cooldowns.has(command.name)) {
           cooldowns.set(command.name, new Collection());
@@ -145,6 +145,9 @@ module.exports = {
         const time_stamps = cooldowns.get(command.name);
         const cooldown_amount = command.cooldown * 1000;
 
+        //checks if the user id is the same as the id in config.json devs
+        if(message.author.id === devs);
+        
         //If time_stamps has a key with the author's id then check the expiration time to send a message to a user.
         if (time_stamps.has(message.author.id)) {
           const expiration_time =
