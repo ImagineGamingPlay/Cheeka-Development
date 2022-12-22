@@ -26,31 +26,5 @@ module.exports = {
       client.guilds.cache.get(ban.guild).members.unban(ban.id, "Ban expired.");
       await BansModel.findOneAndUpdate({ id: ban.id }, { active: false });
     }
-    // Unmute all users
-    for (const mute of mutes) {
-      // Fetch every user that is muted
-      client.guilds.cache
-        .get(mute.guild)
-        .members.fetch(mute.id)
-        .then(async (member) => {
-          // Unmute the user
-          await member.roles.remove(mute.role);
-          // Update the mute to inactive
-          await MutesModel.findOneAndUpdate({ id: mute.id }, { active: false });
-          // Send message to the user
-          member.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor("GREEN")
-                .setDescription(
-                  `Your mute has expired! You're able to talk again!`
-                ),
-            ],
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
   },
 };

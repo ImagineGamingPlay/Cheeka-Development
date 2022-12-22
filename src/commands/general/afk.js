@@ -47,6 +47,7 @@ module.exports = {
     });
     // Modify the user's username and set it to [AFK] $username, if the total length of the username exceeds 32, cut the username to 32 characters by removing ends
     try {
+      if(!message.member.nickname.includes("[AFK]")) {
       await message.member.setNickname(
         `[AFK] ${
           message.member.displayName.length > 32
@@ -54,6 +55,18 @@ module.exports = {
             : message.member.displayName
         }`,
       );
+      } else {
+        message.reply({
+          embeds: [
+            new MessageEmbed()
+              .setColor('RANDOM')
+              .setTitle('AFK!')
+              .setDescription(`I've set you to be AFK.`)
+              .addField('User', message.member.displayName, false)
+              .addField('Reason', reason, false),
+          ],
+        });
+      }
     } catch (ignored) {}
     // Send the message saying set as AFK
     return message.reply({

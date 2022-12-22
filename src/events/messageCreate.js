@@ -10,6 +10,8 @@ const {
   tagsCache,
 } = require("../utils/Cache");
 
+const moment = require("moment");
+
 module.exports = {
   name: "messageCreate",
   /**
@@ -47,8 +49,11 @@ module.exports = {
       }
     }
     if (afkUsers.has(message.author.id)) {
+      
       // Get the user's previous username
       let user = afkUsers.get(message.author.id);
+      //uses the package moment to compate some stuff.
+      let timeAgo = moment(user.timestamp).fromNow()
       // Set the user's username back to their previous username
       try {
         await message.member.setNickname(user.username);
@@ -57,7 +62,18 @@ module.exports = {
       afkUsers.delete(message.author.id);
       // Reply to the user that they are no longer afk
       message.reply({
-        embeds: [new MessageEmbed().setColor("GREEN").setTitle("AFK Removed!")],
+        embeds: [
+          new MessageEmbed()
+          .setTitle("AFK Removed")
+          .setColor("GREEN")
+          .setDescription(
+            `Welcome back ${message.member} I have removed your afk!`
+          )
+          .addFields(
+            { name: `You have afked for:`, value: `${timeAgo}` },
+            { name: `Your message:`, value: `${user.reason}` }
+          )
+        ],
       });
     }
     if (!message.author?.bot) {
@@ -135,7 +151,7 @@ module.exports = {
           return;
         }
       }
-      if (command.cooldown) {
+      if (command.cooldown && !devs.includes(message.author.id)) {
         //If cooldowns map doesn't have a command.name key then create one.
         if (!cooldowns.has(command.name)) {
           cooldowns.set(command.name, new Collection());
@@ -144,6 +160,9 @@ module.exports = {
         const current_time = Date.now();
         const time_stamps = cooldowns.get(command.name);
         const cooldown_amount = command.cooldown * 1000;
+
+        //checks if the user id is the same as the id in config.json devs
+        if(message.author.id === devs);
 
         //If time_stamps has a key with the author's id then check the expiration time to send a message to a user.
         if (time_stamps.has(message.author.id)) {
@@ -200,7 +219,9 @@ module.exports = {
       try {
         await command.run({ client, message, args }).then(async (res) => {
           if (command.deleteTrigger) {
+            setTimeout(async() => {
             await message.delete().catch(() => {});
+            }, 4000)
           }
         });
       } catch (err) {

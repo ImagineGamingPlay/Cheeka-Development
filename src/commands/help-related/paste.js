@@ -1,7 +1,8 @@
-const {MessageEmbed} = require('discord.js');
-const {CommandStructure} = require('../../structure/CommandStructure');
+const { MessageEmbed } = require('discord.js');
+const { CommandStructure } = require('../../structure/CommandStructure');
 const fetch = require('node-fetch');
 const prettier = require('prettier');
+const { create, get, url } = require('sourcebin');
 
 module.exports = {
   name: 'paste',
@@ -12,12 +13,18 @@ module.exports = {
    * @param {CommandStructure}
    * @returns {Promise<*>}
    */
-  run: async ({client, message, args}) => {
+  run: async ({ client, message, args }) => {
     // Make sure that the user has replied to some message
     try {
-      let repliedMessage = await message.fetchReference();
+      let repliedMessage = await message.fetchReference().catch(() => { });
       if (!repliedMessage) {
-        throw new Error('You need to reply to a message!');
+        return message.reply({
+          embeds: [
+            new MessageEmbed()
+              .setColor('RED')
+              .setDescription(`You must reply to a message!`),
+          ],
+        });
       }
 
       let content = repliedMessage.content
@@ -76,35 +83,15 @@ module.exports = {
         });
       }
 
-      // Try to format the content with prettier
-      try {
-        content = prettier.format(content, {
-          parser: 'typescript',
-          semi: false,
-          singleQuote: false,
-          trailingComma: 'none',
-          printWidth: 100,
-          tabWidth: 2,
-          bracketSpacing: true,
-          arrowParens: 'always',
-          endOfLine: 'lf',
-        });
-      } catch (e) {
-        console.log(e);
-      }
-      // Paste the message in hastebin
-      let response = await fetch(
-        'https://www.toptal.com/developers/hastebin/documents',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: content,
-        },
-      );
-      let json = await response.json();
-      let url = `https://www.toptal.com/developers/hastebin/${json.key}.js`;
+      // Making the content into a source bin
+      let url = await create({
+        title: "code",
+        files: [
+          {
+            content: content
+          }
+        ]
+      })
       console.log(url);
       return message.channel.send({
         embeds: [
@@ -120,13 +107,6 @@ module.exports = {
     } catch (e) {
       // Reply with a message embed saying you must reply to a message
       console.log(e);
-      return message.reply({
-        embeds: [
-          new MessageEmbed()
-            .setColor('RED')
-            .setDescription(`You must reply to a message!`),
-        ],
-      });
     }
   },
 };
