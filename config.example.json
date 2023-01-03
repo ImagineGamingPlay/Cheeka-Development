@@ -1,23 +1,35 @@
 {
-	"prefix": [""],
-	"devs": [""]
-	"mainGuildID": "",
-	"guilds": [""],
-	"disabledCategoriesForTip": [""],
-	"evalLogChannel": "",
+  "prefix": [
+    ""
+  ],
+  "devs": [
+    ""
+  ],
+  "mainGuildID": "",
+  "guilds": [
+    ""
+  ],
+  "disabledCategoriesForTip": [
+    ""
+  ],
+  "evalLogChannel": "",
   "welcomeChannel": "",
-	"chadRoleTest": "",
-	"afkDisabledChannels": [""],
-	"emojiReactionChannels": [""],
-	"staff": {
-		"adminRole": ""
-	},
-	"modmail": {
-		"categoryID": "",
-		"logsChannelID": "",
+  "chadRoleTest": "",
+  "afkDisabledChannels": [
+    ""
+  ],
+  "emojiReactionChannels": [
+    ""
+  ],
+  "staff": {
+    "adminRole": ""
+  },
+  "modmail": {
+    "categoryID": "",
+    "logsChannelID": "",
     "staffID": "",
     "discussion": ""
-	},
-	"messageWebHookURL": "",
+  },
+  "messageWebHookURL": "",
   "errorLogWebhookURL": ""
 }
