@@ -4,13 +4,11 @@ const {
   rulesCache,
   tagsCache,
   guildCache,
-  hashCache,
 } = require("../utils/Cache");
 const { Constants } = require("discord.js");
 const Blacklist = require("../schema/blacklist");
 const { BlacklistChannel } = require("../schema/blacklist");
 const { RulesChannel } = require("../schema/rules");
-const { PostModel } = require("../schema/postHash");
 const tags = require("../schema/tags");
 const user = require("../schema/user");
 const { userCache } = require("../utils/Cache");
@@ -24,7 +22,7 @@ module.exports = {
   async execute(client) {
     // <------------- SLASH COMMAND HANDLING START------------->
     const functionList = [{ name: "role selector", value: "role-selector" }];
-    const guildId = "952514062904860692";
+    const guildId = config.mainGuildID;
     const guild = client.guilds.cache.get(guildId);
     let commands;
 
@@ -84,34 +82,41 @@ module.exports = {
       }
     });
     //<------- AUTO CHANGING STATUS START ------->
+    let today = new Date();
+let christmasYear = today.getFullYear();
+
+if (today.getMonth() == 11 && today.getDate() > 25) {
+  christmasYear = christmasYear + 1;
+}
+
+let christmasDate = new Date(christmasYear, 11, 25);
+let dayMilliseconds = 1000 * 60 * 60 * 24;
+
+let remainingDays = Math.ceil(
+  (christmasDate.getTime() - today.getTime()) /
+   (dayMilliseconds)
+);
     const statusData = [
       {
-        name: "Imagine Gaming Play on youtube!",
+      //   name: "Imagine Gaming Play",
+      //   type: "WATCHING",
+      //   status: "ONLINE",
+      // },
+      // {
+      //   name: "IGP in a nutshell",
+      //   type: "WATCHING",
+      //   status: "ONLINE",
+      // },
+      // {
+      //   name: "Halloween",
+      //   type: "WATCHING",
+      //   status: "ONLINE",
+      // },
+        name: remainingDays + " days until Christmas 🎄",
         type: "WATCHING",
-        status: "ONLINE",
-      },
-      {
-        name: "over IGP Discord Server",
-        type: "WATCHING",
-        status: "ONLINE",
-      },
-      {
-        name: "your C: Drive",
-        type: "WATCHING",
-        status: "ONLINE",
-      },
-      {
-        name: "Youtube rewind 2018",
-        type: "WATCHING",
-        status: "ONLINE",
-      },
-      {
-        name: "you!",
-        type: "WATCHING",
-        status: "ONLINE",
-      },
+        status: "dnd",
+      }
     ];
-
     function pickStatus() {
       const random = Math.floor(Math.random() * statusData.length);
 
@@ -123,7 +128,7 @@ module.exports = {
               type: statusData[random].type,
             },
           ],
-          status: statusData[random].status,
+          // status: statusData[random].status,
         });
       } catch (err) {
         console.error(err);
@@ -131,7 +136,7 @@ module.exports = {
     }
 
     setInterval(pickStatus, 10 * 1000);
-
+    console.log(client.user.setStatus("dnd"))
     //<------- AUTO CHANGING STATUS END ------->
     Blacklist.find({}, (err, data) => {
       if (err) {
@@ -198,15 +203,6 @@ module.exports = {
       }
       data.forEach((de) => {
         guildCache.set(de.id, de);
-      });
-    });
-
-    PostModel.find({}, (err, data) => {
-      if (err) {
-        console.error(err);
-      }
-      data.forEach((de) => {
-        hashCache.set(de.hash, de);
       });
     });
   },

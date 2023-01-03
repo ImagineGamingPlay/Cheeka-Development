@@ -1,41 +1,41 @@
-const {MessageEmbed} = require('discord.js');
-const {afkUsers} = require('../../utils/Cache');
+const { MessageEmbed } = require("discord.js");
+const { afkUsers } = require("../../utils/Cache");
 const CommandStructure =
-  require('../../structure/CommandStructure').CommandStructure;
+  require("../../structure/CommandStructure").CommandStructure;
 module.exports = {
-  name: 'afk',
-  description: 'Marks you away from keyboard.',
-  aliases: ['away'],
+  name: "afk",
+  description: "Marks you away from keyboard.",
+  aliases: ["away"],
   permissions: [],
-  disabledChannel: ['743528053019508848'], //main chat
-  category: 'General',
+  disabledChannel: config.afkDisabledChannels, 
+  category: "General",
   cooldown: 120,
   /**
    *
    * @param {CommandStructure}
    * @returns {Promise<*>}
    */
-  run: async ({client, message, args}) => {
+  run: async ({ client, message, args }) => {
     // Make sure the user is not already afk
     if (afkUsers.has(message.author.id)) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor('RED')
-            .setDescription('You are already afk!'),
+            .setColor("RED")
+            .setDescription("You are already afk!"),
         ],
       });
     }
     // Check if the user has provided a reason, it can be more than one word but must be less than 50
-    let reason = args.join(' ');
-    if (reason === '') reason = 'No reason provided.';
+    let reason = args.join(" ");
+    if (reason === "") reason = "No reason provided.";
     if (reason.length > 60) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor('RED')
+            .setColor("RED")
             .setDescription(
-              'Your reason is too long! You can only provide 60 characters!',
+              "Your reason is too long! You can only provide 60 characters!"
             ),
         ],
       });
@@ -52,18 +52,18 @@ module.exports = {
           message.member.displayName.length > 32
             ? message.member.displayName.slice(0, 32)
             : message.member.displayName
-        }`,
+        }`
       );
     } catch (ignored) {}
     // Send the message saying set as AFK
     return message.reply({
       embeds: [
         new MessageEmbed()
-          .setColor('RANDOM')
-          .setTitle('AFK!')
+          .setColor("RANDOM")
+          .setTitle("AFK!")
           .setDescription(`I've set you to be AFK.`)
-          .addField('User', message.member.displayName, false)
-          .addField('Reason', reason, false),
+          .addField("User", message.member.displayName, false)
+          .addField("Reason", reason, false),
       ],
     });
   },
