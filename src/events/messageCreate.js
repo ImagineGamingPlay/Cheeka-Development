@@ -79,7 +79,7 @@ module.exports = {
  		  temperature: 0.5
                 })).data.choices[0].text; //get the response text
     
-                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 2) {
+                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 1) {
                    if(!openaiCooldowns.has("cooldown")) message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
 		   openaiCooldowns.add("cooldown");
 		   setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
