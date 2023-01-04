@@ -96,7 +96,7 @@ module.exports = {
         enabled: false,
       });
       let id = tag._id.valueOf();
-      client.channels.fetch('972362384872189972').then(channel => {
+      client.channels.fetch(config.tagVerificationChannel).then(channel => {
         let messageEmbed = new MessageEmbed()
           .setTitle('New Tag Submission')
           // Set description as the content
