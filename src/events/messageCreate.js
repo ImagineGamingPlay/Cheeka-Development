@@ -4,7 +4,9 @@ const { Collection, MessageEmbed, Permissions } = require('discord.js');
 const cooldowns = new Map();
 //Blacklist system
 const { blackListCache, cBlackListCache, afkUsers, tagsCache } = require('../utils/Cache');
-
+//OpenAI stuff
+let openai = require("openai");
+openai = new openai.OpenAIApi(new openai.Configuration({apiKey: process.env.OPENAI_API_KEY}));
 module.exports = {
 	name: 'messageCreate',
 	/**
@@ -35,6 +37,16 @@ module.exports = {
 				});
 			}
 		}
+		//openai checks
+                let botOffline = (await openai.createCompletion({
+                  model: "text-davinci-002",
+ 		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no".`,
+ 		  temperature: 0.5
+                })).response.data.choices[0].text; //get the response text
+    
+                if(response.replaceAll("\n", "").toLowerCase() === "yes") {
+                   message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
+                }
 		if (afkUsers.has(message.author.id)) {
 			// Get the user's previous username
 			let user = afkUsers.get(message.author.id);
