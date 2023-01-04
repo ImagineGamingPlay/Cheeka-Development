@@ -2,9 +2,8 @@ const { prefix, devs } = require('../../config.json');
 const { Collection, MessageEmbed, Permissions } = require('discord.js');
 //Create cooldowns map
 const cooldowns = new Map();
-const openaiCooldowns = new Set();
 //Blacklist system
-const { blackListCache, cBlackListCache, afkUsers, tagsCache } = require('../utils/Cache');
+const { blackListCache, cBlackListCache, afkUsers, tagsCache, openaiCooldowns } = require('../utils/Cache');
 //OpenAI stuff
 let openai = require("openai");
 openai = new openai.OpenAIApi(new openai.Configuration({apiKey: process.env.OPENAI_API_KEY}));
