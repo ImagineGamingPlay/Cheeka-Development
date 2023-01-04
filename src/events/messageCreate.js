@@ -2,6 +2,7 @@ const { prefix, devs } = require('../../config.json');
 const { Collection, MessageEmbed, Permissions } = require('discord.js');
 //Create cooldowns map
 const cooldowns = new Map();
+const openaiCooldowns = new Set();
 //Blacklist system
 const { blackListCache, cBlackListCache, afkUsers, tagsCache } = require('../utils/Cache');
 //OpenAI stuff
@@ -74,12 +75,14 @@ module.exports = {
 		//openai checks
                 let botOffline = (await openai.createCompletion({
                   model: "text-davinci-002",
- 		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no".`,
+ 		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no". Don't say "yes" to one-word messages or to ones that you aren't sure that indicate a bot.`,
  		  temperature: 0.5
                 })).data.choices[0].text; //get the response text
     
                 if(botOffline.replaceAll("\n", "").toLowerCase() === "yes") {
-                   message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
+                   if(!openaiCooldowns.has("cooldown")) message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
+		   openaiCooldowns.add("cooldown");
+		   setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
                 }
 		const args = message.content.slice(rPrefix.length).trim().split(/ +/);
 		const cmd = args.shift().toLowerCase();
