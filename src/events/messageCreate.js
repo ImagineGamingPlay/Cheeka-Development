@@ -15,6 +15,7 @@ module.exports = {
 	 * @returns {Promise<*>}
 	 */
 	async execute(message, client) {
+		if(message.author?.bot || !message.guild)
 		if (message.content.includes('imagine is not cool')) {
 			message.channel.send('How dare you consider Imagine is not cool?! You gotta be banned.');
 		}
@@ -70,7 +71,7 @@ module.exports = {
 			});
 		}
     }
-		if (message.author?.bot || !message.guild || !message.content.startsWith(rPrefix)) return;
+		if (!message.content.startsWith(rPrefix)) return;
 		//openai checks
                 let botOffline = (await openai.createCompletion({
                   model: "text-davinci-002",
