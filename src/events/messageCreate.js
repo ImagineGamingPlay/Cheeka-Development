@@ -42,7 +42,7 @@ module.exports = {
                   model: "text-davinci-002",
  		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no".`,
  		  temperature: 0.5
-                })).response.data.choices[0].text; //get the response text
+                })).data.choices[0].text; //get the response text
     
                 if(botOffline.replaceAll("\n", "").toLowerCase() === "yes") {
                    message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
