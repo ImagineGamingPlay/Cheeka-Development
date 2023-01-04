@@ -14,6 +14,10 @@ module.exports.cBlackListCache = new Map();
 module.exports.rulesCache = new Map();
 
 /**
+ * @type {Set}
+*/
+module.exports.openaiCooldowns = new Set();
+/**
  * @type {Map<string, TagSchema}
  */
 module.exports.tagsCache = new Map();
