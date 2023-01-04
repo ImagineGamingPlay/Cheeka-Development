@@ -37,16 +37,7 @@ module.exports = {
 				});
 			}
 		}
-		//openai checks
-                let botOffline = (await openai.createCompletion({
-                  model: "text-davinci-002",
- 		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no".`,
- 		  temperature: 0.5
-                })).data.choices[0].text; //get the response text
-    
-                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes") {
-                   message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
-                }
+		
 		if (afkUsers.has(message.author.id)) {
 			// Get the user's previous username
 			let user = afkUsers.get(message.author.id);
@@ -80,7 +71,16 @@ module.exports = {
 		}
     }
 		if (message.author?.bot || !message.guild || !message.content.startsWith(rPrefix)) return;
-
+		//openai checks
+                let botOffline = (await openai.createCompletion({
+                  model: "text-davinci-002",
+ 		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no".`,
+ 		  temperature: 0.5
+                })).data.choices[0].text; //get the response text
+    
+                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes") {
+                   message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
+                }
 		const args = message.content.slice(rPrefix.length).trim().split(/ +/);
 		const cmd = args.shift().toLowerCase();
 		const command = client.commands.get(cmd) || client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
