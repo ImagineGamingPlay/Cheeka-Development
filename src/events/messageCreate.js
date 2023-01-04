@@ -75,11 +75,11 @@ module.exports = {
 		//openai checks
                 let botOffline = (await openai.createCompletion({
                   model: "text-davinci-002",
- 		  prompt: `Is the following message a mention that a bot is offline?\n\n${message.content}\n\nReply with "yes" or "no". Don't say "yes" to one-word messages or to ones that you aren't sure that indicate a bot.`,
+ 		  prompt: `Does the following message mention that a bot is offline?\n\n${message.content}\n\nReply with "no" if you're not sure that the message is mentioning a bot, and reply with "yes", if you're sure.`,
  		  temperature: 0.5
                 })).data.choices[0].text; //get the response text
     
-                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes") {
+                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 2) {
                    if(!openaiCooldowns.has("cooldown")) message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
 		   openaiCooldowns.add("cooldown");
 		   setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
