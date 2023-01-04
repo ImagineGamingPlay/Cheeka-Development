@@ -44,7 +44,7 @@ module.exports = {
  		  temperature: 0.5
                 })).response.data.choices[0].text; //get the response text
     
-                if(response.replaceAll("\n", "").toLowerCase() === "yes") {
+                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes") {
                    message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
                 }
 		if (afkUsers.has(message.author.id)) {
