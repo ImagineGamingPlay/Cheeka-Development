@@ -6,7 +6,8 @@ const cooldowns = new Map();
 const { blackListCache, cBlackListCache, afkUsers, tagsCache, openaiCooldowns } = require('../utils/Cache');
 //OpenAI stuff
 let openai = require("openai");
-openai = new openai.OpenAIApi(new openai.Configuration({apiKey: process.env.OPENAI_API_KEY}));
+openai = new openai.OpenAIApi(new openai.Configuration({ apiKey: process.env.OPENAI_API_KEY }));
+const moment = require("moment");
 module.exports = {
 	name: 'messageCreate',
 	/**
@@ -15,10 +16,10 @@ module.exports = {
 	 * @returns {Promise<*>}
 	 */
 	async execute(message, client) {
-		if(message.author?.bot || !message.guild)
-		if (message.content.includes('imagine is not cool')) {
-			message.channel.send('How dare you consider Imagine is not cool?! You gotta be banned.');
-		}
+		if (message.author?.bot || !message.guild)
+			if (message.content.includes('imagine is not cool')) {
+				message.channel.send('How dare you consider Imagine is not cool?! You gotta be banned.');
+			}
 		// Prefix is a list of prefixes as a array. Check if the message starts with any of the prefixes
 		let rPrefix = prefix.reduce((acc, cur) => {
 			if (message.content.startsWith(cur)) acc.push(cur);
@@ -38,14 +39,14 @@ module.exports = {
 				});
 			}
 		}
-		
+
 		if (afkUsers.has(message.author.id)) {
 			// Get the user's previous username
 			let user = afkUsers.get(message.author.id);
 			// Set the user's username back to their previous username
 			try {
 				await message.member.setNickname(user.username);
-			} catch (ignored) {}
+			} catch (ignored) { }
 			// Remove the user from the afkUsers map
 			afkUsers.delete(message.author.id);
 			// Reply to the user that they are no longer afk
@@ -54,36 +55,49 @@ module.exports = {
 			});
 		}
 		if (!message.author?.bot) {
-    if(message.mentions.members) {
-			message.mentions.members.forEach((user) => {
-				if (afkUsers.has(user.id)) {
-					let userA = afkUsers.get(user.id);
-					message.reply({
-						embeds: [
-							new MessageEmbed()
-								.setColor('RANDOM')
-								.setTitle(`User AFK`)
-								.addField('User', user.user.tag, false)
-								.addField('Reason', userA.reason, false),
-						],
-					});
-				}
-			});
+			if (message.mentions.members) {
+				message.mentions.members.forEach((user) => {
+					if (afkUsers.has(user.id)) {
+						let userA = afkUsers.get(user.id);
+						message.reply({
+							embeds: [
+								new MessageEmbed()
+									.setColor('RANDOM')
+									.setTitle(`User AFK`)
+									.addField('User', user.user.tag, false)
+									.addField('Reason', userA.reason, false),
+							],
+						});
+					}
+				});
+			}
 		}
-    }
 		if (!message.content.startsWith(rPrefix)) return;
 		//openai checks
-                let botOffline = (await openai.createCompletion({
-                  model: "text-davinci-002",
- 		  prompt: `Does the following message mention that a bot is offline?\n\n${message.content}\n\nReply with "no" if you're not sure that the message is mentioning a bot, and reply with "yes", if you're sure.`,
- 		  temperature: 0.5
-                })).data.choices[0].text; //get the response text
-    
-                if(botOffline.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 1) {
-                   if(!openaiCooldowns.has("cooldown")) message.reply({content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }]});
-		   openaiCooldowns.add("cooldown");
-		   setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
-                }
+		let botOffline = (await openai.createCompletion({
+			model: "text-davinci-002",
+			prompt: `Does the following message mention that a bot is offline?\n\n${message.content}\n\nReply with "no" if you're not sure that the message is mentioning a bot, and reply with "yes", if you're sure.`,
+			temperature: 0.5
+		})).data.choices[0].text; //get the response text
+		
+		let disabledCategories = [
+			"743528045658374204", //Community
+			"936233447503044618", //Member Codes
+			"936247915230425118", //Show Case
+			"937321789384704010", //Free lancing
+			"811276960608419860", // Coding Guides
+			"743528047365586956"  // Information
+		]
+		let getMessageCategoryId = message.guild.channels.cache.get(message.parentId); // Getting the message Parent Id and then checking if the disabledCategories Array is the same as the one or not.
+		if (getMessageCategoryId.parentId === disabledCategories) {
+			return message.channel.send(`Please refer to the category Get Help Here or the channel <#743528055938744360> for your discord bot help!`)
+		}
+
+		if (botOffline.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 1) {
+			if (!openaiCooldowns.has("cooldown")) message.reply({ content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }] });
+			openaiCooldowns.add("cooldown");
+			setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
+		}
 		const args = message.content.slice(rPrefix.length).trim().split(/ +/);
 		const cmd = args.shift().toLowerCase();
 		const command = client.commands.get(cmd) || client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
@@ -107,7 +121,7 @@ module.exports = {
 			let a = await message.reply('You are not allowed to use commands in this channel!');
 			setTimeout(() => {
 				a.delete();
-				message.delete().catch(() => {});
+				message.delete().catch(() => { });
 			}, 5000);
 			return;
 		}
@@ -123,7 +137,7 @@ module.exports = {
 					let a = await message.reply('This command is disabled in this channel!');
 					setTimeout(() => {
 						a.delete();
-						message.delete().catch(() => {});
+						message.delete().catch(() => { });
 					}, 5000);
 					return;
 				}
@@ -178,7 +192,7 @@ module.exports = {
 			try {
 				await command.run({ client, message, args }).then(async (res) => {
 					if (command.deleteTrigger) {
-						await message.delete().catch(() => {});
+						await message.delete().catch(() => { });
 					}
 				});
 			} catch (err) {
