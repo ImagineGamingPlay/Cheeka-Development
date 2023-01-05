@@ -38,6 +38,7 @@ module.exports = {
 		code = code.replace(/```js/g, "");
 		code = code.replace(/```/g, "");
 		code = code.replace(/token/g, "[Something Important]");
+		code = code.replace(/console.log/g, 'log')
 
 		try {
 			let evalCode = code.includes(`await`) ? `;(async () => { ${code} })()` : code;
@@ -79,3 +80,8 @@ module.exports = {
 		}
 	},
 };
+
+function log(text){
+	console.log(text)
+	return text;
+}
