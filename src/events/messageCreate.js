@@ -79,7 +79,11 @@ module.exports = {
 			prompt: `Does the following message mention that a bot is offline?\n\n${message.content}\n\nReply with "no" if you're not sure that the message is mentioning a bot, and reply with "yes", if you're sure.`,
 			temperature: 0.5
 		})).data.choices[0].text; //get the response text
-		
+		let noReply = (await openai.createCompletion({
+			model: "text-davinci-002",
+			prompt: `Does the following message mention that a bot isnt replying to their message?\n\n${message.content}\n\nReply with "no" if you're not sure that the message is mentioning a bot, and reply with "yes", if you're sure.`,
+			temperature: 0.5
+		}))
 		let disabledCategories = [
 			"743528045658374204", //Community
 			"936233447503044618", //Member Codes
@@ -95,6 +99,11 @@ module.exports = {
 
 		if (botOffline.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 1) {
 			if (!openaiCooldowns.has("cooldown")) message.reply({ content: tagsCache.get("bo").content, allowedMentions: [{ repliedUser: false, everyone: false }] });
+			openaiCooldowns.add("cooldown");
+			setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
+		}
+		if (noReply.replaceAll("\n", "").toLowerCase() === "yes" && message.content.split(" ").length > 1) {
+			if (!openaiCooldowns.has("cooldown")) message.reply({ content: tagsCache.get("de").content, allowedMentions: [{ repliedUser: false, everyone: false }] });
 			openaiCooldowns.add("cooldown");
 			setTimeout(() => openaiCooldowns.delete("cooldown"), 60000);
 		}
