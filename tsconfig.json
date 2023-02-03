@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "strict": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "noPropertyAccessFromIndexSignature": true
+  },
+  "include": ["src/**/*", "environment.d.ts", "config.json"]
+}
