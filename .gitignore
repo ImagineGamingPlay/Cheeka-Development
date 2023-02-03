@@ -1,3 +1,6 @@
+# Unwanted items
+dist/
 node_modules/
 
+# Secrets
 .env

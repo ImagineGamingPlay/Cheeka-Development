@@ -3,4 +3,4 @@ import { Cheeka } from "./lib/classes/Cheeka";
 
 const client = new Cheeka();
 
-client.init();
+client.deploy();

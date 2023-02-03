@@ -1,13 +1,10 @@
-const ENV = process.env.NODE_ENV;
-const PROD_TOKEN = process.env.PROD_BOT_TOKEN;
-const DEV_TOKEN = process.env.DEV_BOT_TOKEN;
-const PROD_CLIENT_ID = process.env.PROD_CLIENT_ID;
-const DEV_CLIENT_ID = process.env.DEV_CLIENT_ID;
+import { ConfigType, EnvironmentType } from "./types";
 
-export interface ConfigType {
-  token: string;
-  clientId: string;
-}
+const ENV: "dev" | "prod" = process.env.NODE_ENV as EnvironmentType;
+const PROD_TOKEN = process.env.PROD_BOT_TOKEN as string;
+const DEV_TOKEN = process.env.DEV_BOT_TOKEN as string;
+const PROD_CLIENT_ID = process.env.PROD_CLIENT_ID as string;
+const DEV_CLIENT_ID = process.env.DEV_CLIENT_ID as string;
 
 export const config: ConfigType = {
   token: ENV?.toLowerCase() == "prod" ? PROD_TOKEN : DEV_TOKEN,
