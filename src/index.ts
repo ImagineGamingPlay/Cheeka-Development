@@ -1,6 +1,6 @@
-import "dotenv/config";
-import { Cheeka } from "./lib/classes/Cheeka";
+import 'dotenv/config';
+import { Cheeka } from './lib/classes/Cheeka';
 
-const client = new Cheeka();
+export const client = new Cheeka();
 
 client.deploy();
