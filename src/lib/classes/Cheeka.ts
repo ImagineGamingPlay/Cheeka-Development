@@ -39,9 +39,8 @@ export class Cheeka extends Client {
     }
     await this.connect().catch(err => logger.error(err));
     await handleEvents();
-    // await registerCommands();
 
     logger.success(`Client deployed!`);
-    logger.info(`Environment: ${process.env.NODE_ENV}`);
+    logger.info(`Environment: ${this.config.environment}`);
   }
 }

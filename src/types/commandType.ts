@@ -1,5 +1,4 @@
 import {
-  ApplicationCommandOptions,
   ChatInputApplicationCommandStructure,
   CommandInteraction,
   InteractionDataOptions,

@@ -1,16 +1,16 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 
 const convertTime12to24 = (time12h: string): string => {
-  const [time, modifier] = time12h.split(" ");
+  const [time, modifier] = time12h.split(' ');
 
   // eslint-disable-next-line prefer-const
-  let [hours, minutes, seconds] = time.split(":");
+  let [hours, minutes, seconds] = time.split(':');
 
-  if (hours === "12") {
-    hours = "00";
+  if (hours === '12') {
+    hours = '00';
   }
 
-  if (modifier === "PM") {
+  if (modifier === 'PM') {
     hours = (parseInt(hours, 10) + 12).toString();
   }
 
@@ -29,21 +29,21 @@ const generateTimestamp = (): string => {
 const info = (message: string) => {
   const rawTimestamp = generateTimestamp();
   const coloredTimestamp = chalk.gray(`[${rawTimestamp}]`);
-  const status = chalk.bgBlueBright.bold(" INFO ");
-  const msg = chalk.blue(message);
+  const status = chalk.bgBlueBright.bold(' INFO ');
+  const msg = chalk.blueBright(message);
   console.log(`\n${coloredTimestamp} ${status} ${msg}`);
 };
 const success = (message: string) => {
   const rawTimestamp = generateTimestamp();
   const coloredTimestamp = chalk.gray(`[${rawTimestamp}]`);
-  const status = chalk.bgGreenBright.bold(" SUCCESS ");
+  const status = chalk.bgGreenBright.bold(' SUCCESS ');
   const msg = chalk.green(message);
   console.log(`\n${coloredTimestamp} ${status} ${msg}`);
 };
 const error = (message: string) => {
   const rawTimestamp = generateTimestamp();
   const coloredTimestamp = chalk.gray(`[${rawTimestamp}]`);
-  const status = chalk.bgRedBright.bold(" ERROR ");
+  const status = chalk.bgRedBright.bold(' ERROR ');
   const msg = chalk.red(message);
   console.log(`\n${coloredTimestamp} ${status} ${msg}`);
 };
@@ -51,7 +51,7 @@ const error = (message: string) => {
 const warn = (message: string) => {
   const rawTimestamp = generateTimestamp();
   const coloredTimestamp = chalk.gray(`[${rawTimestamp}]`);
-  const status = chalk.bgYellowBright.bold(" WARN ");
+  const status = chalk.bgYellowBright.bold(' WARN ');
   const msg = chalk.yellow(message);
   console.log(`\n${coloredTimestamp} ${status} ${msg}`);
 };

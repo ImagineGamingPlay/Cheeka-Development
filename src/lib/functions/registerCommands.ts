@@ -22,11 +22,22 @@ export const registerCommands = async () => {
     client.commands.set(command.name, command);
 
     commands.forEach(async command => {
-      await client
-        .createCommand(command)
-        .then(() =>
-          logger.success(`Registered Application (/) Command: ${command.name}`)
-        );
+      if (client.config.environment == 'dev') {
+        await client
+          .createGuildCommand(client.config.devGuildId, command)
+          .then(() =>
+            logger.success(
+              `Registered Guild Application (/) Command: ${command.name}`
+            )
+          );
+      }
+      if (client.config.environment == 'prod') {
+        await client
+          .createCommand(command)
+          .then(() =>
+            logger.success(`Registered Application (/) Command: ${command.name}`)
+          );
+      }
     });
   });
 };

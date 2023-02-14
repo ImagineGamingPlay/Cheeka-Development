@@ -6,13 +6,16 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      NODE_ENV: "dev" | "prod";
+      NODE_ENV: 'dev' | 'prod';
 
       DEV_BOT_TOKEN: string;
       PROD_BOT_TOKEN: string;
 
       DEV_CLIENT_ID: string;
       PROD_CLIENT_ID: string;
+
+      DEV_GUILD_ID: string;
+      MAIN_GUILD_ID: string;
 
       DB_URI: string;
     }
