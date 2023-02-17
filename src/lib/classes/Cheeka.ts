@@ -1,15 +1,10 @@
-import { Client, ClientOptions, Collection } from 'eris';
-import { glob } from 'glob';
-import { promisify } from 'util';
+import { Client, ClientOptions } from 'eris';
 import { handleEvents } from '..';
 import { config } from '../../config';
+import { promoTimeout } from '../../features';
 import { CommandType } from '../../types';
 import { logger } from '../../utils';
-import { registerCommands } from '../functions/registerCommands';
 import { ConfigType } from './../../types/configType';
-import { Command } from './Command';
-
-const globPromise = promisify(glob);
 
 const clientOptions: ClientOptions = {
   intents: ['guilds', 'guildMessages', 'directMessages', 'guildMembers'],
@@ -39,6 +34,7 @@ export class Cheeka extends Client {
     }
     await this.connect().catch(err => logger.error(err));
     await handleEvents();
+    promoTimeout();
 
     logger.success(`Client deployed!`);
     logger.info(`Environment: ${this.config.environment}`);
