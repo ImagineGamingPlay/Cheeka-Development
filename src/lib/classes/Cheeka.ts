@@ -1,4 +1,4 @@
-import { Client, ClientOptions } from 'eris';
+import { ActivityPartial, BotActivityType, Client, ClientOptions } from 'eris';
 import { handleEvents } from '..';
 import { config } from '../../config';
 import { promoTimeout } from '../../features';
@@ -14,6 +14,26 @@ const clientOptions: ClientOptions = {
     users: true,
     repliedUser: true,
   },
+};
+
+const setActivityStatus = (client: Cheeka) => {
+  const activities: ActivityPartial<BotActivityType>[] = [
+    {
+      name: "Minecraft on IGP's MC Server!",
+      type: 0,
+    },
+    {
+      name: "your queries on IGP's server!",
+      type: 2,
+    },
+    {
+      name: "IGP's video on YouTube!",
+      type: 3,
+    },
+  ];
+  const { floor, random } = Math;
+  const randomActivityIndex = floor(random() * (activities.length + 1));
+  client.editStatus('online', activities[randomActivityIndex]);
 };
 
 export class Cheeka extends Client {
@@ -35,7 +55,7 @@ export class Cheeka extends Client {
     await this.connect().catch(err => logger.error(err));
     await handleEvents();
     promoTimeout();
-
+    setActivityStatus(this);
     logger.success(`Client deployed!`);
     logger.info(`Environment: ${this.config.environment}`);
   }
