@@ -1,16 +1,21 @@
 import {
-  ChatInputApplicationCommandStructure,
+  ChatInputApplicationCommandData,
   CommandInteraction,
-  InteractionDataOptions,
-} from 'eris';
+  CommandInteractionOptionResolver,
+  GuildMember,
+} from 'discord.js';
 import { Cheeka } from '../lib';
+
+export interface ModifiedCommandInteraction extends CommandInteraction {
+  member: GuildMember;
+}
 
 export interface RunParams {
   client: Cheeka;
-  interaction: CommandInteraction;
-  options?: InteractionDataOptions[];
+  interaction: ModifiedCommandInteraction;
+  options?: CommandInteractionOptionResolver;
 }
 
-export interface CommandType extends ChatInputApplicationCommandStructure {
+export interface CommandType extends ChatInputApplicationCommandData {
   run: (options: RunParams) => Promise<void>;
 }

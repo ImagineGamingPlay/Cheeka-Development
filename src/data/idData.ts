@@ -1,5 +1,5 @@
 export const channels = {};
 
 export const categories = {
-  promotionCategoryId: '1076494954811097109',
+  promotionCategoryId: '1096022509406658692',
 };

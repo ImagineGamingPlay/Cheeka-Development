@@ -1,4 +1,12 @@
-import { ActivityPartial, BotActivityType, Client, ClientOptions } from 'eris';
+import {
+  ClientOptions,
+  GatewayIntentBits,
+  Client,
+  ActivitiesOptions,
+  ActivityType,
+  PresenceUpdateStatus,
+  Collection,
+} from 'discord.js';
 import { handleEvents } from '..';
 import { config } from '../../config';
 import { promoTimeout } from '../../features';
@@ -6,55 +14,51 @@ import { CommandType } from '../../types';
 import { logger } from '../../utils';
 import { ConfigType } from './../../types/configType';
 
+const { Guilds, GuildMessages, DirectMessages, GuildMembers } = GatewayIntentBits;
 const clientOptions: ClientOptions = {
-  intents: ['guilds', 'guildMessages', 'directMessages', 'guildMembers'],
+  intents: [Guilds, GuildMessages, DirectMessages, GuildMembers],
   allowedMentions: {
-    everyone: false,
-    roles: false,
-    users: true,
     repliedUser: true,
   },
 };
 
 const setActivityStatus = (client: Cheeka) => {
-  const activities: ActivityPartial<BotActivityType>[] = [
+  const activities: ActivitiesOptions[] = [
     {
       name: "Minecraft on IGP's MC Server!",
-      type: 0,
+      type: ActivityType.Playing,
     },
     {
-      name: "your queries on IGP's server!",
-      type: 2,
+      name: "to your queries on IGP's server!",
+      type: ActivityType.Listening,
     },
     {
       name: "IGP's video on YouTube!",
-      type: 3,
+      type: ActivityType.Watching,
     },
   ];
   const { floor, random } = Math;
-  const randomActivityIndex = floor(random() * (activities.length + 1));
-  client.editStatus('online', activities[randomActivityIndex]);
+  const randomActivityIndex = floor(random() * activities.length);
+  client.user?.setPresence({
+    activities: [activities[randomActivityIndex]],
+    status: PresenceUpdateStatus.Online,
+  });
 };
 
 export class Cheeka extends Client {
   config: ConfigType;
-  commands: Map<string, CommandType>;
+  commands: Collection<string, CommandType>;
 
   constructor() {
-    super(`Bot ${config.token}`, clientOptions);
+    super(clientOptions);
 
     this.config = config;
-    this.commands = new Map();
+    this.commands = new Collection();
   }
 
   async deploy() {
-    if (!this.bot) {
-      logger.error('The provided client is NOT registered as a Discord Bot!');
-      return;
-    }
-    await this.connect().catch(err => logger.error(err));
+    await this.login(config.token);
     await handleEvents();
-    promoTimeout();
     setActivityStatus(this);
     logger.success(`Client deployed!`);
     logger.info(`Environment: ${this.config.environment}`);

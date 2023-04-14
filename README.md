@@ -1,4 +1,4 @@
-# Cheeku Development
+# Cheeka Development
 
 ## To-Dos
 

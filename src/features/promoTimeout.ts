@@ -1,52 +1,54 @@
-import { EmbedOptions, Message } from 'eris';
 import { client } from '..';
 import { promoBlacklist } from '../types';
-import { messages } from '../data/messages';
-import { categories } from '../data';
+import { messages, categories } from '../data';
+import { EmbedBuilder } from '@discordjs/builders';
+import { Message, TextChannel } from 'discord.js';
 
-const timeoutChannel = async (
-  message: Message,
-  channelId: string,
-  limit: number
-) => {
-  let blacklist: promoBlacklist[] = [];
+let blacklist: promoBlacklist[] = [];
 
-  if (message.channel.id == channelId) {
-    const alreadyBlacklist = blacklist.some(
-      (obj: promoBlacklist) => obj.id === message.author.id
-    );
-    if (alreadyBlacklist) {
-      await message.delete();
-      const guild = client.guilds.get(message?.guildID || '');
-      const embed: EmbedOptions = {
-        title: messages.promoBlacklistFail.title,
-        description: messages.promoBlacklistFail.description,
-        color: client.config.colors.red,
-        author: {
-          name: guild?.name || 'IGP',
-          icon_url: guild?.dynamicIconURL() || '',
-        },
-      };
-      const dmChannel = await message.author.getDMChannel();
-      dmChannel.createMessage({ embeds: [embed] });
+export const promoTimeout = async (message: Message, limit: number) => {
+  const channel = message.channel as TextChannel;
+  if (channel.parentId !== categories.promotionCategoryId) return;
+  console.log('checkpoint 1');
 
-      return;
-    }
-    blacklist.forEach(obj => {
-      obj.index--;
+  const alreadyBlacklist = blacklist.some(
+    (obj: promoBlacklist) => obj.id === message.author.id
+  );
+
+  console.log('checkpoint 2');
+  console.log(alreadyBlacklist);
+  if (alreadyBlacklist) {
+    console.log('checkpoint infinity');
+    await message.delete();
+    const guild = client.guilds.cache.get(message?.guildId || '');
+    const embed = new EmbedBuilder({
+      title: messages.promoBlacklistFail.title,
+      description: messages.promoBlacklistFail.description,
+      color: client.config.colors.red,
+      author: {
+        name: guild?.name || 'IGP',
+        icon_url: guild?.iconURL() || '',
+      },
     });
+    const dmChannel = message.author.dmChannel;
+    dmChannel?.send({ embeds: [embed] });
 
-    blacklist = blacklist.filter(obj => obj.index > 0);
-    blacklist.push({ id: message.author.id, index: limit });
+    return;
   }
-};
 
-export const promoTimeout = () => {
-  // const promoChannelId = '1074881123794046991';
-
-  client.on('messageCreate', async message => {
-    if (message.author.bot) {
-      return;
-    }
+  console.log('checkpoint 3');
+  blacklist.forEach(obj => {
+    obj.index--;
   });
+
+  console.log('checkpoint 4');
+
+  blacklist.forEach(obj => console.log(`Before: ${obj}`));
+
+  blacklist = blacklist.filter(obj => obj.index !== 0);
+  blacklist.push({ id: message.author.id, index: 1 });
+
+  console.log('checkpoint 5');
+
+  blacklist.forEach(obj => console.log(`After: ${obj}`));
 };

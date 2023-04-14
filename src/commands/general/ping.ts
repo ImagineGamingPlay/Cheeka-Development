@@ -1,23 +1,22 @@
-import { Constants, EmbedOptions } from 'eris';
+import { EmbedBuilder } from 'discord.js';
 import { Command } from '../../lib/classes/Command';
 
 export default new Command({
   name: 'ping',
   description: 'View the connection status',
-  type: Constants.ApplicationCommandTypes.CHAT_INPUT,
 
   run: async ({ interaction, client }) => {
-    const embed: EmbedOptions = {
+    const embed = new EmbedBuilder({
       title: 'Ping Status',
       description: `Pong!`,
       color: client.config.colors.blurple,
       author: {
-        name: interaction.member?.username || '',
-        icon_url: interaction.member?.user.dynamicAvatarURL(),
+        name: interaction.user.username,
+        iconURL: interaction.user.avatarURL() || '',
       },
       timestamp: new Date(),
-    };
+    });
 
-    interaction.createMessage({ embeds: [embed] });
+    interaction.editReply({ embeds: [embed] });
   },
 });

@@ -1,24 +1,27 @@
-import { CommandInteraction, Interaction, InteractionTypes } from 'eris';
+import {
+  CacheType,
+  CommandInteractionOptionResolver,
+  Interaction,
+} from 'discord.js';
 import { client } from '..';
 import { Event } from '../lib';
-import { RunParams } from '../types';
+import { ModifiedCommandInteraction, RunParams } from '../types';
 
-const handleSlashCommands = async (interaction: CommandInteraction) => {
-  await interaction.defer();
+const handleSlashCommands = async (interaction: ModifiedCommandInteraction) => {
+  await interaction.deferReply();
 
-  const command = client.commands.get(interaction.data.name);
+  const command = client.commands.get(interaction.commandName);
   const params: RunParams = {
     client,
     interaction,
-    options: interaction.data.options,
+    options: interaction.options as CommandInteractionOptionResolver<CacheType>,
   };
-  command?.run(params);
+
+  await command?.run(params);
 };
 
 export default new Event('interactionCreate', async (interaction: Interaction) => {
-  // console.log(interaction.type);
-  // console.log(Constants.ApplicationCommandTypes.CHAT_INPUT);
-  if (interaction.type == 2) {
-    return await handleSlashCommands(interaction as CommandInteraction);
+  if (interaction.isChatInputCommand()) {
+    return await handleSlashCommands(interaction as ModifiedCommandInteraction);
   }
 });
