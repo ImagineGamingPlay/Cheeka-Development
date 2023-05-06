@@ -5,5 +5,5 @@ export default new Event('messageCreate', async message => {
   if (message.author.bot) {
     return;
   }
-  await promoTimeout(message, 1).then(() => console.log('promoTimeout called'));
+  await promoTimeout(message, 1);
 });
