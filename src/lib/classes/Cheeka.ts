@@ -14,9 +14,9 @@ import { CommandType } from '../../types';
 import { logger } from '../../utils';
 import { ConfigType } from './../../types/configType';
 
-const { Guilds, GuildMessages, DirectMessages, GuildMembers } = GatewayIntentBits;
+const { Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent } = GatewayIntentBits;
 const clientOptions: ClientOptions = {
-  intents: [Guilds, GuildMessages, DirectMessages, GuildMembers],
+  intents: [Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent],
   allowedMentions: {
     repliedUser: true,
   },

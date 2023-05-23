@@ -16,8 +16,11 @@ const PROD_CLIENT_ID = process.env.PROD_CLIENT_ID as string;
 const DEV_CLIENT_ID = process.env.DEV_CLIENT_ID as string;
 const DEV_GUILD_ID = process.env.DEV_GUILD_ID as string;
 const MAIN_GUILD_ID = process.env.MAIN_GUILD_ID as string;
-
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY as string;
+const AI_REACTION_CHANNELS = ["1110551425555124324"];
 export const config: ConfigType = {
+  aiReactionChannels: AI_REACTION_CHANNELS,
+  openaiApiKey: OPENAI_API_KEY,
   environment: ENV,
   token: ENV?.toLowerCase() == 'prod' ? PROD_TOKEN : DEV_TOKEN,
   clientId: ENV?.toLowerCase() == 'prod' ? PROD_CLIENT_ID : DEV_CLIENT_ID,
