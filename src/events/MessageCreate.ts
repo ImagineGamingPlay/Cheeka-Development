@@ -2,7 +2,6 @@ import { promoTimeout, announcementsReaction } from '../features';
 import { Event } from '../lib';
 import { config } from "../config";
 export default new Event('messageCreate', async message => {
-  console.log(message.content);
   if (message.author.bot) {
     return;
   }
