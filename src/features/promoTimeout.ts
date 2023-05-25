@@ -9,16 +9,12 @@ let blacklist: promoBlacklist[] = [];
 export const promoTimeout = async (message: Message, limit: number) => {
   const channel = message.channel as TextChannel;
   if (channel.parentId !== categories.promotionCategoryId) return;
-  console.log('checkpoint 1');
 
   const alreadyBlacklist = blacklist.some(
     (obj: promoBlacklist) => obj.id === message.author.id
   );
 
-  console.log('checkpoint 2');
-  console.log(alreadyBlacklist);
   if (alreadyBlacklist) {
-    console.log('checkpoint infinity');
     await message.delete();
     const guild = client.guilds.cache.get(message?.guildId || '');
     const embed = new EmbedBuilder({
@@ -36,19 +32,10 @@ export const promoTimeout = async (message: Message, limit: number) => {
     return;
   }
 
-  console.log('checkpoint 3');
   blacklist.forEach(obj => {
     obj.index--;
   });
 
-  console.log('checkpoint 4');
-
-  blacklist.forEach(obj => console.log(`Before: ${obj}`));
-
   blacklist = blacklist.filter(obj => obj.index !== 0);
-  blacklist.push({ id: message.author.id, index: 1 });
-
-  console.log('checkpoint 5');
-
-  blacklist.forEach(obj => console.log(`After: ${obj}`));
+  blacklist.push({ id: message.author.id, index: limit });
 };
