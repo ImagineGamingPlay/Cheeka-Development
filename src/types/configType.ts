@@ -6,8 +6,8 @@ type ColorsType = {
 };
 
 export interface ConfigType {
-  aiReactionChannels: string[],
-  openaiApiKey: string,
+  aiReactionChannels?: string[],
+  openaiApiKey?: string,
   devGuildId: string;
   mainGuildId: string;
   environment: string;

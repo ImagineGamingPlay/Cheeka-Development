@@ -1,9 +1,11 @@
 import { EmojiIdentifierResolvable, Message } from 'discord.js';
 import { config } from "../config";
 import { OpenAIApi, Configuration } from "openai";
-export const announcementsReaction = (message: Message) => {
+export const announcementsReaction = (message: Message, timesCalled?: number) => {
+    if(!timesCalled) timesCalled = 0;
+    if(timesCalled > 5) return;
+    timesCalled++;
     let openai = new OpenAIApi(new Configuration({apiKey: config.openaiApiKey}));
-    //if(message.content.startsWith("//")) return;
     openai.createCompletion({
         model: "text-davinci-003",
         prompt: `
@@ -19,9 +21,9 @@ export const announcementsReaction = (message: Message) => {
         let r = resp.data.choices[0].text as string;
         r = r.replace("'", "\"");
         try {
-            JSON.parse(r.match(/\[.*?\]/)![0]).forEach((e: EmojiIdentifierResolvable) => message.react(e).catch(() => announcementsReaction(message)));
-        } catch(err) {
-            announcementsReaction(message);
+            JSON.parse(r.match(/\[.*?\]/)![0]).forEach((e: EmojiIdentifierResolvable) => message.react(e).catch(() => announcementsReaction(message, timesCalled)));
+        } catch {
+            announcementsReaction(message, timesCalled);
         }
-    }).catch(() => announcementsReaction(message));
+    }).catch(() => announcementsReaction(message, timesCalled));
 };

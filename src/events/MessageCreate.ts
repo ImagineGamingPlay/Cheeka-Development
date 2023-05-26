@@ -6,5 +6,5 @@ export default new Event('messageCreate', async message => {
     return;
   }
   await promoTimeout(message, 1);
-  if(config.aiReactionChannels.includes(message.channel.id)) announcementsReaction(message);
+  if(config.aiReactionChannels && config.openaiApiKey && config.aiReactionChannels.includes(message.channel.id)) announcementsReaction(message);
 });
