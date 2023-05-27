@@ -6,6 +6,7 @@ type ColorsType = {
 };
 
 export interface ConfigType {
+  guildId: string;
   devGuildId: string;
   mainGuildId: string;
   environment: string;
