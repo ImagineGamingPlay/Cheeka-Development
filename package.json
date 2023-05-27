@@ -1,0 +1,31 @@
+{
+  "name": "cheeka",
+  "version": "1.0.0",
+  "description": "A powerful Discord Bot for Imagine Gaming Play's Discord Server",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node .",
+    "dev": "ts-node src/index.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "4",
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "glob": "7.2.0",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "@types/glob": "7.2.0",
+    "@types/node": "^18.11.18",
+    "@types/ws": "^8.5.4",
+    "nodemon": "^2.0.20",
+    "@typescript-eslint/eslint-plugin": "5.6.0",
+    "@typescript-eslint/parser": "5.6.0",
+    "eslint": "7.32.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}
