@@ -41,7 +41,7 @@ export default new Command({
     });
 
     interaction.editReply({ embeds: [embed] });
-    console.log(humanizeMillisecond(client.uptime || 0));
+    console.log('hi');
   },
 });
 

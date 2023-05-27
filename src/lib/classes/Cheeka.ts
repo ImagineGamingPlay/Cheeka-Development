@@ -7,7 +7,7 @@ import {
   PresenceUpdateStatus,
   Collection,
 } from 'discord.js';
-import { handleEvents } from '..';
+import { databaseConnect, handleEvents } from '..';
 import { config } from '../../config';
 import { CommandType } from '../../types';
 import { logger } from '../../utils';
@@ -58,9 +58,9 @@ export class Cheeka extends Client {
   async deploy() {
     await this.login(config.token);
     await handleEvents();
-    // await databaseConnect();
+    await databaseConnect();
     setActivityStatus(this);
-    logger.success('Client deployed!');
+    logger.success('Client Deployed!');
     logger.info(`Environment: ${this.config.environment}`);
   }
 }
