@@ -26,6 +26,7 @@ export const config: ConfigType = {
   environment: ENV,
   token: ENV?.toLowerCase() == 'prod' ? PROD_TOKEN : DEV_TOKEN,
   clientId: ENV?.toLowerCase() == 'prod' ? PROD_CLIENT_ID : DEV_CLIENT_ID,
+  guildId: ENV.toLowerCase() == 'prod' ? MAIN_GUILD_ID : DEV_GUILD_ID,
   devGuildId: DEV_GUILD_ID,
   mainGuildId: MAIN_GUILD_ID,
 

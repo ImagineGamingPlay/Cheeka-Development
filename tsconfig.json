@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
+    "target": "ESNext",
     "esModuleInterop": true,
     "declaration": true,
     "moduleResolution": "node",
-    "target": "ESNext",
-    "strict": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src"
-    // "noPropertyAccessFromIndexSignature": true
+    "rootDir": "./src",
+    // Type-checking
+    "strict": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["src/**/*", "environment.d.ts", "config.json"]
 }

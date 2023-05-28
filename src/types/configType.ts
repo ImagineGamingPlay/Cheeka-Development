@@ -9,6 +9,7 @@ export interface ConfigType {
   aiReactionTimesCalled?: number;
   aiReactionChannels?: string[];
   openaiApiKey?: string;
+  guildId: string;
   devGuildId: string;
   mainGuildId: string;
   environment: string;

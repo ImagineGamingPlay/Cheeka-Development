@@ -7,9 +7,8 @@ import {
   PresenceUpdateStatus,
   Collection,
 } from 'discord.js';
-import { handleEvents } from '..';
+import { databaseConnect, handleEvents } from '..';
 import { config } from '../../config';
-import { promoTimeout } from '../../features';
 import { CommandType } from '../../types';
 import { logger } from '../../utils';
 import { ConfigType } from './../../types/configType';
@@ -25,15 +24,15 @@ const clientOptions: ClientOptions = {
 const setActivityStatus = (client: Cheeka) => {
   const activities: ActivitiesOptions[] = [
     {
-      name: "Minecraft on IGP's MC Server!",
+      name: 'Minecraft on IGP\'s MC Server!',
       type: ActivityType.Playing,
     },
     {
-      name: "to your queries on IGP's server!",
+      name: 'to your queries on IGP\'s server!',
       type: ActivityType.Listening,
     },
     {
-      name: "IGP's video on YouTube!",
+      name: 'IGP\'s video on YouTube!',
       type: ActivityType.Watching,
     },
   ];
@@ -59,8 +58,9 @@ export class Cheeka extends Client {
   async deploy() {
     await this.login(config.token);
     await handleEvents();
+    await databaseConnect();
     setActivityStatus(this);
-    logger.success(`Client deployed!`);
+    logger.success('Client Deployed!');
     logger.info(`Environment: ${this.config.environment}`);
   }
 }
