@@ -40,27 +40,32 @@ export const registerCommands = async () => {
       logger.error('One of the command is lacking name!');
       return;
     }
-
     commands.push(command);
     client.commands.set(command.name, command);
+  });
 
-    if (client.config.environment == 'dev') {
+  if (client.config.environment == 'dev') {
+    const devGuild = client.guilds.cache.get(client.config.devGuildId);
+    await devGuild?.commands
+      .set(commands)
+      .then(() => {
+        commands.forEach(command =>
+          logger.success(
+            `Registered Guild (${devGuild?.name}) Command: ${command.name}`
+          )
+        );
+      })
+      .catch(err => logger.error(err));
+  }
 
-      const devGuild = client.guilds.cache.get(client.config.devGuildId);
-      await devGuild?.commands
-        .set(commands)
-        .then(() =>
-          logger.success(`Registered Guild Application (/) Command: ${command.name}`)
-        )
-        .catch(err => logger.error(err));
-    }
-    if (client.config.environment == 'prod') {
-      await client.application?.commands
-        .set(commands)
-        .then(() =>
+  if (client.config.environment == 'prod') {
+    await client.application?.commands
+      .set(commands)
+      .then(() =>
+        commands.forEach(command =>
           logger.success(`Registered Application (/) Command: ${command.name}`)
         )
-        .catch(err => logger.error(err));
-    }
-  });
+      )
+      .catch(err => logger.error(err));
+  }
 };
