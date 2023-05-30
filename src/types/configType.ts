@@ -17,3 +17,6 @@ export interface ConfigType {
   clientId: string;
   colors: ColorsType;
 }
+
+
+let a = "";
