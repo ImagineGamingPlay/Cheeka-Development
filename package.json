@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^4.15.0",
     "chalk": "^4.1.2",
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
@@ -28,6 +29,7 @@
     "eslint": "7.32.0",
     "nodemon": "^2.0.20",
     "prettier": "2.8.8",
+    "prisma": "4.15.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"
