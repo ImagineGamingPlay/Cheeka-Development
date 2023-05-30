@@ -1,10 +1,10 @@
-import { ApplicationCommandOptionType, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import { Command } from "../../lib";
-import { logger } from "../../utils";
+import { ApplicationCommandOptionType, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { Command } from '../../lib';
+import { logger } from '../../utils';
 
 export default new Command({
-  name: "ban",
-  description: "Ban a member",
+  name: 'ban',
+  description: 'Ban a member',
   options: [
     {
       name: 'member',
@@ -78,4 +78,4 @@ export default new Command({
       });
   },
 
-})
+});

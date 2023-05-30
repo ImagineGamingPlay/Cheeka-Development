@@ -21,7 +21,7 @@ export const announcementsReaction = (message: Message, timesCalled?: number) =>
     })
     .then(async resp => {
       let r = resp.data.choices[0].text as string;
-      r = r.replace("'", '"');
+      r = r.replace('\'', '"');
       try {
         JSON.parse(r.match(/\[.*?\]/)![0]).forEach((e: EmojiIdentifierResolvable) =>
           message.react(e).catch(() => announcementsReaction(message, timesCalled))
