@@ -4,7 +4,7 @@
   "description": "A powerful Discord Bot for Imagine Gaming Play's Discord Server",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npx prisma generate",
     "start": "node .",
     "dev": "nodemon src/index.ts"
   },

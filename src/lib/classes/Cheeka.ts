@@ -7,11 +7,12 @@ import {
   PresenceUpdateStatus,
   Collection,
 } from 'discord.js';
-import { databaseConnect, handleEvents } from '..';
+import { handleEvents } from '..';
 import { config } from '../../config';
 import { CommandType } from '../../types';
 import { logger } from '../../utils';
 import { ConfigType } from './../../types/configType';
+import { PrismaClient } from '@prisma/client';
 
 const { Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent } = GatewayIntentBits;
 const clientOptions: ClientOptions = {
@@ -47,18 +48,21 @@ const setActivityStatus = (client: Cheeka) => {
 export class Cheeka extends Client {
   config: ConfigType;
   commands: Collection<string, CommandType>;
+  prisma: PrismaClient;
 
   constructor() {
     super(clientOptions);
 
     this.config = config;
     this.commands = new Collection();
+    this.prisma = new PrismaClient({
+      log: ['query', 'info', 'warn', 'error'],
+    });
   }
 
   async deploy() {
     await this.login(config.token);
     await handleEvents();
-    await databaseConnect();
     setActivityStatus(this);
     logger.success('Client Deployed!');
     logger.info(`Environment: ${this.config.environment}`);
