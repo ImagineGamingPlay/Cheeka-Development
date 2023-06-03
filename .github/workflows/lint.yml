@@ -4,9 +4,7 @@ on: [push, pull_request]
 
 name: Lint
 
-permissions:
-    checks: write
-    contents: write
+permissions: write-all
 
 jobs:
     lint:
