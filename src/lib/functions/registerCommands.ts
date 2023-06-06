@@ -3,6 +3,7 @@ import { logger } from '../../utils';
 import { client } from '../..';
 import { readdirSync } from 'fs';
 import { join } from 'path';
+// import axios from 'axios';
 
 /* Utility Functions */
 const getCommandFiles = (path: string, categorized: boolean): string[] => {
@@ -31,7 +32,6 @@ const getCommandFiles = (path: string, categorized: boolean): string[] => {
 export const registerCommands = async () => {
   const commands: CommandType[] = [];
   const commandFiles = getCommandFiles(`${__dirname}/../../commands`, true);
-
   commandFiles.forEach(async file => {
     const importFilePath = file;
     const command: CommandType = await (await import(importFilePath)).default;
@@ -40,27 +40,36 @@ export const registerCommands = async () => {
       logger.error('One of the command is lacking name!');
       return;
     }
-
+    console.log(command);
     commands.push(command);
     client.commands.set(command.name, command);
 
+    const baseAPIUrl = 'https://discord.com/api/v9';
     if (client.config.environment == 'dev') {
+      await fetch(
+        `${baseAPIUrl}/applications/${client.user?.id}/${client.config.devGuildId}/commands`,
+        {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(commands[0]),
+        }
+      );
 
-      const devGuild = client.guilds.cache.get(client.config.devGuildId);
-      await devGuild?.commands
-        .set(commands)
-        .then(() =>
-          logger.success(`Registered Guild Application (/) Command: ${command.name}`)
-        )
-        .catch(err => logger.error(err));
+      logger.success(`Registered Guild Application (/) Command: ${command.name}`);
+      return;
     }
     if (client.config.environment == 'prod') {
-      await client.application?.commands
-        .set(commands)
-        .then(() =>
-          logger.success(`Registered Application (/) Command: ${command.name}`)
-        )
-        .catch(err => logger.error(err));
+      await fetch(`${baseAPIUrl}/applications/${client.user?.id}/commands`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(commands[0]),
+      });
+      logger.success(`Registered Global Application (/) Command: ${command.name}`);
+      return;
     }
   });
 };
