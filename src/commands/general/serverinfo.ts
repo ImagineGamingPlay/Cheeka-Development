@@ -28,6 +28,10 @@ export default new Command({
     const hexColors = colors.map(color => color.hex());
     const primaryColorHex = hexColors[0] as ColorResolvable;
 
+    if (!guild) return;
+
+    const serverCreatedTimestamp = Math.floor(guild?.createdTimestamp / 1000);
+
     const embed = new EmbedBuilder()
       .setTitle(guild?.name || 'IGP\'s Coding Villa')
       .setThumbnail(`${guild?.iconURL()}`)
@@ -49,8 +53,8 @@ export default new Command({
           inline: true,
         },
         {
-          name: 'Server Created At',
-          value: `${guild?.createdAt}`,
+          name: 'Server Created',
+          value: `<t:${serverCreatedTimestamp}:R>`,
           inline: true,
         },
         {
