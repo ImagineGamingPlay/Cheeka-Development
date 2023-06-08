@@ -19,6 +19,8 @@ export interface RunParams {
 }
 
 export interface CommandType extends ChatInputApplicationCommandData {
+  devOnly?: boolean;
+  ownerOnly?: boolean;
   run: (options: RunParams) => Promise<void>;
 }
 
