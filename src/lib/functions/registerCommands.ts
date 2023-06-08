@@ -28,12 +28,14 @@ const getCommandFiles = (path: string, categorized: boolean): string[] => {
 };
 
 import { client } from '../..';
-import { CommandType } from '../../types';
+import { CommandTableObjectsType, CommandType } from '../../types';
 import { logger } from '../../utils';
 
 export const registerCommands = async () => {
   const commands: CommandType[] = [];
   const commandFiles = getCommandFiles(`${__dirname}/../../commands`, true);
+
+  const loadedCommandNames: CommandTableObjectsType[] = [];
 
   for (const file of commandFiles) {
     const commandClass: CommandType = await (await import(file)).default;
@@ -44,6 +46,7 @@ export const registerCommands = async () => {
       return;
     }
     commands.push(command);
+    loadedCommandNames.push({ LoadedCommands: command.name });
     client.commands.set(command.name, command);
   }
   // console.log(commands);
@@ -51,13 +54,18 @@ export const registerCommands = async () => {
     const devGuild = client.guilds.cache.get(client.config.devGuildId);
     // client.application?.commands.set([], devGuild?.id || '');
     await devGuild?.commands.set(commands);
-    logger.success(`Registered ${commands.length} Guild Application (/) Commands`);
+
+    console.table(loadedCommandNames);
+    logger.info('Command Type: Guild');
     return;
   }
   if (client.config.environment == 'prod') {
     await client.application?.commands.set(commands);
-    logger.success(`Registered ${commands.length} Global Application (/) Commands`);
-    logger.info('Discord takes upto an hour to upate the commands.');
+
+    console.table(loadedCommandNames);
+    logger.info(
+      'Command Type: Global [Discord takes upto an hour to upate the commands]'
+    );
     return;
   }
 };

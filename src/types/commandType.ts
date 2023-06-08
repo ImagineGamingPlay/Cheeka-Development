@@ -24,4 +24,6 @@ export interface CommandType extends ChatInputApplicationCommandData {
   run: (options: RunParams) => Promise<void>;
 }
 
-// export type CommandType = SlashCommandBuilder | ApplicationCommandData;
+export interface CommandTableObjectsType {
+  LoadedCommands: string;
+}
