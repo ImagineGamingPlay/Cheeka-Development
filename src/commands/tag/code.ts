@@ -36,7 +36,6 @@ export default new Command({
   ],
   run: async ({ options }) => {
     const subcommand = options?.getSubcommand();
-    if (subcommand == 'view') {
-    }
+    console.log(subcommand);
   },
 });
