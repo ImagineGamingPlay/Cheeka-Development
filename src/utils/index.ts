@@ -1,2 +1,2 @@
 export * from './Logger';
-export * from './HumanizeMillisecond.ts'
+export * from './HumanizeMillisecond'
