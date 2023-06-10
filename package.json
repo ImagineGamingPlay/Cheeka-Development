@@ -6,7 +6,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node .",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "prepare": "husky install"
   },
   "license": "MIT",
   "dependencies": {
@@ -34,6 +37,7 @@
     "prettier": "2.8.8",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "husky": "^8.0.0"
   }
 }
