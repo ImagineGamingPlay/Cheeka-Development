@@ -1,11 +1,11 @@
 import {
-    ActivitiesOptions,
-    ActivityType,
-    Client,
-    ClientOptions,
-    Collection,
-    GatewayIntentBits,
-    PresenceUpdateStatus,
+  ActivitiesOptions,
+  ActivityType,
+  Client,
+  ClientOptions,
+  Collection,
+  GatewayIntentBits,
+  PresenceUpdateStatus,
 } from 'discord.js';
 import { handleEvents } from '..';
 import { config } from '../../config';
@@ -63,8 +63,8 @@ export class Cheeka extends Client {
   async deploy() {
     await this.login(config.token);
     await handleEvents();
-      await this.prisma.$connect();
-      setActivityStatus(this);
+    await this.prisma.$connect().then(() => logger.success('Database Connected!'));
+    setActivityStatus(this);
     logger.success('Client Deployed!');
     logger.info(`Environment: ${this.config.environment}`);
   }
