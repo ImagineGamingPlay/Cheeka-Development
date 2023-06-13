@@ -1,10 +1,8 @@
 import {
-  // ApplicationCommandData,
   ChatInputApplicationCommandData,
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-  // SlashCommandBuilder,
 } from 'discord.js';
 import { Cheeka } from '../lib';
 
@@ -19,7 +17,11 @@ export interface RunParams {
 }
 
 export interface CommandType extends ChatInputApplicationCommandData {
+  devOnly?: boolean;
+  ownerOnly?: boolean;
   run: (options: RunParams) => Promise<void>;
 }
 
-// export type CommandType = SlashCommandBuilder | ApplicationCommandData;
+export interface CommandTableObjectsType {
+  LoadedCommands: string;
+}

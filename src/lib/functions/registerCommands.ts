@@ -1,13 +1,15 @@
-import { CommandType } from '../../types';
-import { logger } from '../../utils';
-import { client } from '../..';
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import { client } from '../..';
+import { CommandTableObjectsType, CommandType } from '../../types';
+import { logger } from '../../utils';
 
 /* Utility Functions */
 const getCommandFiles = (path: string, categorized: boolean): string[] => {
   const files: string[] = [];
-  const firstDepthFSNodes = readdirSync(path); // FS = FileSystem (FSNode representing both files and folders)
+
+  // FS = FileSystem (FSNode representing both files and folders)
+  const firstDepthFSNodes = readdirSync(path);
 
   firstDepthFSNodes.forEach(FSNode => {
     if (!categorized) {
@@ -29,47 +31,40 @@ const getCommandFiles = (path: string, categorized: boolean): string[] => {
 };
 
 export const registerCommands = async () => {
+  const commands: CommandType[] = [];
   const commandFiles = getCommandFiles(`${__dirname}/../../commands`, true);
 
-    const commands: CommandType[] = (await Promise.all(commandFiles.map(async file => {
-        const importFilePath = file;
-        const command: CommandType = await (await import(importFilePath)).default;
+  const loadedCommandNames: CommandTableObjectsType[] = [];
 
-        if (!command.name) {
-            logger.error('One of the command is lacking name!');
-            return;
-        }
+  for (const file of commandFiles) {
+    const commandClass: CommandType = await (await import(file)).default;
+    const { ...command } = commandClass;
 
-        client.commands.set(command.name, command);
-
-        return command;
-    }))).filter(command => command !== undefined) as CommandType[];
-
-
-    if (!commands) return logger.error('No commands found!');
-
-    if (client.config.environment == 'dev') {
-        const devGuild = client.guilds.cache.get(client.config.devGuildId);
-        await devGuild?.commands
-            .set(commands as CommandType[])
-            .then(() => {
-                commands.forEach(command =>
-                    logger.success(
-                        `Registered Guild (${devGuild?.name}) Command: ${command.name}`,
-                    ),
-        );
-      })
-      .catch(err => logger.error(err));
+    if (!command.name) {
+      logger.error('One of the command is lacking name!');
+      return;
+    }
+    commands.push(command);
+    loadedCommandNames.push({ LoadedCommands: command.name });
+    client.commands.set(command.name, command);
   }
+  // console.log(commands);
+  if (client.config.environment == 'dev') {
+    const devGuild = client.guilds.cache.get(client.config.devGuildId);
+    // client.application?.commands.set([], devGuild?.id || '');
+    await devGuild?.commands.set(commands);
 
+    console.table(loadedCommandNames);
+    logger.info('Command Type: Guild');
+    return;
+  }
   if (client.config.environment == 'prod') {
-    await client.application?.commands
-        ?.set(commands)
-      .then(() =>
-        commands.forEach(command =>
-          logger.success(`Registered Application (/) Command: ${command.name}`)
-        )
-      )
-      .catch(err => logger.error(err));
+    await client.application?.commands.set(commands);
+
+    console.table(loadedCommandNames);
+    logger.info(
+      'Command Type: Global [Discord takes upto an hour to upate the commands]'
+    );
+    return;
   }
 };

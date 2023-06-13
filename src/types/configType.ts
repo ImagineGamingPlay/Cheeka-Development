@@ -16,7 +16,5 @@ export interface ConfigType {
   token: string;
   clientId: string;
   colors: ColorsType;
+  developerRoleId: string;
 }
-
-
-let a = "";

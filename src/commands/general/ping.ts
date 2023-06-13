@@ -41,7 +41,6 @@ export default new Command({
     });
 
     interaction.editReply({ embeds: [embed] });
-    console.log('hi');
   },
 });
 
