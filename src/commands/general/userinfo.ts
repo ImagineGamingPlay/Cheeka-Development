@@ -1,9 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  ColorResolvable,
-  EmbedBuilder,
-  GuildMember,
-} from 'discord.js';
+import { ApplicationCommandOptionType, ColorResolvable, EmbedBuilder, GuildMember } from 'discord.js';
 import getColor from 'get-image-colors';
 import { Command } from '../../lib';
 import { BadgeListType } from '../../types/miscTypes';
@@ -30,7 +25,7 @@ export default new Command({
     }
 
     const colors = await getColor(
-      `${member.displayAvatarURL({ extension: 'png' })}`
+      `${member.displayAvatarURL({ extension: 'png' })}`,
     );
     const hexColors = colors.map(color => color.hex());
     const primaryColorHex = hexColors[0] as ColorResolvable;
@@ -134,6 +129,6 @@ const getBadges = (userFlags: string[]) => {
   };
 
   return userFlags.map(
-    (flagName: string) => badgeList[flagName as keyof BadgeListType]
+    (flagName: string) => badgeList[flagName as keyof BadgeListType],
   );
 };

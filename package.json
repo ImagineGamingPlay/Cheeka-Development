@@ -6,13 +6,11 @@
   "scripts": {
     "build": "tsc",
     "start": "node .",
-    "dev": "nodemon",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "prepare": "husky install"
+    "dev": "nodemon src/index.ts"
   },
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^4.15.0",
     "axios": "^1.4.0",
     "chalk": "^4.1.2",
     "discord.js": "^14.11.0",
@@ -33,11 +31,12 @@
     "@typescript-eslint/eslint-plugin": "5.6.0",
     "@typescript-eslint/parser": "5.6.0",
     "eslint": "7.32.0",
+    "husky": "^8.0.0",
     "nodemon": "^2.0.20",
     "prettier": "2.8.8",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.4",
-    "husky": "^8.0.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.4"
   }
 }

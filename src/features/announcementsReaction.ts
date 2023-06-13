@@ -1,6 +1,7 @@
 import { EmojiIdentifierResolvable, Message } from 'discord.js';
 import { config } from '../config';
-import { OpenAIApi, Configuration } from 'openai';
+import { Configuration, OpenAIApi } from 'openai';
+
 export const announcementsReaction = (message: Message, timesCalled?: number) => {
   if (!timesCalled) timesCalled = 0;
   if (timesCalled > (config.aiReactionTimesCalled || 5)) return;
@@ -27,7 +28,7 @@ export const announcementsReaction = (message: Message, timesCalled?: number) =>
         if (!regexpMatch) return;
 
         JSON.parse(regexpMatch[0]).forEach((e: EmojiIdentifierResolvable) =>
-          message.react(e).catch(() => announcementsReaction(message, timesCalled))
+          message.react(e).catch(() => announcementsReaction(message, timesCalled)),
         );
       } catch {
         announcementsReaction(message, timesCalled);

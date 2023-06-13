@@ -11,17 +11,17 @@ export default new Command({
 
     const totalCategories =
       guild?.channels.cache.filter(
-        channel => channel?.type === ChannelType.GuildCategory
+        channel => channel?.type === ChannelType.GuildCategory,
       ).size || 0;
     const totalChannels = guild?.channels.cache.size || 0 - totalCategories;
     const numTextChannel = guild?.channels.cache.filter(
-      channel => channel.type === ChannelType.GuildText
+      channel => channel.type === ChannelType.GuildText,
     ).size;
     const numVoiceChannel = guild?.channels.cache.filter(
-      channel => channel.type === ChannelType.GuildVoice
+      channel => channel.type === ChannelType.GuildVoice,
     ).size;
     const numForumChannel = guild?.channels.cache.filter(
-      channel => channel.type === ChannelType.GuildForum
+      channel => channel.type === ChannelType.GuildForum,
     ).size;
 
     const colors = await getColor(`${guild?.iconURL({ extension: 'png' })}`);

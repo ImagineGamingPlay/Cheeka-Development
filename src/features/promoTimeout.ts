@@ -12,7 +12,7 @@ export const promoTimeout = async (message: Message) => {
   }
 
   const alreadyBlacklist = blacklist.some(
-    (obj: promoBlacklist) => obj.id === message.author.id
+    (obj: promoBlacklist) => obj.id === message.author.id,
   );
 
   if (alreadyBlacklist) {

@@ -1,10 +1,8 @@
 import {
-  // ApplicationCommandData,
   ChatInputApplicationCommandData,
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-  // SlashCommandBuilder,
 } from 'discord.js';
 import { Cheeka } from '../lib';
 

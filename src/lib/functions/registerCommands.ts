@@ -1,5 +1,8 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import { client } from '../..';
+import { CommandTableObjectsType, CommandType } from '../../types';
+import { logger } from '../../utils';
 
 /* Utility Functions */
 const getCommandFiles = (path: string, categorized: boolean): string[] => {
@@ -26,10 +29,6 @@ const getCommandFiles = (path: string, categorized: boolean): string[] => {
   });
   return files;
 };
-
-import { client } from '../..';
-import { CommandTableObjectsType, CommandType } from '../../types';
-import { logger } from '../../utils';
 
 export const registerCommands = async () => {
   const commands: CommandType[] = [];

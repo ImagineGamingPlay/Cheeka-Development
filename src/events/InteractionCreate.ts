@@ -1,9 +1,4 @@
-import {
-  CacheType,
-  CommandInteractionOptionResolver,
-  EmbedBuilder,
-  Interaction,
-} from 'discord.js';
+import { CacheType, CommandInteractionOptionResolver, EmbedBuilder, Interaction } from 'discord.js';
 import { client } from '..';
 import { Event } from '../lib';
 import { ModifiedCommandInteraction, RunParams } from '../types';
@@ -23,7 +18,7 @@ const handleSlashCommands = async (interaction: ModifiedCommandInteraction) => {
           .setTitle('Oops! Something went wrong')
           .setColor(client.config.colors.red)
           .setDescription(
-            'Turns out this is a **developer only command**, and you do not seem to be my developer!'
+            'Turns out this is a **developer only command**, and you do not seem to be my developer!',
           ),
       ],
       ephemeral: true,
@@ -38,7 +33,7 @@ const handleSlashCommands = async (interaction: ModifiedCommandInteraction) => {
           .setTitle('Oops! Something went wrong')
           .setColor(client.config.colors.red)
           .setDescription(
-            'Apparently you need to be the owner of the server to run this command! *very prestigious, I know*'
+            'Apparently you need to be the owner of the server to run this command! *very prestigious, I know*',
           ),
       ],
       ephemeral: true,
