@@ -1,42 +1,48 @@
 {
-  "name": "cheeka",
-  "version": "1.0.0",
-  "description": "A powerful Discord Bot for Imagine Gaming Play's Discord Server",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "node .",
-    "dev": "nodemon src/index.ts"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@prisma/client": "^4.15.0",
-    "axios": "^1.4.0",
-    "chalk": "^4.1.2",
-    "discord.js": "^14.11.0",
-    "dotenv": "^16.0.3",
-    "fast-average-color-node": "^2.6.0",
-    "form-data": "^4.0.0",
-    "get-image-colors": "^4.0.1",
-    "glob": "7.2.0",
-    "openai": "^3.2.1",
-    "save-buffer": "^1.3.1",
-    "util": "^0.12.5"
-  },
-  "devDependencies": {
-    "@types/get-image-colors": "^4.0.2",
-    "@types/glob": "^7.2.0",
-    "@types/node": "^20.2.5",
-    "@types/ws": "^8.5.4",
-    "@typescript-eslint/eslint-plugin": "5.6.0",
-    "@typescript-eslint/parser": "5.6.0",
-    "eslint": "7.32.0",
-    "husky": "^8.0.0",
-    "nodemon": "^2.0.20",
-    "prettier": "2.8.8",
-    "ts-node": "^10.9.1",
-    "ts-node-dev": "^2.0.0",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.0.4"
-  }
+    "name": "cheeka",
+    "version": "1.0.0",
+    "description": "A powerful Discord Bot for Imagine Gaming Play's Discord Server",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node .",
+        "dev": "nodemon src/index.ts"
+    },
+    "engines": {
+        "node": "20"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@prisma/client": "^4.15.0",
+        "axios": "^1.4.0",
+        "chalk": "^4.1.2",
+        "discord.js": "^14.11.0",
+        "dotenv": "^16.0.3",
+        "fast-average-color-node": "^2.6.0",
+        "form-data": "^4.0.0",
+        "get-image-colors": "^4.0.1",
+        "glob": "7.2.0",
+        "openai": "^3.2.1",
+        "save-buffer": "^1.3.1",
+        "util": "^0.12.5"
+    },
+    "devDependencies": {
+        "@types/get-image-colors": "^4.0.2",
+        "@types/glob": "^7.2.0",
+        "@types/node": "^20.2.5",
+        "@types/ws": "^8.5.4",
+        "@typescript-eslint/eslint-plugin": "5.6.0",
+        "@typescript-eslint/parser": "^5.59.11",
+        "eslint": "7.32.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "husky": "^8.0.0",
+        "nodemon": "^2.0.20",
+        "prettier": "2.8.8",
+        "ts-node": "^10.9.1",
+        "ts-node-dev": "^2.0.0",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.0.4"
+    }
 }

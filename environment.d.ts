@@ -4,22 +4,22 @@
  */
 
 declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      NODE_ENV: 'dev' | 'prod';
+    namespace NodeJS {
+        interface ProcessEnv {
+            NODE_ENV: 'dev' | 'prod';
 
-      DEV_BOT_TOKEN: string;
-      PROD_BOT_TOKEN: string;
+            DEV_BOT_TOKEN: string;
+            PROD_BOT_TOKEN: string;
 
-      DEV_CLIENT_ID: string;
-      PROD_CLIENT_ID: string;
+            DEV_CLIENT_ID: string;
+            PROD_CLIENT_ID: string;
 
-      DEV_GUILD_ID: string;
-      MAIN_GUILD_ID: string;
+            DEV_GUILD_ID: string;
+            MAIN_GUILD_ID: string;
 
-      DB_URI: string;
+            DB_URI: string;
+        }
     }
-  }
 }
 
 export {};

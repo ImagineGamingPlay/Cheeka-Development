@@ -7,12 +7,12 @@ import { Event } from '../classes/Event';
 const globPromise = promisify(glob);
 
 export const handleEvents = async () => {
-  const events = await globPromise(`${__dirname}/../../events/*{.ts,.js}`);
-  events.forEach(async eventFilePath => {
-    const eventObj: Event<keyof ClientEvents> = await (
-      await import(eventFilePath)
-    )?.default;
+    const events = await globPromise(`${__dirname}/../../events/*{.ts,.js}`);
+    events.forEach(async eventFilePath => {
+        const eventObj: Event<keyof ClientEvents> = await (
+            await import(eventFilePath)
+        )?.default;
 
-    client.on(eventObj.event, eventObj.run);
-  });
+        client.on(eventObj.event, eventObj.run);
+    });
 };
