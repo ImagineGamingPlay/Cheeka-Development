@@ -29,30 +29,34 @@ const getCommandFiles = (path: string, categorized: boolean): string[] => {
 };
 
 export const registerCommands = async () => {
-  const commands: CommandType[] = [];
   const commandFiles = getCommandFiles(`${__dirname}/../../commands`, true);
 
-  commandFiles.forEach(async file => {
-    const importFilePath = file;
-    const command: CommandType = await (await import(importFilePath)).default;
+    const commands: CommandType[] = (await Promise.all(commandFiles.map(async file => {
+        const importFilePath = file;
+        const command: CommandType = await (await import(importFilePath)).default;
 
-    if (!command.name) {
-      logger.error('One of the command is lacking name!');
-      return;
-    }
-    commands.push(command);
-    client.commands.set(command.name, command);
-  });
+        if (!command.name) {
+            logger.error('One of the command is lacking name!');
+            return;
+        }
 
-  if (client.config.environment == 'dev') {
-    const devGuild = client.guilds.cache.get(client.config.devGuildId);
-    await devGuild?.commands
-      .set(commands)
-      .then(() => {
-        commands.forEach(command =>
-          logger.success(
-            `Registered Guild (${devGuild?.name}) Command: ${command.name}`
-          )
+        client.commands.set(command.name, command);
+
+        return command;
+    }))).filter(command => command !== undefined) as CommandType[];
+
+
+    if (!commands) return logger.error('No commands found!');
+
+    if (client.config.environment == 'dev') {
+        const devGuild = client.guilds.cache.get(client.config.devGuildId);
+        await devGuild?.commands
+            .set(commands as CommandType[])
+            .then(() => {
+                commands.forEach(command =>
+                    logger.success(
+                        `Registered Guild (${devGuild?.name}) Command: ${command.name}`,
+                    ),
         );
       })
       .catch(err => logger.error(err));
@@ -60,7 +64,7 @@ export const registerCommands = async () => {
 
   if (client.config.environment == 'prod') {
     await client.application?.commands
-      .set(commands)
+        ?.set(commands)
       .then(() =>
         commands.forEach(command =>
           logger.success(`Registered Application (/) Command: ${command.name}`)

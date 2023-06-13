@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { Cheeka } from './lib/classes/Cheeka';
+import { Cheeka } from './lib';
 
 export const client: Cheeka = new Cheeka();
 
