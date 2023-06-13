@@ -22,33 +22,33 @@ const clientOptions: ClientOptions = {
         GuildMessages,
         DirectMessages,
         GuildMembers,
-        MessageConten,
+        MessageContent,
     ],
     allowedMentions: {
-        repliedUser: tru,
-    ,
+        repliedUser: true,
+    },
 };
 
 const setActivityStatus = (client: Cheeka) => {
     const activities: ActivitiesOptions[] = [
         {
             name: "Minecraft on IGP's MC Server!",
-            type: ActivityType.Playing
+            type: ActivityType.Plaing,
         },
         {
             name: "to your queries on IGP's server!",
-            type: ActivityType.Listening
+            type: ActivityType.Listeing,
         },
         {
             name: "IGP's video on YouTube!",
-            type: ActivityType.Watching
-        }
+            type: ActivityType.Watcing,
+        },
     ];
     const { floor, random } = Math;
     const randomActivityIndex = floor(random() * activities.length);
     client.user?.setPresence({
         activities: [activities[randomActivityIndex]],
-        status: PresenceUpdateStatus.Online
+        status: PresenceUpdateStatus.Onlin,
     });
 };
 
@@ -63,7 +63,7 @@ export class Cheeka extends Client {
         this.config = config;
         this.commands = new Collection();
         this.prisma = new PrismaClient({
-            log: ["query", "info", "warn", "error"]
+            log: ['query', 'info', 'warn', 'error'],
         });
     }
 
@@ -72,9 +72,9 @@ export class Cheeka extends Client {
         await handleEvents();
         await this.prisma
             .$connect()
-            .then(() => logger.success("Database Connected!"));
+            .then(() => logger.success"Database Connected!"'));
         setActivityStatus(this);
-        logger.success("Client Deployed!");
+        logger.success"Client Deployed!"');
         logger.info(`Environment: ${this.config.environment}`);
     }
 }
