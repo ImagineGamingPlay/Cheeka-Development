@@ -1,6 +1,6 @@
-import { TagType } from "@prisma/client";
-import { Command } from "../../lib/";
-import { ApplicationCommandOptionType, Colors, EmbedBuilder } from "discord.js";
+import { TagType } from '@prisma/client';
+import { Command } from '../../lib/';
+import { ApplicationCommandOptionType, Colors, EmbedBuilder } from 'discord.js';
 
 export default new Command({
     name: 'code',
@@ -51,12 +51,12 @@ export default new Command({
                     new EmbedBuilder()
                         .setTitle('Add a code snippet!')
                         .setDescription(
-                            'Send the code snippet in the next message in the same channel to set the content of the code snippet!\n\n*Type `cancel` to cancel.*'
+                            'Send the code snippet in the next message in the same channel to set the content of the code snippet!\n\n*Type `cancel` to cancel.*',
                         ),
                 ],
             });
             try {
-                const message = (
+                let message = (
                     await interaction.channel?.awaitMessages({
                         max: 1,
                         filter: msg => msg.author.id === interaction.user.id,
@@ -65,13 +65,11 @@ export default new Command({
                 )?.first();
                 if (!message) throw new Error('No message was sent!');
 
-                await message_reply.delete();
-                const name = options?.getString('name', true);
-                if (!name) throw new Error('No name was provided!');
+                message_reply.delete();
                 client.prisma.tag.create({
                     data: {
                         content: message?.content,
-                        name,
+                        name: options?.getString('name')!,
                         type: TagType.CODE,
                         owner: {
                             connectOrCreate: {
@@ -89,10 +87,8 @@ export default new Command({
                 await interaction.editReply({
                     embeds: [
                         new EmbedBuilder()
-                            .setT"Code snippet addition cancelled!"led!')
-                            .setDescription(
-                           "You took too long to send the code snippet!"pet!'
-                            )
+                            .setTitle('Code snippet addition cancelled!')
+                            .setDescription('You took too long to send the code snippet!')
                             .setColor(Colors.Red),
                     ],
                 });

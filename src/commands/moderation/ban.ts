@@ -1,86 +1,81 @@
-import { ApplicationCommandOptionType, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import { Command } from "../../lib";
-import { logger } from "../../utils";
+import { ApplicationCommandOptionType, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { Command } from '../../lib';
+import { logger } from '../../utils';
 
 export default new Command({
-    name:"ban"',
-    description:"Ban a member"',
-    options: [
-        {
-            name:"member"',
-            description:"Choose the member to ban"',
-            required: true,
-            type: ApplicationCommandOptionType.Use,
-        },
-        {
-            name:"reason"',
-            description:"Reason for the ban"',
-            required: false,
-            type: ApplicationCommandOptionType.Strin,
-        ,
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.BanMembers],
-    run: async ({ client, interaction, options }) => {
-        const member = options?.getUser"member"');
-        const reason = options?.getString"reason"') ||"No reason given"';
+  name: 'ban',
+  description: 'Ban a member',
+  options: [
+    {
+      name: 'member',
+      description: 'Choose the member to ban',
+      required: true,
+      type: ApplicationCommandOptionType.User,
+    },
+    {
+      name: 'reason',
+      description: 'Reason for the ban',
+      required: false,
+      type: ApplicationCommandOptionType.String,
+    },
+  ],
+  defaultMemberPermissions: [PermissionFlagsBits.BanMembers],
+  run: async ({ client, interaction, options }) => {
 
-        if (!member) return;
+    const member = options?.getUser('member');
+    const reason = options?.getString('reason') || 'No reason given';
 
-        const guildMember = interaction.guild?.members.cache.get(member?.id);
+    if (!member) return;
 
-        const notBannableErrorEmbed = new EmbedBuilder()
-            .setTitle(`Cannot ban ${guildMember?.user.username}!`)
-            .setDescription(
-                `I do not have sufficient permissions to ban <@${guildMember?.id}>!`
-            )
-            .setColor(client.config.colors.red);
+    const guildMember = interaction.guild?.members.cache.get(member?.id);
 
-        const userLackingPermsErrorEmbed = new EmbedBuilder()
-            .setTitle(`Cannot ban ${guildMember?.user.username}!`)
-            .setDescription(
-                `You cannot ban <@${guildMember?.id}> as they have a higher role that you!`
-            )
-            .setColor(client.config.colors.red);
+    const notBannableErrorEmbed = new EmbedBuilder()
+      .setTitle(`Cannot ban ${guildMember?.user.username}!`)
+      .setDescription(
+        `I do not have sufficient permissions to ban <@${guildMember?.id}>!`
+      )
+      .setColor(client.config.colors.red);
 
-        const successEmbed = new EmbedBuilder()
-            .setTitle(`Banned ${guildMember?.user.username}!`)
-            .setDescription(
-                `**Member ID:** ${guildMember?.id}\n**Reason:** ${reason}`
-            )
-            .setTimestamp()
-            .setThumbnail(`${guildMember?.displayAvatarURL()}`)
-            .setColor(client.config.colors.green);
+    const userLackingPermsErrorEmbed = new EmbedBuilder()
+      .setTitle(`Cannot ban ${guildMember?.user.username}!`)
+      .setDescription(
+        `You cannot ban <@${guildMember?.id}> as they have a higher role that you!`
+      )
+      .setColor(client.config.colors.red);
 
-        const errorEmbed = new EmbedBuilder()
-            .setTitle":red_circle: An unexpected error occured!"')
-            .setDescription(
-                `<@${guildMember?.id} wasn't banned due to an error.`
-            )
-            .setColor(client.config.colors.red);
+    const successEmbed = new EmbedBuilder()
+      .setTitle(`Banned ${guildMember?.user.username}!`)
+      .setDescription(`**Member ID:** ${guildMember?.id}\n**Reason:** ${reason}`)
+      .setTimestamp()
+      .setThumbnail(`${guildMember?.displayAvatarURL()}`)
+      .setColor(client.config.colors.green);
 
-        if (!guildMember?.bannable) {
-            await interaction.followUp({ embeds: [notBannableErrorEmbed] });
-            return;
-        }
+    const errorEmbed = new EmbedBuilder()
+      .setTitle(':red_circle: An unexpected error occured!')
+      .setDescription(`<@${guildMember?.id} wasn't banned due to an error.`)
+      .setColor(client.config.colors.red);
 
-        const guildMemberHighestRole = guildMember.roles.highest;
-        const userHighestRole = interaction.member.roles.highest;
-        const rolePosition =
-            guildMemberHighestRole.comparePositionTo(userHighestRole);
-        if (rolePosition >= 0) {
-            await interaction.followUp({
-                embeds: [userLackingPermsErrorEmbed,
-            });
-            return;
-        }
+    if (!guildMember?.bannable) {
+      await interaction.followUp({ embeds: [notBannableErrorEmbed] });
+      return;
+    }
 
-        await guildMember
-            ?.ban({ reason: reason })
-            .then(() => interaction.followUp({ embeds: [successEmbed] }))
-            .catch(async err => {
-                await interaction.followUp({ embeds: [errorEmbed] });
-                logger.error(err);
-                return;
-            });
-    ,
+    const guildMemberHighestRole = guildMember.roles.highest;
+    const userHighestRole = interaction.member.roles.highest;
+    const rolePosition = guildMemberHighestRole.comparePositionTo(userHighestRole);
+    if (rolePosition >= 0) {
+      await interaction.followUp({ embeds: [userLackingPermsErrorEmbed] });
+      return;
+    }
+
+    await guildMember
+      ?.ban({ reason: reason })
+      .then(() => interaction.followUp({ embeds: [successEmbed] }))
+      .catch(async err => {
+        await interaction.followUp({ embeds: [errorEmbed] });
+        logger.error(err);
+        return;
+      });
+  },
+
 });
