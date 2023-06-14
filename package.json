@@ -6,7 +6,10 @@
     "scripts": {
         "build": "tsc",
         "start": "node .",
-        "dev": "nodemon src/index.ts"
+        "dev": "nodemon src/index.ts",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "prepare": "husky install"
     },
     "engines": {
         "node": "20"
@@ -18,7 +21,6 @@
         "chalk": "^4.1.2",
         "discord.js": "^14.11.0",
         "dotenv": "^16.0.3",
-        "fast-average-color-node": "^2.6.0",
         "form-data": "^4.0.0",
         "get-image-colors": "^4.0.1",
         "glob": "7.2.0",
@@ -39,8 +41,6 @@
         "nodemon": "^2.0.20",
         "prettier": "2.8.8",
         "ts-node": "^10.9.1",
-        "ts-node-dev": "^2.0.0",
-        "tsconfig-paths": "^4.2.0",
         "typescript": "^5.0.4"
     }
 }
