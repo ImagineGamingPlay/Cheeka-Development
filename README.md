@@ -1,8 +1,8 @@
-<h1 style="text-align: center;">
+<h1 align="center">
     🐶 Cheeka
 </h1>
 
-<h6 style="text-align: center;">
+<h6 align="center">
 Cheeka is a Discord Bot for <a href="https://discord.gg/igp-s-coding-villa-697495719816462436">ImagineGamingPlay's Server.
     </a>
 </h6>
