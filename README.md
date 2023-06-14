@@ -1,14 +1,4 @@
-<!--toc:start-->
-
--   [Contents:](#contents)
--   [📂 Setup](#📂-setup)
--   [⚙️ Support](#️-support)
--   [🙋‍♂️ Contributing](#🙋‍️-contributing)
--   [👨‍💻 Authors](#👨‍💻-authors)
--   [📄 License](#📄-license)
-<!--toc:end-->
-
-<h1 align="center">
+<h1 style="text-align: center;">
     🐶 Cheeka
 </h1>
 
