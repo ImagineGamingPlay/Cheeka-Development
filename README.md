@@ -31,8 +31,9 @@ Cheeka is a Discord Bot for <a href="https://discord.gg/igp-s-coding-villa-69749
     ```
 
 2. Fill-in `.env.sample` file.
-3. Rename `.env.sample` -> `.env`
-4. Install all the dependencies
+3. Rename `.env.sample` → `.env`
+4. Update `src/config.ts`
+5. Install all the dependencies
 
     ```python
     yarn
@@ -44,7 +45,7 @@ Cheeka is a Discord Bot for <a href="https://discord.gg/igp-s-coding-villa-69749
     node install
     ```
 
-5. Build the project
+6. Build the project
     ```
     yarn build
     ```
@@ -52,7 +53,7 @@ Cheeka is a Discord Bot for <a href="https://discord.gg/igp-s-coding-villa-69749
     ```
     npm run build
     ```
-6. Run your bot
+7. Run your bot
     ```
     yarn start
     ```
@@ -63,7 +64,7 @@ Cheeka is a Discord Bot for <a href="https://discord.gg/igp-s-coding-villa-69749
 
 ## ⚙️ Support
 
-Please join our [Discord Server](https://discord.gg/igp-s-coding-villa-697495719816462436) for getting help with the bot. If you are facing any issues and you're sure it's a problem on our site, please [create an issue](https://github.com/ImagineGamingPlay/Cheeka-Development/issues/new).
+Please join our [Discord Server](https://discord.gg/igp-s-coding-villa-697495719816462436) for getting help with the bot. If you are facing any issues, and you're sure it's a problem on our side, please [create an issue](https://github.com/ImagineGamingPlay/Cheeka-Development/issues/new).
 
 ## 🙋‍♂️ Contributing
 
