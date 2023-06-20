@@ -788,6 +788,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+console-wizard@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/console-wizard/-/console-wizard-1.3.0.tgz#705a424cda05ce17535850cda996b8a5d5888ed0"
+  integrity sha512-yB3U7Hz3ZGyLTFdhsh7Vrd2+6WPY5kWmf6BmmFwsBzMRrreGRg4WA8OaRhh4oLs34PYxHkG+p19zlbHsynf1Qg==
+
 core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"

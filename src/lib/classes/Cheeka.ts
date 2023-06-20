@@ -10,7 +10,7 @@ import {
 import { handleEvents } from '..';
 import { config } from '../../config';
 import { CommandType } from '../../types';
-import { logger } from '../../utils';
+import { logger } from 'console-wizard';
 import { ConfigType } from './../../types/configType';
 import { PrismaClient } from '@prisma/client';
 
