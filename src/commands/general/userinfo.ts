@@ -1,5 +1,8 @@
 import {
+    ActionRowBuilder,
     ApplicationCommandOptionType,
+    ButtonBuilder,
+    ButtonStyle,
     ColorResolvable,
     EmbedBuilder,
     GuildMember,
@@ -120,8 +123,33 @@ export default new Command({
                     inline: false,
                 },
             ]);
+        const avatarButton = new ButtonBuilder()
+            .setURL(member.displayAvatarURL())
+            .setStyle(ButtonStyle.Link)
+            .setLabel('Avatar URL')
+            .setEmoji(':link:');
 
-        await interaction.followUp({ embeds: [embed] });
+        const buttons = [avatarButton];
+
+        const bannerUrl = member.user.bannerURL();
+        if (bannerUrl) {
+            const bannerButton = new ButtonBuilder()
+
+                .setURL(bannerUrl)
+                .setStyle(ButtonStyle.Link)
+                .setLabel('Banner URL')
+                .setEmoji(':link:');
+
+            buttons.push(bannerButton);
+        }
+
+        const row = new ActionRowBuilder<ButtonBuilder>({
+            components: buttons,
+        });
+        await interaction.followUp({
+            embeds: [embed],
+            components: [row],
+        });
     },
 });
 

@@ -17,7 +17,7 @@ declare global {
             DEV_GUILD_ID: string;
             MAIN_GUILD_ID: string;
 
-            DB_URI: string;
+            DATABASE_URL: string;
         }
     }
 }

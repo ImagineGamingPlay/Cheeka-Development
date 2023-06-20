@@ -1,2 +1,2 @@
-export * from './promoTimeout';
+export * from './promotionTimeout';
 export * from './announcementsReaction';

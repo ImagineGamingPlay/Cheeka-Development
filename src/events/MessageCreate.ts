@@ -1,4 +1,4 @@
-import { announcementsReaction, promoTimeout } from '../features';
+import { announcementsReaction, promotionTimeout } from '../features';
 import { Event } from '../lib';
 import { config } from '../config';
 import { categories } from '../data';
@@ -11,7 +11,7 @@ export default new Event('messageCreate', async message => {
 
     const channel = message.channel as TextChannel;
     if (channel.parentId === categories.promotionCategoryId) {
-        await promoTimeout(message);
+        await promotionTimeout(message);
     }
     if (
         config.aiReactionChannels &&

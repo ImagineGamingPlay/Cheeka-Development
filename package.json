@@ -9,7 +9,10 @@
         "dev": "nodemon src/index.ts",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
-        "prepare": "husky install"
+        "prettier": "prettier . --check",
+        "prettier:fix": "prettier . --write",
+        "prepare": "husky install",
+        "dbgen": "prisma generate"
     },
     "engines": {
         "node": "20"
@@ -36,12 +39,19 @@
         "@types/ws": "^8.5.4",
         "@typescript-eslint/eslint-plugin": "5.6.0",
         "@typescript-eslint/parser": "5.6.0",
+        "cz-conventional-changelog": "^3.3.0",
         "eslint": "7.32.0",
         "gts": "^3.1.1",
         "husky": "^8.0.0",
         "nodemon": "^2.0.20",
-        "prettier": "2.8.8",
+        "prettier": "^2.8.8",
+        "prisma": "^4.15.0",
         "ts-node": "^10.9.1",
         "typescript": "^5.0.4"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
 }
