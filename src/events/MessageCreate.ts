@@ -5,9 +5,9 @@ import { categories } from '../data';
 import { TextChannel } from 'discord.js';
 import { boosterDM } from '../features';
 export default new Event('messageCreate', async message => {
-    if (message.author.bot) {
-        return;
-    }
+  if (message.author.bot) {
+    return;
+  }
 
     const channel = message.channel as TextChannel;
     if (channel.parentId === categories.promotionCategoryId) {
