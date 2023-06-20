@@ -25,23 +25,24 @@ const mainGuildDevRole = '957257138680516648';
 const devGuildDevRole = '955405899877458021';
 
 export const config: ConfigType = {
-  boosterDMCooldown: parseInt(BOOSTER_DM_COOLDOWN),
-  aiReactionChannels: AI_REACTION_CHANNELS,
-  aiReactionTimesCalled: parseInt(AI_REACTION_TIMES_CALLED),
-  openaiApiKey: OPENAI_API_KEY,
-  environment: ENV,
-  token: ENV?.toLowerCase() == 'prod' ? PROD_TOKEN : DEV_TOKEN,
-  clientId: ENV?.toLowerCase() == 'prod' ? PROD_CLIENT_ID : DEV_CLIENT_ID,
-  guildId: ENV.toLowerCase() == 'prod' ? MAIN_GUILD_ID : DEV_GUILD_ID,
-  devGuildId: DEV_GUILD_ID,
-  mainGuildId: MAIN_GUILD_ID,
+    boosterDMCooldown: parseInt(BOOSTER_DM_COOLDOWN),
+    aiReactionChannels: AI_REACTION_CHANNELS,
+    aiReactionTimesCalled: parseInt(AI_REACTION_TIMES_CALLED),
+    openaiApiKey: OPENAI_API_KEY,
+    environment: ENV,
+    token: ENV?.toLowerCase() === 'prod' ? PROD_TOKEN : DEV_TOKEN,
+    clientId: ENV?.toLowerCase() === 'prod' ? PROD_CLIENT_ID : DEV_CLIENT_ID,
+    guildId: ENV.toLowerCase() === 'prod' ? MAIN_GUILD_ID : DEV_GUILD_ID,
+    devGuildId: DEV_GUILD_ID,
+    mainGuildId: MAIN_GUILD_ID,
 
-  developerRoleId: ENV.toLowerCase() == 'prod' ? mainGuildDevRole : devGuildDevRole,
+    developerRoleId:
+        ENV.toLowerCase() === 'prod' ? mainGuildDevRole : devGuildDevRole,
 
-  colors: {
-    blurple: 0x5865f2,
-    red: 0xed4245,
-    green: 0x57f287,
-    white: 0xffffff,
-  },
+    colors: {
+        blurple: 0x5865f2,
+        red: 0xed4245,
+        green: 0x57f287,
+        white: 0xffffff,
+    },
 };
