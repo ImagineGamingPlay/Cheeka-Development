@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node .",
-    "dev": "nodemon",
+    "dev": "nodemon ./src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prepare": "husky install"

@@ -6,6 +6,7 @@ type ColorsType = {
 };
 
 export interface ConfigType {
+  boosterDMCooldown?: number;
   aiReactionTimesCalled?: number;
   aiReactionChannels?: string[];
   openaiApiKey?: string;
