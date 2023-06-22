@@ -912,6 +912,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+console-wizard@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/console-wizard/-/console-wizard-1.3.2.tgz#312d2fe37339a16f2c33ca1283441fcd13590a7c"
+  integrity sha512-Ni+BCdf4S/CTAAzcZE9HLSHgk9llDJPAvpDADzkeJHvZ6FJWVwrWA+TUyaONr/k7IZaC7wsy/07/u4sY9nAH5Q==
+
 conventional-commit-types@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/conventional-commit-types/-/conventional-commit-types-3.0.0.tgz#7c9214e58eae93e85dd66dbfbafe7e4fffa2365b"
