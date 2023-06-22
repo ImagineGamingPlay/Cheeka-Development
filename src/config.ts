@@ -20,10 +20,12 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY as string;
 const AI_REACTION_CHANNELS = ['1110551425555124324'];
 const AI_REACTION_TIMES_CALLED = process.env.AI_REACTION_TIMES_CALLED as string;
 
+const BOOSTER_DM_COOLDOWN = process.env.BOOSTER_DM_COOLDOWN as string;
 const mainGuildDevRole = '957257138680516648';
 const devGuildDevRole = '955405899877458021';
 
 export const config: ConfigType = {
+    boosterDMCooldown: parseInt(BOOSTER_DM_COOLDOWN),
     aiReactionChannels: AI_REACTION_CHANNELS,
     aiReactionTimesCalled: parseInt(AI_REACTION_TIMES_CALLED),
     openaiApiKey: OPENAI_API_KEY,
