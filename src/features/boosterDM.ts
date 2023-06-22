@@ -23,7 +23,6 @@ export const boosterDM = (message: Message) => {
         })
 
         message.author.send({ embeds: [embed] })
-        message.author.send("thanks for boosting");
         cooldown.add(message.author.id);
         startCooldown(message.author.id);
     }
