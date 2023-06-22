@@ -6,9 +6,9 @@ import { TextChannel } from 'discord.js';
 import { boosterDM } from '../features';
 
 export default new Event('messageCreate', async message => {
-  if (message.author.bot) {
-    return;
-  }
+    if (message.author.bot) {
+        return;
+    }
 
     const channel = message.channel as TextChannel;
     if (channel.parentId === categories.promotionCategoryId) {
@@ -21,5 +21,5 @@ export default new Event('messageCreate', async message => {
         config.aiReactionChannels.includes(message.channel.id)
     )
         announcementsReaction(message);
-        boosterDM(message);
+    boosterDM(message);
 });
