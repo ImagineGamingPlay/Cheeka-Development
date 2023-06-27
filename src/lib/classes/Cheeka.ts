@@ -13,6 +13,7 @@ import { CommandType } from '../../types';
 import { logger } from 'console-wizard';
 import { ConfigType } from './../../types/configType';
 import { PrismaClient } from '@prisma/client';
+import { ButtonOptions } from '../../types/InteractionTypes';
 
 const { Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent } =
     GatewayIntentBits;
@@ -55,6 +56,7 @@ const setActivityStatus = (client: Cheeka) => {
 export class Cheeka extends Client {
     config: ConfigType;
     commands: Collection<string, CommandType>;
+    buttons: Collection<string, ButtonOptions>;
     prisma: PrismaClient;
 
     constructor() {
@@ -62,8 +64,13 @@ export class Cheeka extends Client {
 
         this.config = config;
         this.commands = new Collection();
+        this.buttons = new Collection();
+
         this.prisma = new PrismaClient({
-            log: ['query', 'info', 'warn', 'error'],
+            log:
+                config.environment === 'dev'
+                    ? ['query', 'info', 'warn', 'error']
+                    : ['warn', 'error'],
         });
     }
 

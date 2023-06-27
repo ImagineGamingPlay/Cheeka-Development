@@ -1,38 +1,13 @@
-import { readdirSync } from 'fs';
-import { join } from 'path';
 import { client } from '../..';
 import { CommandTableObjectsType, CommandType } from '../../types';
-import { logger } from '../../utils';
+import { logger } from 'console-wizard';
+import { getFiles } from '../../utils';
 
 /* Utility Functions */
-const getCommandFiles = (path: string, categorized: boolean): string[] => {
-    const files: string[] = [];
-
-    // FS = FileSystem (FSNode representing both files and folders)
-    const firstDepthFSNodes = readdirSync(path);
-
-    firstDepthFSNodes.forEach(FSNode => {
-        if (!categorized) {
-            files.push(join(path, FSNode));
-            return files;
-        }
-
-        // Basically files but named this way for consistency
-        const secondDepthFSNodes = readdirSync(`${path}/${FSNode}`).filter(f =>
-            f.endsWith('.ts')
-        );
-
-        secondDepthFSNodes.forEach(fileName => {
-            files.push(join(path, FSNode, fileName));
-            return files;
-        });
-    });
-    return files;
-};
 
 export const registerCommands = async () => {
     const commands: CommandType[] = [];
-    const commandFiles = getCommandFiles(`${__dirname}/../../commands`, true);
+    const commandFiles = getFiles(`${__dirname}/../../commands`, true);
 
     const loadedCommandNames: CommandTableObjectsType[] = [];
 

@@ -1,5 +1,5 @@
-export * from './commandType';
+export * from './CommandTypes';
 export * from './configType';
 export * from './envType';
 export * from './miscTypes';
-export * from './promotionTimeoutTypes';
+export * from './TagTypes';

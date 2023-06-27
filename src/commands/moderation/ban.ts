@@ -4,7 +4,7 @@ import {
     PermissionFlagsBits,
 } from 'discord.js';
 import { Command } from '../../lib';
-import { logger } from '../../utils';
+import { logger } from 'console-wizard';
 
 export default new Command({
     name: 'ban',
