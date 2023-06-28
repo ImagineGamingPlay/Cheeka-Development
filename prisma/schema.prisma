@@ -10,20 +10,23 @@ generator client {
     provider = "prisma-client-js"
 }
 
+// TAG SYSTEM {{
 model Tag {
-    id        String   @id @default(cuid()) @map("_id")
-    name      String   @unique
-    type      TagType
-    content   String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    ownerId   String
-    owner     User     @relation(fields: [ownerId], references: [id])
+    id         String   @id @default(cuid()) @map("_id")
+    name       String   @unique
+    type       TagType
+    accepted   Boolean @default(false)
+    content    String
+    newContent String?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    ownerId    String
+    owner      User     @relation(fields: [ownerId], references: [id])
 }
-
+// }}
 model User {
     id        String   @id @default(cuid()) @map("_id")
-    discordId String   @unique
+    userId String   @unique @map("userId")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     tags      Tag[]
