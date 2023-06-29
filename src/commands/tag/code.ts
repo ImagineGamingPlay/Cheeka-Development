@@ -1,32 +1,12 @@
 import { TagType } from '@prisma/client';
-import {
-    ApplicationCommandOptionChoiceData,
-    ApplicationCommandOptionType,
-} from 'discord.js';
+import { ApplicationCommandOptionType } from 'discord.js';
 import { Command, tagCreateRequest, deleteTag } from '../../lib/';
 import { TagProps } from '../../types';
 import { viewTag } from '../../lib/functions/viewTag';
 import { tagModifyRequest } from '../../lib/functions/tagModifyRequest';
-import { client } from '../..';
+import { getTagNames } from '../../lib/functions/getTagNames';
 
 const TAG_TYPE = TagType.CODE;
-
-const tagChoices = (async () => {
-    const tags = await client.prisma.tag.findMany({
-        where: {
-            type: TAG_TYPE,
-        },
-    });
-    const choices: ApplicationCommandOptionChoiceData<string>[] = tags.map(
-        tag => {
-            return {
-                name: tag.name,
-                value: tag.name,
-            };
-        }
-    );
-    return choices;
-})();
 
 export default new Command({
     name: 'code',
@@ -42,7 +22,7 @@ export default new Command({
                     description: 'name of the code snippet',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    choices: tagChoices,
+                    autocomplete: true,
                 },
             ],
         },
@@ -69,7 +49,7 @@ export default new Command({
                     description: 'name of the code snippet',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    choices: tagChoices,
+                    autocomplete: true,
                 },
             ],
         },
@@ -83,11 +63,22 @@ export default new Command({
                     description: 'name of the code snippet',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    choices: tagChoices,
+                    autocomplete: true,
                 },
             ],
         },
     ],
+    autocomplete: async interaction => {
+        const focused = interaction.options.getFocused();
+        const tagChoices = await getTagNames(TAG_TYPE);
+
+        const filtered = tagChoices.filter(choice =>
+            choice.startsWith(focused)
+        );
+        await interaction.respond(
+            filtered.map(choice => ({ name: choice, value: choice }))
+        );
+    },
     run: async ({ options, interaction }) => {
         if (!options) return;
         const subcommand = options?.getSubcommand();

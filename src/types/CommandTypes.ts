@@ -1,4 +1,5 @@
 import {
+    AutocompleteInteraction,
     ChatInputApplicationCommandData,
     CommandInteraction,
     CommandInteractionOptionResolver,
@@ -20,6 +21,7 @@ export interface CommandType extends ChatInputApplicationCommandData {
     devOnly?: boolean;
     ownerOnly?: boolean;
     run: (options: RunParams) => Promise<void>;
+    autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
 }
 
 export interface CommandTableObjectsType {

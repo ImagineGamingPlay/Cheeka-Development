@@ -4,11 +4,12 @@ import { Command, tagCreateRequest, deleteTag } from '../../lib/';
 import { TagProps } from '../../types';
 import { viewTag } from '../../lib/functions/viewTag';
 import { tagModifyRequest } from '../../lib/functions/tagModifyRequest';
-import { getTagChoices } from '../../lib/functions/getTagChoices';
+import { getTagNames } from '../../lib/functions/getTagNames';
+// import { getTagChoices } from '../../lib/functions/getTagChoices';
 
 const TAG_TYPE = TagType.INFO;
 
-const tagChoices = await getTagChoices(TAG_TYPE);
+// const tagChoices = await getTagChoices(TAG_TYPE);
 
 export default new Command({
     name: 'info',
@@ -24,7 +25,7 @@ export default new Command({
                     description: 'name of the info tag',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    choices: tagChoices,
+                    autocomplete: true,
                 },
             ],
         },
@@ -51,7 +52,7 @@ export default new Command({
                     description: 'name of the info tag',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    choices: tagChoices,
+                    autocomplete: true,
                 },
             ],
         },
@@ -65,11 +66,22 @@ export default new Command({
                     description: 'name of the info tag',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    choices: tagChoices,
+                    autocomplete: true,
                 },
             ],
         },
     ],
+    autocomplete: async interaction => {
+        const focused = interaction.options.getFocused();
+        const tagChoices = await getTagNames(TAG_TYPE);
+
+        const filtered = tagChoices.filter(choice =>
+            choice.startsWith(focused)
+        );
+        await interaction.respond(
+            filtered.map(choice => ({ name: choice, value: choice }))
+        );
+    },
     run: async ({ options, interaction }) => {
         if (!options) return;
         const subcommand = options?.getSubcommand();

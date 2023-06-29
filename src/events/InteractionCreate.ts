@@ -1,6 +1,11 @@
-import { ButtonInteraction, Interaction } from 'discord.js';
+import {
+    AutocompleteInteraction,
+    ButtonInteraction,
+    Interaction,
+} from 'discord.js';
 import { Event, handleButtons, handleSlashCommands } from '../lib';
 import { ModifiedCommandInteraction } from '../types';
+import { handleAutocomplete } from '../lib/functions/handleAutocomplete';
 
 export default new Event(
     'interactionCreate',
@@ -13,6 +18,10 @@ export default new Event(
         }
         if (interaction.isButton()) {
             await handleButtons(interaction as ButtonInteraction);
+            return;
+        }
+        if (interaction.isAutocomplete()) {
+            await handleAutocomplete(interaction as AutocompleteInteraction);
             return;
         }
     }
