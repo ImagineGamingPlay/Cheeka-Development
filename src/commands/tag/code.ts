@@ -1,9 +1,32 @@
 import { TagType } from '@prisma/client';
-import { ApplicationCommandOptionType } from 'discord.js';
+import {
+    ApplicationCommandOptionChoiceData,
+    ApplicationCommandOptionType,
+} from 'discord.js';
 import { Command, tagCreateRequest, deleteTag } from '../../lib/';
 import { TagProps } from '../../types';
 import { viewTag } from '../../lib/functions/viewTag';
 import { tagModifyRequest } from '../../lib/functions/tagModifyRequest';
+import { client } from '../..';
+
+const TAG_TYPE = TagType.CODE;
+
+const tagChoices = (async () => {
+    const tags = await client.prisma.tag.findMany({
+        where: {
+            type: TAG_TYPE,
+        },
+    });
+    const choices: ApplicationCommandOptionChoiceData<string>[] = tags.map(
+        tag => {
+            return {
+                name: tag.name,
+                value: tag.name,
+            };
+        }
+    );
+    return choices;
+})();
 
 export default new Command({
     name: 'code',
@@ -19,6 +42,7 @@ export default new Command({
                     description: 'name of the code snippet',
                     type: ApplicationCommandOptionType.String,
                     required: true,
+                    choices: tagChoices,
                 },
             ],
         },
@@ -45,6 +69,7 @@ export default new Command({
                     description: 'name of the code snippet',
                     type: ApplicationCommandOptionType.String,
                     required: true,
+                    choices: tagChoices,
                 },
             ],
         },
@@ -58,6 +83,7 @@ export default new Command({
                     description: 'name of the code snippet',
                     type: ApplicationCommandOptionType.String,
                     required: true,
+                    choices: tagChoices,
                 },
             ],
         },
@@ -70,13 +96,13 @@ export default new Command({
         if (!name) return;
 
         if (subcommand === 'view') {
-            viewTag(name, interaction);
+            viewTag(name, TAG_TYPE, interaction);
         }
 
         if (subcommand === 'add') {
             const props: Omit<TagProps, 'ownerId' | 'content'> = {
                 name,
-                type: TagType.CODE,
+                type: TAG_TYPE,
                 interaction,
             };
             await tagCreateRequest(props);
@@ -91,7 +117,7 @@ export default new Command({
             const props: Omit<TagProps, 'options' | 'content' | 'ownerId'> = {
                 name,
                 interaction,
-                type: TagType.CODE,
+                type: TAG_TYPE,
             };
             await tagModifyRequest(props);
         }
