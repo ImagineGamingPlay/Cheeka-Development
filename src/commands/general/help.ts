@@ -55,6 +55,6 @@ export default new Command({
             } catch (e) {
                 console.log(e);
             }
-        }
+        } 
     },
 });
