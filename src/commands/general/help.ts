@@ -5,7 +5,7 @@ import {
     StringSelectMenuBuilder,
 } from 'discord.js';
 import { Command } from '../../lib/classes/Command';
-import { readdirSync } from 'fs';
+import { getFiles } from '../../utils';
 
 export default new Command({
     name: 'help',
@@ -20,11 +20,8 @@ export default new Command({
     ],
     run: async ({ interaction, client, options }) => {
         const category = options?.getString('category');
-        const categories = readdirSync('./src/commands', {
-            withFileTypes: true,
-        })
-            .filter(dir => dir.isDirectory())
-            .map(folders => folders.name);
+        const categories = getFiles(`${__dirname}/../../commands`, false);
+        console.log(categories)
         if (!category) {
             const helpEmbed = new EmbedBuilder()
                 .setTitle(`Select a category`)

@@ -45,7 +45,7 @@
         "cz-conventional-changelog": "^3.3.0",
         "eslint": "7.32.0",
         "gts": "^3.1.1",
-        "husky": "^8.0.0",
+        "husky": "^8.0.3",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.8",
         "prisma": "^4.15.0",
