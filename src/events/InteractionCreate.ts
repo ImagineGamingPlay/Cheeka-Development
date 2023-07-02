@@ -2,10 +2,12 @@ import {
     AutocompleteInteraction,
     ButtonInteraction,
     Interaction,
+    StringSelectMenuInteraction,
 } from 'discord.js';
 import { Event, handleButtons, handleSlashCommands } from '../lib';
 import { ModifiedCommandInteraction } from '../types';
 import { handleAutocomplete } from '../lib/functions/handleAutocomplete';
+import { handleSelectMenu } from '../lib/functions/handleSelectMenu';
 
 export default new Event(
     'interactionCreate',
@@ -24,5 +26,10 @@ export default new Event(
             await handleAutocomplete(interaction as AutocompleteInteraction);
             return;
         }
+        if (interaction.isStringSelectMenu()) {
+            await handleSelectMenu(interaction as StringSelectMenuInteraction);
+            return;
+        }
+
     }
 );

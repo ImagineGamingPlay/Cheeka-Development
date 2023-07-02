@@ -5,7 +5,7 @@ import {
 } from 'discord.js';
 import { Command } from '../../lib';
 import { logger } from 'console-wizard';
-import ms from "ms";
+import ms from 'ms';
 export default new Command({
     name: 'timeout',
     description: 'Timeout a member',
@@ -36,8 +36,8 @@ export default new Command({
         const member = options?.getUser('member');
         const reason = options?.getString('reason') || 'No reason given';
         const duration = options?.getString('duration');
-        const durationMs = duration ? ms(duration) : 0
-        
+        const durationMs = duration ? ms(duration) : 0;
+
         if (!member) return;
 
         const guildMember = interaction.guild?.members.cache.get(member?.id);
@@ -57,7 +57,7 @@ export default new Command({
             .setColor(client.config.colors.red);
 
         const successEmbed = new EmbedBuilder()
-            .setTitle(`Timeout ${guildMember?.user.username}!`)
+            .setTitle(`Timeouted ${guildMember?.user.username}!`)
             .setDescription(
                 `**Member ID:** ${guildMember?.id}\n**Reason:** ${reason}`
             )
@@ -72,13 +72,15 @@ export default new Command({
             )
             .setColor(client.config.colors.red);
         const invalidDurationEmbed = new EmbedBuilder()
-        .setTitle("Invalid timeout duration!")
-        .setDescription(`Please provided a valid timeout duration!`)
-        .setColor(client.config.colors.red);
+            .setTitle('Invalid timeout duration!')
+            .setDescription(`Please provided a valid timeout duration!`)
+            .setColor(client.config.colors.red);
         const tooLongDurationEmbed = new EmbedBuilder()
-        .setTitle("Invalid timeout duration!")
-        .setDescription("Timeout duration cannot be longer then 28 days or less then 5 seconds!")
-        .setColor(client.config.colors.red)
+            .setTitle('Invalid timeout duration!')
+            .setDescription(
+                'Timeout duration cannot be longer then 28 days or less then 5 seconds!'
+            )
+            .setColor(client.config.colors.red);
         if (!guildMember?.kickable) {
             await interaction.followUp({ embeds: [notTimeoutableErrorEmbed] });
             return;
@@ -95,20 +97,19 @@ export default new Command({
             return;
         }
 
-        if(isNaN(durationMs)) {
-            await interaction.followUp({embeds: [invalidDurationEmbed]})
+        if (isNaN(durationMs)) {
+            await interaction.followUp({ embeds: [invalidDurationEmbed] });
         }
 
-        if(durationMs < 5000 || durationMs > 2.419e9) {
-            await interaction.followUp({embeds: [tooLongDurationEmbed]})
+        if (durationMs < 5000 || durationMs > 2.419e9) {
+            await interaction.followUp({ embeds: [tooLongDurationEmbed] });
         }
 
         await guildMember
             ?.timeout(durationMs, reason)
-            .then((hi) => {
-            console.log(hi)
-            interaction.followUp({ embeds: [successEmbed] })
-    })
+            .then(() => {
+                interaction.followUp({ embeds: [successEmbed] });
+            })
             .catch(async err => {
                 await interaction.followUp({ embeds: [errorEmbed] });
                 logger.error(err);
