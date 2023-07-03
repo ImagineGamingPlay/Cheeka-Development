@@ -26,7 +26,7 @@ export default new Command({
         );
         if (!category) {
             const helpEmbed = new EmbedBuilder()
-                .setTitle('Select a category')
+                .setTitle(`Select a category`)
                 .setDescription(
                     'Please select a category from the selection menu given below.'
                 )
@@ -56,15 +56,14 @@ export default new Command({
             }
         } else {
             const commands: CommandType[] = [];
-            const commandsFiles = getFiles('./src/commands', true).filter(dir =>
-                dir.includes(`/commands/${category}`)
+            const commandsFiles = getFiles(
+                `./src/commands`, true
+            ).filter(
+                dir => dir.includes(`/commands/${category}`)
             );
             for (const file of commandsFiles) {
-                const filePath = path
-                    .resolve(__dirname, '..', file)
-                    .replace('/src/commands', '');
-                const commandClass: CommandType = (await import(filePath))
-                    .default;
+                const filePath = path.resolve(__dirname, '..', file).replace('/src/commands', '')
+                const commandClass: CommandType = (await import(filePath)).default;
                 const { ...command } = commandClass;
 
                 commands.push(command);

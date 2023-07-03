@@ -73,7 +73,7 @@ export default new Command({
             .setColor(client.config.colors.red);
         const invalidDurationEmbed = new EmbedBuilder()
             .setTitle('Invalid timeout duration!')
-            .setDescription('Please provided a valid timeout duration!')
+            .setDescription(`Please provided a valid timeout duration!`)
             .setColor(client.config.colors.red);
         const tooLongDurationEmbed = new EmbedBuilder()
             .setTitle('Invalid timeout duration!')
