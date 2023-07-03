@@ -77,9 +77,9 @@ export class Cheeka extends Client {
     async deploy() {
         await this.login(config.token);
         await handleEvents();
-        // await this.prisma
-        //     .$connect()
-        //     .then(() => logger.success('Database Connected!'));
+        await this.prisma
+            .$connect()
+            .then(() => logger.success('Database Connected!'));
         setActivityStatus(this);
         logger.success('Client Deployed!');
         logger.info(`Environment: ${this.config.environment}`);

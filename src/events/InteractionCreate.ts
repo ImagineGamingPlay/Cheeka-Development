@@ -30,6 +30,5 @@ export default new Event(
             await handleSelectMenu(interaction as StringSelectMenuInteraction);
             return;
         }
-
     }
 );

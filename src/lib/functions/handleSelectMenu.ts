@@ -27,7 +27,7 @@ export const handleSelectMenu = async (
     }
     let commandsData = '';
     for (let i = 0; i < commands.length; i++) {
-        let command = commands[i];
+        const command = commands[i];
         commandsData += `**${command.name}** - ${command.description}\n`;
     }
     const messageEmbed = new EmbedBuilder()
