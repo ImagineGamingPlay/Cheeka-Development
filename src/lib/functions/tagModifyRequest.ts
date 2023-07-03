@@ -7,9 +7,11 @@ import {
 } from 'discord.js';
 import { client } from '../..';
 import { TagProps } from '../../types';
-import { channels } from '../../data';
+import { idData } from '../../data';
 import { logger } from 'console-wizard';
 import { modifyTag } from './modifyTag';
+
+const { channels } = idData;
 
 export const tagModifyRequest = async ({
     name,

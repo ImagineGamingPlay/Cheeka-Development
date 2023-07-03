@@ -126,8 +126,8 @@ export default new Command({
         const avatarButton = new ButtonBuilder()
             .setURL(member.displayAvatarURL())
             .setStyle(ButtonStyle.Link)
-            .setLabel('Avatar URL')
-            .setEmoji(':link:');
+            .setLabel('Avatar URL');
+        // .setEmoji(':link:');
 
         const buttons = [avatarButton];
 
@@ -137,8 +137,8 @@ export default new Command({
 
                 .setURL(bannerUrl)
                 .setStyle(ButtonStyle.Link)
-                .setLabel('Banner URL')
-                .setEmoji(':link:');
+                .setLabel('Banner URL');
+            // .setEmoji(':link:');
 
             buttons.push(bannerButton);
         }
