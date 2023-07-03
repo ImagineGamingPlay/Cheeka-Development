@@ -1,6 +1,6 @@
 import { logger } from 'console-wizard';
 import { client } from '../..';
-import { channels } from '../../data';
+import { idData } from '../../data';
 import { TagProps } from '../../types';
 import {
     ActionRowBuilder,
@@ -8,6 +8,8 @@ import {
     ButtonStyle,
     EmbedBuilder,
 } from 'discord.js';
+
+const { channels } = idData;
 
 export const tagCreateRequest = async ({
     name,

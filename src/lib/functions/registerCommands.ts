@@ -4,7 +4,6 @@ import { logger } from 'console-wizard';
 import { getFiles } from '../../utils';
 
 /* Utility Functions */
-
 export const registerCommands = async () => {
     const commands: CommandType[] = [];
     const commandFiles = getFiles(`${__dirname}/../../commands`, true);
@@ -23,7 +22,6 @@ export const registerCommands = async () => {
         loadedCommandNames.push({ LoadedCommands: command.name });
         client.commands.set(command.name, command);
     }
-    // console.log(commands);
     if (client.config.environment === 'dev') {
         const devGuild = client.guilds.cache.get(client.config.devGuildId);
         // client.application?.commands.set([], devGuild?.id || '');

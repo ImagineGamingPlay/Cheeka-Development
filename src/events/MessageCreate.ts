@@ -1,7 +1,7 @@
 import { announcementsReaction, promotionTimeout } from '../features';
 import { Event } from '../lib';
 import { config } from '../config';
-import { categories } from '../data';
+import { idData } from '../data';
 import { TextChannel } from 'discord.js';
 import { boosterDM } from '../features';
 
@@ -11,7 +11,7 @@ export default new Event('messageCreate', async message => {
     }
 
     const channel = message.channel as TextChannel;
-    if (channel.parentId === categories.promotionCategoryId) {
+    if (channel.parentId === idData.categories.promotionCategoryId) {
         await promotionTimeout(message);
     }
     boosterDM(message);
