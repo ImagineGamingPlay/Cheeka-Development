@@ -22,10 +22,6 @@ export default new Command({
             title: ':ping_pong: Ping Status',
             description: 'Information about the latency and uptime!',
             color: client.config.colors.blurple,
-            // author: {
-            //   name: interaction.user.username,
-            //   iconURL: interaction.user.avatarURL() || '',
-            // },
             fields: [
                 {
                     name: 'Ping',

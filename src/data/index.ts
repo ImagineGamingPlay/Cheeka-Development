@@ -12,5 +12,5 @@ if (env === 'dev') {
 
 export const idData = ids;
 
-export const cooldown = new Set();
 export * from './messages';
+export * from './cooldown';
