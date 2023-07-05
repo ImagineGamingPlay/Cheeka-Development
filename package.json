@@ -5,7 +5,9 @@
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
+        "build:tsup": "tsup src/index.ts --format cjs,esm",
         "start": "node .",
+        "prod": "yarn build && yarn start",
         "dev": "nodemon src/index.ts",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
@@ -50,6 +52,7 @@
         "prettier": "^2.8.8",
         "prisma": "^4.15.0",
         "ts-node": "^10.9.1",
+        "tsup": "^7.1.0",
         "typescript": "^5.0.4"
     },
     "config": {

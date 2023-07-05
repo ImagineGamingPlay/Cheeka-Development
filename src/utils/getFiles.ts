@@ -14,9 +14,7 @@ export const getFiles = (path: string, categorized: boolean): string[] => {
         }
 
         // Basically files but named this way for consistency
-        const secondDepthFSNodes = readdirSync(`${path}/${FSNode}`).filter(f =>
-            f.endsWith('.ts')
-        );
+        const secondDepthFSNodes = readdirSync(`${path}/${FSNode}`);
 
         secondDepthFSNodes.forEach(fileName => {
             files.push(join(path, FSNode, fileName));
