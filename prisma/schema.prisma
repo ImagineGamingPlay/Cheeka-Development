@@ -21,7 +21,7 @@ model Tag {
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
     ownerId    String
-    owner      User     @relation(fields: [ownerId], references: [id])
+    // owner      User     @relation(fields: [ownerId], references: [id])
 }
 // }}
 model User {
@@ -29,7 +29,7 @@ model User {
     userId String   @unique @map("userId")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    tags      Tag[]
+    // tags      Tag[]
 }
 
 enum TagType {
@@ -38,9 +38,21 @@ enum TagType {
     INFO
 }
 
-model PromotionBlacklist {
+model PromotionBlacklist1 {
     id     String @id @default(auto()) @map("_id") @db.ObjectId
     userId String @unique
     index  Int
 }
 
+model PromotionBlacklist2 {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    userId String @unique
+    index  Int
+}
+
+
+model PromotionBlacklist3 {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    userId String @unique
+    index  Int
+}

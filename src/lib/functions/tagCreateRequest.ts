@@ -92,6 +92,21 @@ export const tagCreateRequest = async ({
         return;
     }
 
+    if (content.length > 2000) {
+        interaction.followUp({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('Failed to create tag!')
+                    .setDescription(
+                        'The content cannot have more than 2000 characters!'
+                    )
+                    .setColor(client.config.colors.red),
+            ],
+            ephemeral: true,
+        });
+        return;
+    }
+
     const tag = await client.prisma.tag.create({
         data: {
             name,

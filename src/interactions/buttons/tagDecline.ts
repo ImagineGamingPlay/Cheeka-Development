@@ -15,6 +15,7 @@ export default new Button({
                 content: "This tag doesn't exist!",
                 ephemeral: true,
             });
+            return;
         }
 
         await client.prisma.tag.delete({

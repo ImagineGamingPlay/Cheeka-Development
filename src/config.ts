@@ -17,7 +17,7 @@ const DEV_CLIENT_ID = process.env.DEV_CLIENT_ID as string;
 const DEV_GUILD_ID = process.env.DEV_GUILD_ID as string;
 const MAIN_GUILD_ID = process.env.MAIN_GUILD_ID as string;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY as string;
-const AI_REACTION_CHANNELS = ['1110551425555124324'];
+const AI_REACTION_CHANNELS = ['1110551425555124324', '1126471827628228648'];
 const AI_REACTION_TIMES_CALLED = process.env.AI_REACTION_TIMES_CALLED as string;
 
 const BOOSTER_DM_COOLDOWN = process.env.BOOSTER_DM_COOLDOWN as string;

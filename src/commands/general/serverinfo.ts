@@ -13,9 +13,16 @@ export default new Command({
             guild?.channels.cache.filter(
                 channel => channel?.type === ChannelType.GuildCategory
             ).size || 0;
-        const totalChannels = guild?.channels.cache.size || 0 - totalCategories;
+        const totalThreads =
+            guild?.channels.cache.filter(
+                c =>
+                    c.type === ChannelType.PublicThread ||
+                    c.type === ChannelType.PrivateThread
+            ).size || 0;
+        const totalChannels =
+            (guild?.channels.cache.size || 0) - totalCategories - totalThreads;
         const numTextChannel = guild?.channels.cache.filter(
-            channel => channel.type === ChannelType.GuildText
+            c => c.type === ChannelType.GuildText
         ).size;
         const numVoiceChannel = guild?.channels.cache.filter(
             channel => channel.type === ChannelType.GuildVoice
