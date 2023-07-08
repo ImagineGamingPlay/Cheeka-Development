@@ -84,13 +84,6 @@ export default new Command({
             .setTitle(`Banned ${target?.user.username}!`)
             .setTimestamp()
             .setColor(client.config.colors.green);
-        await target?.ban({ reason: reason }).catch(async err => {
-            await interaction.followUp({ embeds: [errorEmbed] });
-            logger.error(err);
-            return;
-        });
-
-        await modalInteraction.reply({ embeds: [successEmbed] });
         try {
             await target.send({
                 embeds: [
@@ -105,6 +98,7 @@ export default new Command({
                         ],
                         author: {
                             name: `${interaction.guild?.name}`,
+                            iconURL: `${interaction.guild?.iconURL()}`,
                         },
                         color: client.config.colors.red,
                     }),
@@ -113,5 +107,13 @@ export default new Command({
         } catch (err) {
             return;
         }
+
+        await target?.ban({ reason: reason }).catch(async err => {
+            await interaction.followUp({ embeds: [errorEmbed] });
+            logger.error(err);
+            return;
+        });
+
+        await modalInteraction.reply({ embeds: [successEmbed] });
     },
 });
