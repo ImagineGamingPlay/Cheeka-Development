@@ -25,14 +25,17 @@ const mainGuildDevRole = '957257138680516648';
 const devGuildDevRole = '955405899877458021';
 
 export const config: ConfigType = {
+    environment: ENV,
+    openaiApiKey: OPENAI_API_KEY,
+
     boosterDMCooldown: parseInt(BOOSTER_DM_COOLDOWN),
     aiReactionChannels: AI_REACTION_CHANNELS,
     aiReactionTimesCalled: parseInt(AI_REACTION_TIMES_CALLED),
-    openaiApiKey: OPENAI_API_KEY,
-    environment: ENV,
+
     token: ENV?.toLowerCase() === 'prod' ? PROD_TOKEN : DEV_TOKEN,
     clientId: ENV?.toLowerCase() === 'prod' ? PROD_CLIENT_ID : DEV_CLIENT_ID,
     guildId: ENV.toLowerCase() === 'prod' ? MAIN_GUILD_ID : DEV_GUILD_ID,
+
     devGuildId: DEV_GUILD_ID,
     mainGuildId: MAIN_GUILD_ID,
 

@@ -1,10 +1,16 @@
-import { ChannelType, ColorResolvable, EmbedBuilder } from 'discord.js';
+import {
+    ApplicationCommandType,
+    ChannelType,
+    ColorResolvable,
+    EmbedBuilder,
+} from 'discord.js';
 import { Command } from '../../lib';
 import getColor from 'get-image-colors';
 
 export default new Command({
     name: 'serverinfo',
     description: 'Server Information',
+    type: ApplicationCommandType.ChatInput,
 
     run: async ({ interaction }) => {
         const { guild } = interaction;

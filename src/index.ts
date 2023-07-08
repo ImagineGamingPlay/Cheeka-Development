@@ -9,4 +9,7 @@ setWizardConfig({
 
 export const client: Cheeka = new Cheeka();
 
+// client.on('debug', console.log).on('warn', console.log);
+// client.once('ready', () => console.log('Ready - from index.ts'));
+
 client.deploy();

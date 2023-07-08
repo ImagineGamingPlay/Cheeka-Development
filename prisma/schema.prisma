@@ -56,3 +56,4 @@ model PromotionBlacklist3 {
     userId String @unique
     index  Int
 }
+

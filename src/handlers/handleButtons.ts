@@ -1,8 +1,9 @@
 import { ButtonInteraction } from 'discord.js';
-import { client } from '../..';
+import { client } from '..';
+import { ButtonRunParams } from '../types';
 
 export const handleButtons = async (interaction: ButtonInteraction) => {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     const { customId } = interaction;
     const idParts = customId.split('--');
@@ -11,9 +12,11 @@ export const handleButtons = async (interaction: ButtonInteraction) => {
 
     const button = client.buttons.get(scope);
 
-    await button?.run({
+    const args: ButtonRunParams = {
         interaction,
         id,
         scope,
-    });
+    };
+
+    await button?.run(args);
 };

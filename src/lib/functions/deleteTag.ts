@@ -1,10 +1,10 @@
 import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { client } from '../..';
-import { ModifiedCommandInteraction } from '../../types';
+import { ModifiedChatInputCommandInteraction } from '../../types';
 
 export const deleteTag = async (
     name: string,
-    interaction: ModifiedCommandInteraction
+    interaction: ModifiedChatInputCommandInteraction
 ) => {
     const isTagOwner = await client.prisma.tag.findFirst({
         where: {

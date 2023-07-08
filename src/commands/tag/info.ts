@@ -1,5 +1,8 @@
 import { TagType } from '@prisma/client';
-import { ApplicationCommandOptionType } from 'discord.js';
+import {
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+} from 'discord.js';
 import { Command, tagCreateRequest, deleteTag } from '../../lib/';
 import { TagProps } from '../../types';
 import { viewTag } from '../../lib/functions/viewTag';
@@ -14,6 +17,7 @@ const TAG_TYPE = TagType.INFO;
 export default new Command({
     name: 'info',
     description: 'View and manage the info tags!',
+    type: ApplicationCommandType.ChatInput,
     options: [
         {
             name: 'view',

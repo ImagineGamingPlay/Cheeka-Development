@@ -1,5 +1,9 @@
 import { TagType } from '@prisma/client';
-import { ApplicationCommandOptionType, PermissionFlagsBits } from 'discord.js';
+import {
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    PermissionFlagsBits,
+} from 'discord.js';
 import { Command, tagCreateRequest, deleteTag } from '../../lib/';
 import { TagProps } from '../../types';
 import { viewTag } from '../../lib/functions/viewTag';
@@ -13,6 +17,7 @@ const TAG_TYPE = TagType.RULE;
 export default new Command({
     name: 'rule',
     description: 'View and manage the rule tags!',
+    type: ApplicationCommandType.ChatInput,
     options: [
         {
             name: 'view',

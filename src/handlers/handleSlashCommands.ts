@@ -3,11 +3,14 @@ import {
     CommandInteractionOptionResolver,
     EmbedBuilder,
 } from 'discord.js';
-import { client } from '../..';
-import { ModifiedCommandInteraction, RunParams } from '../../types';
+import { client } from '..';
+import {
+    ModifiedChatInputCommandInteraction,
+    CommandRunParams,
+} from '../types';
 
 export const handleSlashCommands = async (
-    interaction: ModifiedCommandInteraction
+    interaction: ModifiedChatInputCommandInteraction
 ) => {
     await interaction.deferReply();
 
@@ -48,12 +51,12 @@ export const handleSlashCommands = async (
         });
         return;
     }
-    const params: RunParams = {
+    const args: CommandRunParams = {
         client,
         interaction,
         options:
             interaction.options as CommandInteractionOptionResolver<CacheType>,
     };
 
-    await command?.run(params);
+    await command?.run(args);
 };

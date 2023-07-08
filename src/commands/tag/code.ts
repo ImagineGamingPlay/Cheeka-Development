@@ -1,5 +1,8 @@
 import { TagType } from '@prisma/client';
-import { ApplicationCommandOptionType } from 'discord.js';
+import {
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+} from 'discord.js';
 import { Command, tagCreateRequest, deleteTag } from '../../lib/';
 import { TagProps } from '../../types';
 import { viewTag } from '../../lib/functions/viewTag';
@@ -11,6 +14,7 @@ const TAG_TYPE = TagType.CODE;
 export default new Command({
     name: 'code',
     description: 'View and manage the code snippets!',
+    type: ApplicationCommandType.ChatInput,
     options: [
         {
             name: 'view',

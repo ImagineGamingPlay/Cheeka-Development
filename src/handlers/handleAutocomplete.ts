@@ -1,5 +1,5 @@
 import { AutocompleteInteraction } from 'discord.js';
-import { client } from '../..';
+import { client } from '..';
 import { logger } from 'console-wizard';
 
 export const handleAutocomplete = async (

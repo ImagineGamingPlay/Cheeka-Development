@@ -1,12 +1,12 @@
 import { EmbedBuilder } from 'discord.js';
 import { client } from '../..';
-import { ModifiedCommandInteraction } from '../../types';
+import { ModifiedChatInputCommandInteraction } from '../../types';
 import { TagType } from '@prisma/client';
 
 export const viewTag = async (
     name: string,
     type: TagType,
-    interaction: ModifiedCommandInteraction
+    interaction: ModifiedChatInputCommandInteraction
 ) => {
     const tag = await client.prisma.tag.findFirst({
         where: {

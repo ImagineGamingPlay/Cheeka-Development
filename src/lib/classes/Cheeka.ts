@@ -7,16 +7,23 @@ import {
     GatewayIntentBits,
     PresenceUpdateStatus,
 } from 'discord.js';
-import { handleEvents } from '..';
+import { handleEvents } from '../../handlers';
 import { config } from '../../config';
-import { CommandType } from '../../types';
+import { ChatInputCommandData } from '../../types';
 import { logger } from 'console-wizard';
 import { ConfigType } from './../../types/configType';
 import { PrismaClient } from '@prisma/client';
-import { ButtonOptions } from '../../types/InteractionTypes';
+import {
+    ButtonOptions,
+    MessageContextMenuData,
+    UserContextMenuData,
+} from '../../types/InteractionTypes';
+import { registerApplicationCommands } from '../functions/registerApplicatonCommands';
+import { registerButtons } from '../functions/registerButtons';
 
 const { Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent } =
     GatewayIntentBits;
+
 const clientOptions: ClientOptions = {
     intents: [
         Guilds,
@@ -55,16 +62,21 @@ const setActivityStatus = (client: Cheeka) => {
 
 export class Cheeka extends Client {
     config: ConfigType;
-    commands: Collection<string, CommandType>;
+    commands: Collection<string, ChatInputCommandData>;
     buttons: Collection<string, ButtonOptions>;
+    userContextMenus: Collection<string, UserContextMenuData>;
+    messageContextMenus: Collection<string, MessageContextMenuData>;
     prisma: PrismaClient;
 
     constructor() {
         super(clientOptions);
 
         this.config = config;
+
         this.commands = new Collection();
         this.buttons = new Collection();
+        this.userContextMenus = new Collection();
+        this.messageContextMenus = new Collection();
 
         this.prisma = new PrismaClient({
             log:
@@ -75,8 +87,11 @@ export class Cheeka extends Client {
     }
 
     async deploy() {
-        await this.login(config.token);
         await handleEvents();
+        await this.login(config.token).then(() => console.log('Logged!'));
+
+        await registerApplicationCommands();
+        await registerButtons();
         await this.prisma
             .$connect()
             .then(() => logger.success('Database Connected!'));

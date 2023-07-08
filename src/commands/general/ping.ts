@@ -1,10 +1,11 @@
-import { EmbedBuilder } from 'discord.js';
-import { Command } from '../../lib/classes/Command';
+import { ApplicationCommandType, EmbedBuilder } from 'discord.js';
+import { Command } from '../../lib';
 import { humanizeMillisecond } from '../../utils/HumanizeMillisecond';
 
 export default new Command({
     name: 'ping',
     description: 'View the connection status',
+    type: ApplicationCommandType.ChatInput,
 
     run: async ({ interaction, client }) => {
         const uptimeInMilliseconds = client.uptime ?? 0;

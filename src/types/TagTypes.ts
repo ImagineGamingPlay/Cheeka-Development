@@ -1,10 +1,10 @@
 import { TagType } from '@prisma/client';
-import { ModifiedCommandInteraction } from './';
+import { ModifiedChatInputCommandInteraction } from './';
 
 export interface TagProps {
     name: string;
     type: TagType;
     ownerId: string;
     content: string;
-    interaction: ModifiedCommandInteraction;
+    interaction: ModifiedChatInputCommandInteraction;
 }

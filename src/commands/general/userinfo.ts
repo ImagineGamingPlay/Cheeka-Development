@@ -1,6 +1,7 @@
 import {
     ActionRowBuilder,
     ApplicationCommandOptionType,
+    ApplicationCommandType,
     ButtonBuilder,
     ButtonStyle,
     ColorResolvable,
@@ -14,6 +15,7 @@ import { BadgeListType } from '../../types/miscTypes';
 export default new Command({
     name: 'userinfo',
     description: 'Get information about a user or yourself.',
+    type: ApplicationCommandType.ChatInput,
     options: [
         {
             name: 'user',
