@@ -128,6 +128,7 @@ export const tagModifyRequest = async ({
 
     if (isAdmin) {
         modifyTag(name, newContent);
+        interaction.followUp("Modified the tag! You're an admin, so you immediately modified it.");
         return;
     }
 
@@ -139,21 +140,34 @@ export const tagModifyRequest = async ({
             newContent,
         },
     });
-    const oldContentRes = await fetch('https://dpaste.org/api/', {
+    const headers = {
+        "Content-Type": "application/json"
+    }
+    const oldContentRes = await fetch('https://sourceb.in/api/bins', {
         method: 'POST',
-        body: new URLSearchParams({
-            content,
-            lexer: '_markdown',
-            expires: 'never',
-        }),
+        headers,
+        body: JSON.stringify({
+            files: [
+                {
+                    content,
+                    name,
+                    languageId: 222
+                }
+            ]
+        })
     });
 
-    const newContentRes = await fetch('https://dpaste.org/api/', {
+    const newContentRes = await fetch('https://sourceb.in/api/bins', {
         method: 'POST',
-        body: new URLSearchParams({
-            content: newContent,
-            lexer: '_markdown',
-            expires: 'never',
+        headers,
+        body: JSON.stringify({
+            files: [
+                {
+                    content: newContent,
+                    name,
+                    languageId: 222
+                }
+            ]
         }),
     });
     const oldContentUrl = await oldContentRes.json();
@@ -180,12 +194,12 @@ export const tagModifyRequest = async ({
             },
             {
                 name: 'Old Content',
-                value: `[Click here](${oldContentUrl})`,
+                value: `[Click here](https://srcb.in/${oldContentUrl.key})`,
                 inline: false,
             },
             {
                 name: 'New Content',
-                value: `[Click here](${newContentUrl})`,
+                value: `[Click here](https://srcb.in/${newContentUrl.key})`,
                 inline: true,
             },
         ]);
