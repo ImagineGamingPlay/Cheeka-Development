@@ -6,7 +6,7 @@ const BOOSTER_DM_COOLDOWN = 60 * 1000;
 const startCooldown = (userId: string) =>
     setTimeout(() => cooldown.delete(userId), BOOSTER_DM_COOLDOWN || 60000);
 
-export const boosterDM = (message: Message) => {
+export const boosterDM = async (message: Message) => {
     if ([8, 9, 10, 11].includes(message.type)) {
         if (cooldown.has(message.author.id)) return;
 
@@ -25,8 +25,12 @@ export const boosterDM = (message: Message) => {
             color: 10249133,
         });
 
-        message.author.send({ embeds: [embed] });
-        cooldown.add(message.author.id);
-        startCooldown(message.author.id);
+        try {
+            await message.author.send({ embeds: [embed] });
+            cooldown.add(message.author.id);
+            startCooldown(message.author.id);
+        } catch {
+            return;
+        }
     }
 };

@@ -4,7 +4,7 @@ import { client } from '..';
 const { prisma } = client;
 
 export const promotionTimeout = async (message: Message) => {
-    let limit = 3;
+    let limit = 10;
 
     if (message.member?.premiumSince) {
         limit = 1;
@@ -36,8 +36,11 @@ export const promotionTimeout = async (message: Message) => {
                 icon_url: guild?.iconURL() || '',
             },
         });
-
-        await message?.author.send({ embeds: [embed] });
+        try {
+            await message?.author.send({ embeds: [embed] });
+        } catch {
+            return;
+        }
 
         return;
     }
