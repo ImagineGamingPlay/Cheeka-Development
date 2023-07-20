@@ -39,6 +39,14 @@ export const tagModifyRequest = async ({
     const ownerId = tag.ownerId;
     const content = tag.content;
 
+    if (!ownerId) {
+        await interaction.followUp({
+            content: 'Owner not found!',
+            ephemeral: true,
+        });
+        return;
+    }
+
     const isTagOwner = await client.prisma.tag.findFirst({
         where: {
             name,

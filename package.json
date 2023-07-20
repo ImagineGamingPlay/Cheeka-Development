@@ -15,14 +15,14 @@
         "prettier:fix": "prettier . --write",
         "prerunjob": "yarn prettier:fix && yarn lint:fix",
         "prepare": "husky install",
-        "dbgen": "prisma generate"
+        "dbgen": "prisma format && prisma generate"
     },
     "engines": {
         "node": "20"
     },
     "license": "MIT",
     "dependencies": {
-        "@prisma/client": "^4.15.0",
+        "@prisma/client": "^5.0.0",
         "axios": "^1.4.0",
         "chalk": "^4.1.2",
         "console-wizard": "^1.3.2",
@@ -48,7 +48,7 @@
         "husky": "^8.0.0",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.8",
-        "prisma": "^4.15.0",
+        "prisma": "^5.0.0",
         "ts-node": "^10.9.1",
         "tsup": "^7.1.0",
         "typescript": "^5.0.4"

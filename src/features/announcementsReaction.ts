@@ -1,16 +1,18 @@
 import { EmojiIdentifierResolvable, Message } from 'discord.js';
-import { config } from '../config';
+// import { config } from '../config';
 import { Configuration, OpenAIApi } from 'openai';
+
+const AI_REACTION_TIMES_CALLED = 5;
 
 export const announcementsReaction = (
     message: Message,
     timesCalled?: number
 ) => {
     if (!timesCalled) timesCalled = 0;
-    if (timesCalled > (config.aiReactionTimesCalled || 5)) return;
+    if (timesCalled > AI_REACTION_TIMES_CALLED) return;
     timesCalled++;
     const openai = new OpenAIApi(
-        new Configuration({ apiKey: config.openaiApiKey })
+        new Configuration({ apiKey: process.env.OPENAI_API_KEY })
     );
     openai
         .createCompletion({

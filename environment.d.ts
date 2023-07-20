@@ -18,6 +18,8 @@ declare global {
             MAIN_GUILD_ID: string;
 
             DATABASE_URL: string;
+
+            OPENAI_API_KEY: string;
         }
     }
 }

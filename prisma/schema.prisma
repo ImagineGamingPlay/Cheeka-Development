@@ -2,58 +2,86 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
+}
+
+// - user
+model User {
+  id          String       @id @default(cuid()) @map("_id")
+  userId      String       @unique @map("userId")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  // tags        Tag[]
+  punishments Punishment[]
+}
+
+model Punishment {
+  id     String         @id @default(auto()) @map("_id") @db.ObjectId
+  type   PunishmentType
+  reason String
+  User   User?          @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+enum PunishmentType {
+  TIMEOUT
+  WARN
+  KICK
+  SOFTBAN
+  BAN
 }
 
 // TAG SYSTEM {{
 model Tag {
-    id         String   @id @default(cuid()) @map("_id")
-    name       String   @unique
-    type       TagType
-    accepted   Boolean @default(false)
-    content    String
-    newContent String?
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    ownerId    String
-    // owner      User     @relation(fields: [ownerId], references: [id])
-}
-// }}
-model User {
-    id        String   @id @default(cuid()) @map("_id")
-    userId String   @unique @map("userId")
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    // tags      Tag[]
+  id         String   @id @default(cuid()) @map("_id")
+  name       String   @unique
+  type       TagType
+  accepted   Boolean  @default(false)
+  content    String
+  newContent String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  ownerId    String
+  // owner      User?    @relation(fields: [ownerId], references: [id])
 }
 
 enum TagType {
-    RULE
-    CODE
-    INFO
+  RULE
+  CODE
+  INFO
 }
 
-model PromotionBlacklist1 {
-    id     String @id @default(auto()) @map("_id") @db.ObjectId
-    userId String @unique
-    index  Int
+// }}
+
+model PromotionBlacklist {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String      @unique
+  indexData IndexData[]
 }
 
-model PromotionBlacklist2 {
-    id     String @id @default(auto()) @map("_id") @db.ObjectId
-    userId String @unique
-    index  Int
+model IndexData {
+  id                 String             @id @default(auto()) @map("_id") @db.ObjectId
+  channelId          String
+  index              Int
+  PromotionBlacklist PromotionBlacklist @relation(fields: [userId], references: [userId])
+  userId             String
+
+  @@unique([userId, channelId])
 }
 
+// model PromotionBlacklist2 {
+//   id     String @id @default(auto()) @map("_id") @db.ObjectId
+//   userId String @unique
+//   index  Int
+// }
 
-model PromotionBlacklist3 {
-    id     String @id @default(auto()) @map("_id") @db.ObjectId
-    userId String @unique
-    index  Int
-}
-
+// model PromotionBlacklist3 {
+//   id     String @id @default(auto()) @map("_id") @db.ObjectId
+//   userId String @unique
+//   index  Int
+// }

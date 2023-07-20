@@ -1,16 +1,13 @@
 import { EmbedBuilder, Message } from 'discord.js';
-import { config } from '../config';
 import { cooldown } from '../data';
 
+const BOOSTER_DM_COOLDOWN = 60 * 1000;
+
 const startCooldown = (userId: string) =>
-    setTimeout(
-        () => cooldown.delete(userId),
-        config.boosterDMCooldown || 60000
-    );
+    setTimeout(() => cooldown.delete(userId), BOOSTER_DM_COOLDOWN || 60000);
 
 export const boosterDM = (message: Message) => {
     if ([8, 9, 10, 11].includes(message.type)) {
-        // if (message.type === 19) {
         if (cooldown.has(message.author.id)) return;
 
         const embed = new EmbedBuilder({

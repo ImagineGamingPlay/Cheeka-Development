@@ -1,56 +1,31 @@
 import { EmbedBuilder, Message } from 'discord.js';
 import { client } from '..';
-import { Prisma } from '@prisma/client';
 
 const { prisma } = client;
 
-// let blacklist: PromotionBlacklist[] = [];
-
-type PromotionBlacklist =
-    | Prisma.PromotionBlacklist1Delegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-      >
-    | Prisma.PromotionBlacklist2Delegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-      >
-    | Prisma.PromotionBlacklist3Delegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-      >;
-
-let promotionBlacklist: PromotionBlacklist;
-
 export const promotionTimeout = async (message: Message) => {
-    if (message.channelId === '1076495008032628776')
-        promotionBlacklist = prisma.promotionBlacklist1;
-
-    if (message.channelId === '1076495035522109520')
-        promotionBlacklist = prisma.promotionBlacklist2;
-
-    if (message.channelId === '1076495056992731176')
-        promotionBlacklist = prisma.promotionBlacklist3;
-
     let limit = 3;
 
     if (message.member?.premiumSince) {
-        // if (message.member?.id === '453457425429692417') {
         limit = 1;
     }
 
-    const alreadyBlacklist = await promotionBlacklist.findFirst({
+    if (!message.member?.id) return;
+
+    const indexData = await prisma.indexData.findUnique({
         where: {
-            userId: message.author.id,
+            userId_channelId: {
+                userId: message.member?.id,
+                channelId: message.channelId,
+            },
         },
     });
 
-    // const alreadyBlacklist = blacklist.some(
-    //     (obj: PromotionBlacklist) => obj.id === message.author.id
-    // );
-
-    if (alreadyBlacklist) {
+    if (indexData) {
         await message.delete();
         const guild = client.guilds.cache.get(message?.guildId || '');
 
-        const { index } = alreadyBlacklist;
+        const { index } = indexData;
 
         const embed = new EmbedBuilder({
             title: 'Hold up!',
@@ -68,7 +43,7 @@ export const promotionTimeout = async (message: Message) => {
     }
 
     // Decrement the index of every blacklisted user
-    await promotionBlacklist.updateMany({
+    await prisma.indexData.updateMany({
         data: {
             index: {
                 decrement: 1,
@@ -81,7 +56,7 @@ export const promotionTimeout = async (message: Message) => {
     // });
 
     // Remove everyone with 0 index from blacklist
-    await promotionBlacklist.deleteMany({
+    await prisma.indexData.deleteMany({
         where: {
             index: {
                 lte: 0,
@@ -92,10 +67,23 @@ export const promotionTimeout = async (message: Message) => {
     // blacklist = blacklist.filter(obj => obj.index !== 0);
 
     // Add the message author to blacklist
-    await promotionBlacklist.create({
+    await prisma.promotionBlacklist.create({
         data: {
             userId: message.author.id,
-            index: limit,
+            indexData: {
+                connectOrCreate: {
+                    where: {
+                        userId_channelId: {
+                            userId: message.member?.id,
+                            channelId: message.channelId,
+                        },
+                    },
+                    create: {
+                        channelId: message.channelId,
+                        index: limit,
+                    },
+                },
+            },
         },
     });
 

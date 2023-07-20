@@ -12,7 +12,7 @@ import {
 export const handleSlashCommands = async (
     interaction: ModifiedChatInputCommandInteraction
 ) => {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     const command = client.commands.get(interaction.commandName);
 
