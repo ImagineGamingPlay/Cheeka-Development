@@ -124,15 +124,22 @@ export const tagCreateRequest = async ({
         return;
     }
 
-    const formData = new URLSearchParams({
-        content,
-        lexer: '_markdown',
-        filename: name,
-        expires: 'never',
+    const formData = JSON.stringify({
+        files: [
+            {
+                content,
+                name,
+                languageId: 222
+            }
+        ]
     });
-    const res = await fetch('https://dpaste.org/api/', {
+    const headers = {
+        "Content-Type": "application/json"
+    }
+    const res = await fetch('https://sourceb.in/api/bins', {
         method: 'POST',
         body: formData,
+        headers
     });
     const contentUrl = await res.json();
 
@@ -154,7 +161,7 @@ export const tagCreateRequest = async ({
         },
         {
             name: 'Content',
-            value: `[Click here](${contentUrl})`,
+            value: `[Click here](https://srcb.in/${contentUrl.key})`,
             inline: true,
         },
     ]);
