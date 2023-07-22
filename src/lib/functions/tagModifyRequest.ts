@@ -128,7 +128,9 @@ export const tagModifyRequest = async ({
 
     if (isAdmin) {
         modifyTag(name, newContent);
-        interaction.followUp("Modified the tag! You're an admin, so you immediately modified it.");
+        interaction.followUp(
+            "Modified the tag! You're an admin, so you immediately modified it."
+        );
         return;
     }
 
@@ -141,8 +143,8 @@ export const tagModifyRequest = async ({
         },
     });
     const headers = {
-        "Content-Type": "application/json"
-    }
+        'Content-Type': 'application/json',
+    };
     const oldContentRes = await fetch('https://sourceb.in/api/bins', {
         method: 'POST',
         headers,
@@ -151,10 +153,10 @@ export const tagModifyRequest = async ({
                 {
                     content,
                     name,
-                    languageId: 222
-                }
-            ]
-        })
+                    languageId: 222,
+                },
+            ],
+        }),
     });
 
     const newContentRes = await fetch('https://sourceb.in/api/bins', {
@@ -165,9 +167,9 @@ export const tagModifyRequest = async ({
                 {
                     content: newContent,
                     name,
-                    languageId: 222
-                }
-            ]
+                    languageId: 222,
+                },
+            ],
         }),
     });
     const oldContentUrl = await oldContentRes.json();

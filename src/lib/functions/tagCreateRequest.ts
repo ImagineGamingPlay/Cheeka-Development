@@ -129,17 +129,17 @@ export const tagCreateRequest = async ({
             {
                 content,
                 name,
-                languageId: 222
-            }
-        ]
+                languageId: 222,
+            },
+        ],
     });
     const headers = {
-        "Content-Type": "application/json"
-    }
+        'Content-Type': 'application/json',
+    };
     const res = await fetch('https://sourceb.in/api/bins', {
         method: 'POST',
         body: formData,
-        headers
+        headers,
     });
     const contentUrl = await res.json();
 

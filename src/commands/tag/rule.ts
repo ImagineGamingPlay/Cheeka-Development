@@ -96,8 +96,9 @@ export default new Command({
         const isAdmin = interaction.member.permissions.has(
             PermissionFlagsBits.Administrator
         );
+        console.log(isAdmin);
 
-        if (name !== 'view' && !isAdmin) {
+        if (subcommand !== 'view' && !isAdmin) {
             interaction.followUp({
                 content:
                     'You do not have permissions to add, modify or delete rule tags!',
