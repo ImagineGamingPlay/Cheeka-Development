@@ -12,7 +12,7 @@ export const handleContextMenus = async (
 ) => {
     const noDefer = ['ban'];
     if (!noDefer.includes(interaction.commandName)) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply();
     }
 
     if (interaction.isUserContextMenuCommand()) {
