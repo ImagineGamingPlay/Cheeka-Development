@@ -40,24 +40,28 @@ const clientOptions: ClientOptions = {
 const setActivityStatus = (client: Cheeka) => {
     const activities: ActivitiesOptions[] = [
         {
-            name: "Minecraft on IGP's MC Server!",
+            name: 'Better than Sans the Skeleton',
             type: ActivityType.Playing,
         },
         {
-            name: "to your queries on IGP's server!",
+            name: 'main-chat, the help channel',
             type: ActivityType.Listening,
         },
         {
-            name: "IGP's video on YouTube!",
+            name: "keita's media stash",
             type: ActivityType.Watching,
         },
     ];
     const { floor, random } = Math;
-    const randomActivityIndex = floor(random() * activities.length);
-    client.user?.setPresence({
-        activities: [activities[randomActivityIndex]],
-        status: PresenceUpdateStatus.Online,
-    });
+
+    setInterval(() => {
+        const randomActivityIndex = floor(random() * activities.length);
+
+        client.user?.setPresence({
+            activities: [activities[randomActivityIndex]],
+            status: PresenceUpdateStatus.Online,
+        });
+    }, 2 * 60 * 60 * 1000 /* 2 hours */);
 };
 
 export class Cheeka extends Client {
