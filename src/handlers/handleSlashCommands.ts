@@ -5,22 +5,20 @@ import {
 } from 'discord.js';
 import { client } from '..';
 import {
-    ModifiedChatInputCommandInteraction,
     CommandRunParams,
+    ModifiedChatInputCommandInteraction,
 } from '../types';
 
 export const handleSlashCommands = async (
     interaction: ModifiedChatInputCommandInteraction
 ) => {
-    await interaction.deferReply();
-
     const command = client.commands.get(interaction.commandName);
 
     if (
         command?.devOnly &&
         !interaction.member.roles.cache.has(client.config.developerRoleId)
     ) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Oops! Something went wrong')
@@ -38,7 +36,7 @@ export const handleSlashCommands = async (
         command?.ownerOnly &&
         interaction.guild?.ownerId !== interaction.member.id
     ) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Oops! Something went wrong')

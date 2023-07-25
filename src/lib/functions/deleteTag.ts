@@ -17,7 +17,7 @@ export const deleteTag = async (
         PermissionFlagsBits.Administrator
     );
     if (!isTagOwner && !isAdmin) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Failed to delete tag!')
@@ -36,7 +36,7 @@ export const deleteTag = async (
         },
     });
     if (!tag) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Tag not found!')
@@ -53,7 +53,7 @@ export const deleteTag = async (
         },
     });
 
-    interaction.followUp({
+    interaction.reply({
         embeds: [
             new EmbedBuilder()
                 .setTitle('Tag deleted!')

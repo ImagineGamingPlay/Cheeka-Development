@@ -11,7 +11,7 @@ export default new Button({
             },
         });
         if (!tag) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This tag doesn't exist!",
                 ephemeral: true,
             });
@@ -24,7 +24,7 @@ export default new Button({
             },
         });
 
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Tag declined!')

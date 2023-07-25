@@ -3,8 +3,6 @@ import { client } from '..';
 import { ButtonRunParams } from '../types';
 
 export const handleButtons = async (interaction: ButtonInteraction) => {
-    await interaction.deferReply();
-
     const { customId } = interaction;
     const idParts = customId.split('--');
     const scope = idParts[0];

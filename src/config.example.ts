@@ -10,6 +10,7 @@ export const config: ConfigType = {
     token: 'Bot token',
     clientId: 'bot client Id (user Id)',
     guildId: "bot's guild id",
+    ownerId: "bot and guiid's owner's id",
 
     devGuildId: 'development guild Id',
     mainGuildId: 'main/production guild Id',

@@ -4,11 +4,11 @@ import {
     ApplicationCommandType,
     PermissionFlagsBits,
 } from 'discord.js';
-import { Command, tagCreateRequest, deleteTag } from '../../lib/';
-import { TagProps } from '../../types';
-import { viewTag } from '../../lib/functions/viewTag';
-import { tagModifyRequest } from '../../lib/functions/tagModifyRequest';
+import { Command, deleteTag, tagCreateRequest } from '../../lib/';
 import { getTagNames } from '../../lib/functions/getTagNames';
+import { tagModifyRequest } from '../../lib/functions/tagModifyRequest';
+import { viewTag } from '../../lib/functions/viewTag';
+import { TagProps } from '../../types';
 
 const TAG_TYPE = TagType.RULE;
 
@@ -99,7 +99,7 @@ export default new Command({
         console.log(isAdmin);
 
         if (subcommand !== 'view' && !isAdmin) {
-            interaction.followUp({
+            interaction.reply({
                 content:
                     'You do not have permissions to add, modify or delete rule tags!',
                 ephemeral: true,

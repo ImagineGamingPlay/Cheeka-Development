@@ -11,6 +11,7 @@ export interface ConfigType {
     aiReactionChannels?: string[];
     openaiApiKey?: string;
     guildId: string;
+    ownerId: string;
     devGuildId: string;
     mainGuildId: string;
     environment: string;

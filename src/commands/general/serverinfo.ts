@@ -4,8 +4,8 @@ import {
     ColorResolvable,
     EmbedBuilder,
 } from 'discord.js';
-import { Command } from '../../lib';
 import getColor from 'get-image-colors';
+import { Command } from '../../lib';
 
 export default new Command({
     name: 'serverinfo',
@@ -101,6 +101,6 @@ export default new Command({
                 },
             ]);
 
-        interaction.followUp({ embeds: [embed] });
+        interaction.reply({ embeds: [embed] });
     },
 });

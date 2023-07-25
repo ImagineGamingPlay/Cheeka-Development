@@ -13,14 +13,14 @@ export default new Button({
         });
 
         if (!tag) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This tag doesn't exist!",
                 ephemeral: true,
             });
             return;
         }
         if (!tag.newContent) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This tag doesn't have a new content!",
             });
             return;
@@ -28,7 +28,7 @@ export default new Button({
 
         await modifyTag(tag?.name, tag?.newContent);
 
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Tag Update Request Accepted!')

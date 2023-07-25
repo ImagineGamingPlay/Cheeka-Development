@@ -25,7 +25,7 @@ export const tagModifyRequest = async ({
     });
 
     if (!tag) {
-        interaction.followUp({
+        interaction.reply({
             content: 'Tag not found!',
             ephemeral: true,
         });
@@ -40,7 +40,7 @@ export const tagModifyRequest = async ({
     const content = tag.content;
 
     if (!ownerId) {
-        await interaction.followUp({
+        await interaction.reply({
             content: 'Owner not found!',
             ephemeral: true,
         });
@@ -54,7 +54,7 @@ export const tagModifyRequest = async ({
         },
     });
     if (!isTagOwner && !isAdmin) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Failed to modify tag!')
@@ -68,7 +68,7 @@ export const tagModifyRequest = async ({
     }
 
     const lowerCasedType = type.toLowerCase();
-    await interaction.followUp({
+    await interaction.reply({
         embeds: [
             new EmbedBuilder()
                 .setTitle(`Add a ${lowerCasedType} Tag!`)
@@ -91,7 +91,7 @@ export const tagModifyRequest = async ({
                 filter: m => m.author.id === interaction.user.id,
             })
             .catch(() => {
-                interaction.followUp({
+                interaction.reply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Oops, You ran out of time!')
@@ -108,7 +108,7 @@ export const tagModifyRequest = async ({
     if (!channel?.isTextBased()) return;
 
     if (!name) {
-        interaction.followUp({
+        interaction.reply({
             content: 'Please provide a name for the tag!',
             ephemeral: true,
         });
@@ -116,7 +116,7 @@ export const tagModifyRequest = async ({
     }
     const newContent = userMessage?.content;
     if (!content) {
-        interaction.followUp({
+        interaction.reply({
             content:
                 'Please send actual message for the tag. Attachments are not supported!',
             ephemeral: true,
@@ -128,7 +128,7 @@ export const tagModifyRequest = async ({
 
     if (isAdmin) {
         modifyTag(name, newContent);
-        interaction.followUp(
+        interaction.reply(
             "Modified the tag! You're an admin, so you immediately modified it."
         );
         return;

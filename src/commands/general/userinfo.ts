@@ -31,7 +31,7 @@ export default new Command({
             (options?.getMember('user') as GuildMember) || interaction.member;
 
         if (!member) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: 'User not found!',
                 ephemeral: true,
             });
@@ -148,7 +148,7 @@ export default new Command({
         const row = new ActionRowBuilder<ButtonBuilder>({
             components: buttons,
         });
-        await interaction.followUp({
+        await interaction.reply({
             embeds: [embed],
             components: [row],
         });

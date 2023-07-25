@@ -1,13 +1,13 @@
 import { logger } from 'console-wizard';
-import { client } from '../..';
-import { idData } from '../../data';
-import { TagProps } from '../../types';
 import {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
     EmbedBuilder,
 } from 'discord.js';
+import { client } from '../..';
+import { idData } from '../../data';
+import { TagProps } from '../../types';
 
 const { channels } = idData;
 
@@ -27,7 +27,7 @@ export const tagCreateRequest = async ({
         },
     });
     if (alreadyExists) {
-        interaction.followUp({
+        interaction.reply({
             content: 'That tag already exists! Please choose a unique name',
             ephemeral: true,
         });
@@ -35,7 +35,7 @@ export const tagCreateRequest = async ({
     }
 
     const lowerCasedType = type.toLowerCase();
-    await interaction.followUp({
+    await interaction.reply({
         embeds: [
             new EmbedBuilder()
                 .setTitle(`Add a ${lowerCasedType} Tag!`)
@@ -58,7 +58,7 @@ export const tagCreateRequest = async ({
                 filter: m => m.author.id === interaction.user.id,
             })
             .catch(() => {
-                interaction.followUp({
+                interaction.reply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Oops, You ran out of time!')
@@ -76,7 +76,7 @@ export const tagCreateRequest = async ({
 
     const ownerId = interaction.user.id;
     if (!name) {
-        interaction.followUp({
+        interaction.reply({
             content: 'Please provide a name for the tag!',
             ephemeral: true,
         });
@@ -84,7 +84,7 @@ export const tagCreateRequest = async ({
     }
     const content = userMessage?.content;
     if (!content) {
-        interaction.followUp({
+        interaction.reply({
             content:
                 'Please send actual message for the tag. Attachments are not supported!',
             ephemeral: true,
@@ -93,7 +93,7 @@ export const tagCreateRequest = async ({
     }
 
     if (content.length > 2000) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Failed to create tag!')

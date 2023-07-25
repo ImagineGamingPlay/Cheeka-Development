@@ -1,7 +1,7 @@
+import { TagType } from '@prisma/client';
 import { EmbedBuilder } from 'discord.js';
 import { client } from '../..';
 import { ModifiedChatInputCommandInteraction } from '../../types';
-import { TagType } from '@prisma/client';
 
 export const viewTag = async (
     name: string,
@@ -16,7 +16,7 @@ export const viewTag = async (
     });
 
     if (!tag) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${name.toLowerCase()} tag not found!`)
@@ -30,7 +30,7 @@ export const viewTag = async (
         return;
     }
     if (!tag.accepted) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${name.toLowerCase()} tag is under review!`)
@@ -43,7 +43,7 @@ export const viewTag = async (
         return;
     }
     const { content } = tag;
-    interaction.followUp({
+    interaction.reply({
         content,
     });
 };

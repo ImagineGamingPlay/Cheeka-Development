@@ -10,11 +10,6 @@ import {
 export const handleContextMenus = async (
     interaction: ContextMenuCommandInteraction
 ) => {
-    const noDefer = ['ban'];
-    if (!noDefer.includes(interaction.commandName)) {
-        await interaction.deferReply();
-    }
-
     if (interaction.isUserContextMenuCommand()) {
         const command = client.userContextMenus.get(interaction.commandName);
 

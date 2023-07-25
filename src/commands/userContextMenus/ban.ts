@@ -1,3 +1,4 @@
+import { logger } from 'console-wizard';
 import {
     ActionRowBuilder,
     ApplicationCommandType,
@@ -9,7 +10,6 @@ import {
     TextInputStyle,
 } from 'discord.js';
 import { Command } from '../../lib';
-import { logger } from 'console-wizard';
 
 export default new Command({
     name: 'ban',
@@ -39,7 +39,7 @@ export default new Command({
             .setColor(client.config.colors.red);
 
         if (!target?.bannable) {
-            await interaction.followUp({ embeds: [notBannableErrorEmbed] });
+            await interaction.reply({ embeds: [notBannableErrorEmbed] });
             return;
         }
 
@@ -47,7 +47,7 @@ export default new Command({
         const userHighestRolePos =
             interaction.targetMember.roles.highest.position;
         if (targetHighestRolePos > userHighestRolePos) {
-            await interaction.followUp({
+            await interaction.reply({
                 embeds: [rolePosErrorEmbed],
             });
             return;
@@ -109,7 +109,7 @@ export default new Command({
         }
 
         await target?.ban({ reason: reason }).catch(async err => {
-            await interaction.followUp({ embeds: [errorEmbed] });
+            await interaction.reply({ embeds: [errorEmbed] });
             logger.error(err);
             return;
         });
