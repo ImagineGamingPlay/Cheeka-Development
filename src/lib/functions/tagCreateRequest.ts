@@ -91,6 +91,7 @@ export const tagCreateRequest = async ({
         });
         return;
     }
+    if (content.toLowerCase() === 'cancel') return;
 
     if (content.length > 2000) {
         interaction.reply({
