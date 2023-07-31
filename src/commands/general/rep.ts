@@ -6,6 +6,7 @@ import {
 import { Command } from '../../lib';
 import { addRep } from '../../modules/addRep';
 import { logRep } from '../../modules';
+import { updateRepLeaderboard } from '../../features';
 
 export default new Command({
     name: 'rep',
@@ -220,5 +221,6 @@ export default new Command({
             }
             await client.prisma.reputation.deleteMany();
         }
+        await updateRepLeaderboard();
     },
 });

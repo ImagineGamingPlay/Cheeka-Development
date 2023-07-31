@@ -44,7 +44,7 @@ export default new Command({
         }
 
         const targetHighestRolePos = target.roles.highest.position;
-        const userHighestRolePos = interaction.member.roles.highest.position;
+        const userHighestRolePos = interaction.member?.roles.highest.position;
         if (targetHighestRolePos > userHighestRolePos) {
             await interaction.reply({
                 embeds: [rolePosErrorEmbed],
