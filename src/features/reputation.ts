@@ -56,7 +56,6 @@ const generateRepLeaderboardBar = async (topReps: TopReps) => {
             y += 20;
         });
     return canvas.toBuffer();
-    writeFileSync('sans.png', canvas.toBuffer());
 };
 
 export const updateRepLeaderboard = async () => {

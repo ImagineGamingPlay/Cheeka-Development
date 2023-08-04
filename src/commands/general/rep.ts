@@ -122,7 +122,7 @@ export default new Command({
         if (subcommand === 'add') {
             const member = interaction.options.getMember('user') as GuildMember;
             if (!member) return;
-            addRep(member, interaction);
+            await addRep(member, interaction);
         }
 
         if (

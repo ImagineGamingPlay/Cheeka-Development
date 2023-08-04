@@ -14,6 +14,8 @@ export const addRep = async (
         | ModifiedChatInputCommandInteraction
         | ModifiedUserContextMenuCommandInteraction
 ) => {
+    console.log(member.id);
+    console.log(interaction.member.id);
     if (member.id === interaction.member.id) {
         await interaction.reply({
             content: 'You cannot add reputation to yourself!',
@@ -21,7 +23,8 @@ export const addRep = async (
         });
         return;
     }
-    const cooldownTimestamp = repCooldownCache.get(member.id);
+    const cooldownTimestamp = repCooldownCache.get(interaction.member.id);
+
     if (cooldownTimestamp) {
         await interaction.reply({
             embeds: [
@@ -78,10 +81,13 @@ export const addRep = async (
     const cooldownTime = client.config.repCooldownMS || 3 * 60 * 60 * 1000;
 
     repCooldownCache.set(
-        member.id,
+        interaction.member.id,
         Math.floor((Date.now() + cooldownTime) / 1000)
     );
-    setTimeout(() => repCooldownCache.delete(member.id), cooldownTime);
+    setTimeout(
+        () => repCooldownCache.delete(interaction.member.id),
+        cooldownTime
+    );
 
     await interaction.reply({
         embeds: [
