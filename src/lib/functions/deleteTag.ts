@@ -1,4 +1,4 @@
-import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { client } from '../..';
 import { ModifiedChatInputCommandInteraction } from '../../types';
 
@@ -13,10 +13,10 @@ export const deleteTag = async (
         },
     });
 
-    const isAdmin = interaction.member.permissions.has(
-        PermissionFlagsBits.Administrator
+    const isStaff = interaction.member.roles.cache.has(
+        client.config.staffRoleId
     );
-    if (!isTagOwner && !isAdmin) {
+    if (!isTagOwner && !isStaff) {
         interaction.reply({
             embeds: [
                 new EmbedBuilder()

@@ -1,5 +1,11 @@
 import { createCanvas } from 'canvas';
-import { AttachmentBuilder, EmbedBuilder, TextChannel } from 'discord.js';
+import {
+    AttachmentBuilder,
+    CommandInteraction,
+    EmbedBuilder,
+    GuildMember,
+    TextChannel,
+} from 'discord.js';
 import { client } from '..';
 import { idData } from '../data';
 import { writeFileSync } from 'fs';
@@ -103,4 +109,23 @@ export const updateRepLeaderboard = async () => {
     const message = await channel?.messages.fetch(config.repLeaderboardMsgId);
 
     await message?.edit(output);
+};
+
+export const manageRepRole = async (
+    member: GuildMember,
+    interation: CommandInteraction
+) => {
+    const role = await interation.guild?.roles.fetch('1136925691301072937');
+    if (!role) return;
+
+    const rep = await client.prisma.reputation.findUnique({
+        where: {
+            userId: member.id,
+        },
+    });
+    if (!rep) return;
+
+    if (rep.count >= 10) {
+        await member.roles.add('1136925691301072937');
+    }
 };

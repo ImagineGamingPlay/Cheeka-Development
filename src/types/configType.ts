@@ -13,8 +13,10 @@ export interface ConfigType {
     guildId: string;
     ownerId: string;
     devGuildId: string;
+    staffRoleId: string;
     mainGuildId: string;
     environment: string;
+    repCooldownMS?: number;
     token: string;
     clientId: string;
     colors: ColorsType;

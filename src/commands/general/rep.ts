@@ -2,6 +2,7 @@ import {
     ApplicationCommandOptionType,
     ApplicationCommandType,
     EmbedBuilder,
+    GuildMember,
 } from 'discord.js';
 import { Command } from '../../lib';
 import { addRep } from '../../modules/addRep';
@@ -35,7 +36,7 @@ export default new Command({
                     name: 'user',
                     type: ApplicationCommandOptionType.User,
                     description: 'The target user',
-                    required: true,
+                    required: false,
                 },
             ],
         },
@@ -49,6 +50,12 @@ export default new Command({
                     type: ApplicationCommandOptionType.User,
                     description: 'The target user',
                     required: true,
+                },
+                {
+                    name: 'count',
+                    type: ApplicationCommandOptionType.Number,
+                    description: 'The amount of reps to remove',
+                    required: false,
                 },
             ],
         },
@@ -75,8 +82,7 @@ export default new Command({
         const subcommand = options?.getSubcommand();
 
         if (subcommand === 'view') {
-            const user = options?.getUser('user');
-            if (!user) return;
+            const user = options?.getUser('user') || interaction.user;
             if (user.bot) {
                 await interaction.reply({
                     content: "Welp... bots don't really have reputations..",
@@ -98,7 +104,6 @@ export default new Command({
                             color: client.config.colors.blurple,
                         }),
                     ],
-                    ephemeral: true,
                 });
                 return;
             }
@@ -111,44 +116,13 @@ export default new Command({
                         color: client.config.colors.blurple,
                     }),
                 ],
-                ephemeral: true,
             });
         }
 
         if (subcommand === 'add') {
-            const user = options?.getUser('user');
-
-            if (!user?.id) return;
-            if (user.bot) {
-                await interaction.reply({
-                    content: "Welp... bots don't really have reputations..",
-                    ephemeral: true,
-                });
-            }
-
-            if (user.id === interaction.user.id) {
-                await interaction.reply({
-                    content: 'You cannot add reputation to yourself!',
-                    ephemeral: true,
-                });
-                return;
-            }
-            await addRep(user.id, interaction);
-            await logRep(user, interaction, 'ADD');
-
-            await interaction.reply({
-                embeds: [
-                    new EmbedBuilder({
-                        title: 'Reputation Added!',
-                        description: `You have added reputation to ${user}!`,
-                        footer: {
-                            text: 'Only add reputation to people who helped you. False reputations will be removed the the user will be punished.',
-                        },
-                        color: client.config.colors.green,
-                    }),
-                ],
-                ephemeral: false,
-            });
+            const member = interaction.options.getMember('user') as GuildMember;
+            if (!member) return;
+            addRep(member, interaction);
         }
 
         if (
@@ -164,51 +138,40 @@ export default new Command({
             return;
         }
         if (subcommand === 'remove') {
-            const user = options?.getUser('user');
-            if (!user) return;
-            if (user.bot) {
-                await interaction.reply({
-                    content: "Welp... bots don't really have reputations..",
-                    ephemeral: true,
-                });
-            }
+            const member = options?.getMember('user') as GuildMember;
+            const count = options?.getNumber('count') || 1;
+            if (!member) return;
 
             await client.prisma.reputation.update({
                 where: {
-                    userId: user.id,
+                    userId: member.id,
                 },
                 data: {
                     count: {
-                        decrement: 1,
+                        decrement: count,
                     },
                 },
             });
             await interaction.reply({
-                content: `Removed 1 reputation from ${user}`,
+                content: `Removed 1 reputation from ${member}`,
                 ephemeral: true,
             });
-            await logRep(user, interaction, 'REMOVE');
+            await logRep(member, interaction, 'REMOVE');
         }
         if (subcommand === 'clear') {
-            const user = options?.getUser('user');
-            if (!user) return;
-            if (user.bot) {
-                await interaction.reply({
-                    content: "Welp... bots don't really have reputations..",
-                    ephemeral: true,
-                });
-            }
+            const member = options?.getMember('user') as GuildMember;
+            if (!member) return;
 
             await client.prisma.reputation.delete({
                 where: {
-                    userId: user.id,
+                    userId: member.id,
                 },
             });
             await interaction.reply({
-                content: `Removed all reputations from ${user}`,
+                content: `Removed all reputations from ${member}`,
                 ephemeral: true,
             });
-            await logRep(user, interaction, 'CLEAR');
+            await logRep(member, interaction, 'CLEAR');
         }
         if (subcommand === 'purge') {
             if (interaction.member.id !== client.config.ownerId) {

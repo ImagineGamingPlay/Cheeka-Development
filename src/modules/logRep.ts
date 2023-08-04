@@ -1,5 +1,5 @@
 import { logger } from 'console-wizard';
-import { EmbedBuilder, User } from 'discord.js';
+import { EmbedBuilder, GuildMember } from 'discord.js';
 import { client } from '..';
 import { idData } from '../data';
 import {
@@ -9,7 +9,7 @@ import {
 import { RepActionType } from '../types/';
 
 export const logRep = async (
-    user: User,
+    member: GuildMember,
     interaction:
         | ModifiedChatInputCommandInteraction
         | ModifiedUserContextMenuCommandInteraction,
@@ -24,10 +24,10 @@ export const logRep = async (
     }
     const desc =
         type === 'ADD'
-            ? `${interaction.member} has added reputation to ${user}`
+            ? `${interaction.member} has added reputation to ${member}`
             : type === 'REMOVE'
-            ? `Reputation of ${user} has been removed by ${interaction.member}`
-            : `Reputation of ${user} has been cleared by ${interaction.member}`;
+            ? `Reputation of ${member} has been removed by ${interaction.member}`
+            : `Reputation of ${member} has been cleared by ${interaction.member}`;
 
     const embed = new EmbedBuilder({
         title: 'Reputation Log',
