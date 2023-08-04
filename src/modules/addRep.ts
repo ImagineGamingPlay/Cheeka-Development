@@ -66,7 +66,7 @@ export const addRep = async (
             },
         });
     } catch (err) {
-        interaction.reply({
+        await interaction.reply({
             content: 'An enexpected error occured!',
             ephemeral: true,
         });
@@ -75,9 +75,12 @@ export const addRep = async (
     await logRep(member, interaction, 'ADD');
     await manageRepRole(member, interaction);
 
-    const cooldownTime = client.config.repCooldownMS || 3 * 60 * 60 * 100;
+    const cooldownTime = client.config.repCooldownMS || 3 * 60 * 60 * 1000;
 
-    repCooldownCache.set(member.id, Math.floor(Date.now() / 1000));
+    repCooldownCache.set(
+        member.id,
+        Math.floor((Date.now() + cooldownTime) / 1000)
+    );
     setTimeout(() => repCooldownCache.delete(member.id), cooldownTime);
 
     await interaction.reply({
