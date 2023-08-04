@@ -15,6 +15,7 @@ export const config: ConfigType = {
     repCooldownMS: 0, // Rep add cooldown in miliseconds
     devGuildId: 'development guild Id',
     mainGuildId: 'main/production guild Id',
+    repLeaderboardColors: ['colors', 'for', 'rep', 'leaderboard', '5 of em'],
 
     developerRoleId: 'ID of the developer role',
 

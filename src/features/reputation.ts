@@ -27,7 +27,7 @@ const generateRepLeaderboardBar = async (topReps: TopReps) => {
         topRepPercentage[key as keyof TopReps] = Math.round(percentage);
     }
 
-    const colors = ['#c2c1c2', '#455eb5', '#4c5c87', '#3a306e', '#3b1a5f'];
+    const { repLeaderboardColors } = client.config;
 
     const canvas = createCanvas(400, 180);
     const ctx = canvas.getContext('2d');
@@ -38,7 +38,7 @@ const generateRepLeaderboardBar = async (topReps: TopReps) => {
         .forEach((entry, i) => {
             const barWidth = (canvas.width * entry) / 100;
 
-            ctx.fillStyle = colors[i];
+            ctx.fillStyle = repLeaderboardColors[i];
             ctx.fillRect(startX, 0, barWidth, 60);
             startX += barWidth;
         });
@@ -48,9 +48,9 @@ const generateRepLeaderboardBar = async (topReps: TopReps) => {
     Object.keys(topRepPercentage)
         .sort((a, b) => topRepPercentage[b] - topRepPercentage[a])
         .forEach((entry, i) => {
-            ctx.fillStyle = colors[i];
+            ctx.fillStyle = repLeaderboardColors[i];
             ctx.fillRect(x, y, 10, 10);
-            ctx.fillStyle = colors[i];
+            ctx.fillStyle = repLeaderboardColors[i];
             ctx.font = '14px Arial';
             ctx.fillText(`${entry} (${topReps[entry]})`, x + 20, y + 10);
             y += 20;

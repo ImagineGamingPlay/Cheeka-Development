@@ -21,4 +21,5 @@ export interface ConfigType {
     clientId: string;
     colors: ColorsType;
     developerRoleId: string;
+    repLeaderboardColors: string[];
 }
