@@ -11,7 +11,7 @@ export default new Command({
         const uptimeInMilliseconds = client.uptime ?? 0;
         const { hours, minutes } = humanizeMillisecond(uptimeInMilliseconds);
 
-        const message = await interaction.fetchReply();
+        const message = await interaction.deferReply({ fetchReply: true });
         const clientPing =
             message.createdTimestamp - interaction.createdTimestamp;
         const websocketPing = client.ws.ping;
