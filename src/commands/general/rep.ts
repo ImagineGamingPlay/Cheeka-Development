@@ -135,7 +135,7 @@ export default new Command({
                     ephemeral: true,
                 });
                 return;
-            }
+            };
             await addRep(member, interaction);
         }
 
