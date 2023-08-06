@@ -122,20 +122,6 @@ export default new Command({
         if (subcommand === 'add') {
             const member = interaction.options.getMember('user') as GuildMember;
             if (!member) return;
-            if (member.user.id === interaction.user.id) {
-                await interaction.reply({
-                    content: "You may not add reputation to yourself.",
-                    ephemeral: true,
-                });
-                return;
-            };
-            if (member.user.bot) {
-                await interaction.reply({
-                    content: "You may not add reputation to bots.",
-                    ephemeral: true,
-                });
-                return;
-            };
             await addRep(member, interaction);
         }
 
