@@ -92,7 +92,7 @@ export class Cheeka extends Client {
 
     async deploy() {
         await handleEvents();
-        await this.login(config.token).then(() => console.log('Logged!'));
+        await this.login(config.token);
 
         await registerApplicationCommands();
         await registerButtons();

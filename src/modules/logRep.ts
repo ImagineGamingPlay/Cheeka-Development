@@ -1,5 +1,5 @@
 import { logger } from 'console-wizard';
-import { EmbedBuilder, GuildMember } from 'discord.js';
+import { EmbedBuilder, GuildMember, InteractionResponse } from 'discord.js';
 import { client } from '..';
 import { idData } from '../data';
 import {
@@ -13,7 +13,9 @@ export const logRep = async (
     interaction:
         | ModifiedChatInputCommandInteraction
         | ModifiedUserContextMenuCommandInteraction,
-    type: RepActionType
+    reply: InteractionResponse,
+    type: RepActionType,
+    count?: number
 ) => {
     const logChannel = await client.channels.fetch(
         idData.channels.repLogChannel
@@ -22,12 +24,13 @@ export const logRep = async (
         logger.error('RepLogChannel not found!');
         return;
     }
-    const desc =
+    const desc = `${
         type === 'ADD'
             ? `${interaction.member} has added reputation to ${member}`
             : type === 'REMOVE'
-            ? `Reputation of ${member} has been removed by ${interaction.member}`
-            : `Reputation of ${member} has been cleared by ${interaction.member}`;
+            ? `${count} Reputation(s) of ${member} has been removed by ${interaction.member}`
+            : `Reputation of ${member} has been cleared by ${interaction.member}`
+    }\n[Go to Chat](${(await reply.fetch()).url})`;
 
     const embed = new EmbedBuilder({
         title: 'Reputation Log',

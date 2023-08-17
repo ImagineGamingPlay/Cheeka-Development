@@ -68,7 +68,6 @@ export const updateRepLeaderboard = async () => {
         const user = await client.users.fetch(rep.userId);
         topReps[user.username] = rep.count;
     }
-    console.log(topReps);
 
     const barBuffer = await generateRepLeaderboardBar(topReps);
     writeFileSync('bar.png', barBuffer);

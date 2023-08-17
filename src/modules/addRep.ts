@@ -14,8 +14,6 @@ export const addRep = async (
         | ModifiedChatInputCommandInteraction
         | ModifiedUserContextMenuCommandInteraction
 ) => {
-    console.log(member.id);
-    console.log(interaction.member.id);
     if (member.id === interaction.member.id) {
         await interaction.reply({
             content: 'You cannot add reputation to yourself!',
@@ -75,7 +73,6 @@ export const addRep = async (
         });
     }
 
-    await logRep(member, interaction, 'ADD');
     await manageRepRole(member, interaction);
 
     const cooldownTime = client.config.repCooldownMS || 3 * 60 * 60 * 1000;
@@ -89,7 +86,7 @@ export const addRep = async (
         cooldownTime
     );
 
-    await interaction.reply({
+    const reply = await interaction.reply({
         embeds: [
             new EmbedBuilder({
                 title: 'Reputation Added!',
@@ -101,4 +98,5 @@ export const addRep = async (
             }),
         ],
     });
+    await logRep(member, interaction, reply, 'ADD');
 };

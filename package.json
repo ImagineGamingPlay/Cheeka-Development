@@ -22,7 +22,7 @@
     },
     "license": "MIT",
     "dependencies": {
-        "@prisma/client": "^5.0.0",
+        "@prisma/client": "^5.1.1",
         "axios": "^1.4.0",
         "canvas": "^2.11.2",
         "chalk": "^4.1.2",
@@ -33,6 +33,7 @@
         "get-image-colors": "^4.0.1",
         "glob": "7.2.0",
         "openai": "^3.2.1",
+        "regex-fun": "^2.0.3",
         "save-buffer": "^1.3.1",
         "util": "^0.12.5"
     },
@@ -49,7 +50,7 @@
         "husky": "^8.0.0",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.8",
-        "prisma": "^5.0.0",
+        "prisma": "^5.1.1",
         "ts-node": "^10.9.1",
         "tsup": "^7.1.0",
         "typescript": "^5.0.4"

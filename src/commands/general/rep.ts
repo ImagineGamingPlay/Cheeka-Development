@@ -152,11 +152,11 @@ export default new Command({
                     },
                 },
             });
-            await interaction.reply({
-                content: `Removed 1 reputation from ${member}`,
+            const reply = await interaction.reply({
+                content: `Removed ${count} reputation from ${member}`,
                 ephemeral: true,
             });
-            await logRep(member, interaction, 'REMOVE');
+            await logRep(member, interaction, reply, 'REMOVE', count);
         }
         if (subcommand === 'clear') {
             const member = options?.getMember('user') as GuildMember;
@@ -167,11 +167,11 @@ export default new Command({
                     userId: member.id,
                 },
             });
-            await interaction.reply({
+            const reply = await interaction.reply({
                 content: `Removed all reputations from ${member}`,
                 ephemeral: true,
             });
-            await logRep(member, interaction, 'CLEAR');
+            await logRep(member, interaction, reply, 'CLEAR');
         }
         if (subcommand === 'purge') {
             if (interaction.member.id !== client.config.ownerId) {

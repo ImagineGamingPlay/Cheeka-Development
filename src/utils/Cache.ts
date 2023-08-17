@@ -56,3 +56,11 @@ export class BotCache<K, V> {
 }
 
 export const repCooldownCache = new BotCache<string, number>();
+export const triggerPatternCache = new Map<
+    string,
+    {
+        stringMatch: string[];
+        regexMatch: RegExp[];
+        replyMessageContent: string;
+    }
+>();

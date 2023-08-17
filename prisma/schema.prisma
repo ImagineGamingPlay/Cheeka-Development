@@ -11,8 +11,19 @@ generator client {
 }
 
 model Config {
-  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   repLeaderboardMsgId String?
+  thanksTrigger       Trigger?
+}
+
+model Trigger {
+  name                String   @unique
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  stringMatch         String[] @default([])
+  regexMatch          String[] @default([])
+  replyMessageContent String
+  config              Config   @relation(fields: [configId], references: [id])
+  configId            String   @unique @db.ObjectId
 }
 
 // - user

@@ -96,7 +96,6 @@ export default new Command({
         const isAdmin = interaction.member.permissions.has(
             PermissionFlagsBits.Administrator
         );
-        console.log(isAdmin);
 
         if (subcommand !== 'view' && !isAdmin) {
             interaction.reply({
