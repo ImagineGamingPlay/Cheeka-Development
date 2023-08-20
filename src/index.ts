@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import { Cheeka } from './lib';
 import { logger, setWizardConfig } from 'console-wizard';
+import { config } from './config';
+import { PrismaClient } from '@prisma/client';
 
 setWizardConfig({
     includeStatus: true,
@@ -8,6 +10,13 @@ setWizardConfig({
 });
 
 export const client: Cheeka = new Cheeka();
+
+export const prisma = new PrismaClient({
+    log:
+        config.environment === 'dev'
+            ? ['query', 'info', 'warn', 'error']
+            : ['warn', 'error'],
+});
 
 client.deploy();
 

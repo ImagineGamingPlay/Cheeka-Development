@@ -20,6 +20,7 @@ import {
 } from '../../types/InteractionTypes';
 import { registerApplicationCommands } from '../functions/registerApplicatonCommands';
 import { registerButtons } from '../functions/registerButtons';
+import { prisma } from '../..';
 
 const { Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent } =
     GatewayIntentBits;
@@ -82,12 +83,7 @@ export class Cheeka extends Client {
         this.userContextMenus = new Collection();
         this.messageContextMenus = new Collection();
 
-        this.prisma = new PrismaClient({
-            log:
-                config.environment === 'dev'
-                    ? ['query', 'info', 'warn', 'error']
-                    : ['warn', 'error'],
-        });
+        this.prisma = prisma;
     }
 
     async deploy() {
