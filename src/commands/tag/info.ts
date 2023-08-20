@@ -79,9 +79,7 @@ export default new Command({
         const focused = interaction.options.getFocused();
         const tagChoices = await getTagNames(TAG_TYPE);
 
-        const filtered = tagChoices.filter(choice =>
-            choice.startsWith(focused)
-        );
+        const filtered = tagChoices.filter(choice => choice.includes(focused));
         await interaction.respond(
             filtered.map(choice => ({ name: choice, value: choice }))
         );
