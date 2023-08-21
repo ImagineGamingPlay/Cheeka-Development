@@ -13,7 +13,10 @@
         "noImplicitAny": true,
         "noImplicitOverride": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "paths": {
+            "@assets/": ["assets/*"]
+        }
     },
     "include": ["src/**/*", "environment.d.ts"],
     "exclude": ["node_modules/", "dist/"]

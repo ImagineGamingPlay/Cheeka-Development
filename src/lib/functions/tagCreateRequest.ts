@@ -6,7 +6,7 @@ import {
     EmbedBuilder,
 } from 'discord.js';
 import { client } from '../..';
-import { idData } from '../../data';
+import { codeblockRegex, idData } from '../../data';
 import { TagProps } from '../../types';
 
 const { channels } = idData;
@@ -48,35 +48,38 @@ export const tagCreateRequest = async ({
                 }),
         ],
     });
+    let shouldExit = false;
+    const userMessageCollection = await interaction.channel
+        ?.awaitMessages({
+            max: 1,
+            time: 15 * 1000,
+            errors: ['time'],
+            filter: m => m.author.id === interaction.user.id,
+        })
+        .catch(async () => {
+            if (shouldExit) return;
+            await interaction.editReply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle('Oops, You ran out of time!')
+                        .setDescription(
+                            "Your tag creation process has been canceled as you did not provide the tag's content in time. Run the command again to restart the process."
+                        )
+                        .setColor(colors.red),
+                ],
+            });
+            shouldExit = true;
+            return;
+        });
+    if (shouldExit) return;
+    const userMessage = userMessageCollection?.first();
 
-    const userMessage = (
-        await interaction.channel
-            ?.awaitMessages({
-                max: 1,
-                time: 15 * 1000,
-                errors: ['time'],
-                filter: m => m.author.id === interaction.user.id,
-            })
-            .catch(() => {
-                interaction.reply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('Oops, You ran out of time!')
-                            .setDescription(
-                                "Your tag creation process has been canceled as you did not provide the tag's content in time. Run the command again to restart the process."
-                            )
-                            .setColor(colors.red),
-                    ],
-                });
-                return;
-            })
-    )?.first();
     const channel = interaction.channel;
     if (!channel?.isTextBased()) return;
 
     const ownerId = interaction.user.id;
     if (!name) {
-        interaction.reply({
+        await interaction.followUp({
             content: 'Please provide a name for the tag!',
             ephemeral: true,
         });
@@ -84,7 +87,7 @@ export const tagCreateRequest = async ({
     }
     const content = userMessage?.content;
     if (!content) {
-        interaction.reply({
+        await interaction.followUp({
             content:
                 'Please send actual message for the tag. Attachments are not supported!',
             ephemeral: true,
@@ -94,7 +97,7 @@ export const tagCreateRequest = async ({
     if (content.toLowerCase() === 'cancel') return;
 
     if (content.length > 2000) {
-        interaction.reply({
+        await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Failed to create tag!')
@@ -107,7 +110,20 @@ export const tagCreateRequest = async ({
         });
         return;
     }
-
+    if (type === 'CODE' && !content.match(codeblockRegex)) {
+        await interaction.followUp({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('Failed to create tag!')
+                    .setDescription(
+                        'Your code tag does not contain a codeblock! Create one by:\n\\`\\`\\`language-name-here\ncode-here\n\\`\\`\\`'
+                    )
+                    .setColor(client.config.colors.red),
+            ],
+            ephemeral: true,
+        });
+        return;
+    }
     const tag = await client.prisma.tag.create({
         data: {
             name,

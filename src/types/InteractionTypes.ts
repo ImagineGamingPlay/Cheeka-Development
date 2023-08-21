@@ -13,6 +13,12 @@ import {
 } from 'discord.js';
 import { Cheeka } from '../lib';
 
+/**
+ * TODO: Remove modified interactions and take a much safer
+ * approach with checking for cached guilds and using cached
+ * interactions
+ */
+
 export interface ModifiedChatInputCommandInteraction
     extends ChatInputCommandInteraction {
     member: GuildMember;

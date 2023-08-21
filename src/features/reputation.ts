@@ -8,7 +8,6 @@ import {
 } from 'discord.js';
 import { client } from '..';
 import { idData } from '../data';
-import { writeFileSync } from 'fs';
 
 type TopReps = {
     [key: string]: number;
@@ -70,7 +69,7 @@ export const updateRepLeaderboard = async () => {
     }
 
     const barBuffer = await generateRepLeaderboardBar(topReps);
-    writeFileSync('bar.png', barBuffer);
+
     const barAttachment = new AttachmentBuilder(barBuffer, {
         name: 'bar.png',
         description: 'Leaderboard Bar',

@@ -4,6 +4,7 @@ export const channels = {
     repLogChannel: '805744599095050260',
     repLeaderboardChannel: '791612079705423872',
     messageLogChannel: '1028296071492943945',
+    memberCodesChannel: '1115733989395791952',
 };
 
 export const categories = {

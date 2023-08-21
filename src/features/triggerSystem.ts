@@ -19,7 +19,6 @@ const matchPattern = (content: string) => {
 
 export const triggerSystem = async (message: Message) => {
     const replyMessageContent = matchPattern(message.content);
-    console.log(triggerPatternCache);
     if (!replyMessageContent) return;
 
     await message.reply({

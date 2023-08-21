@@ -17,7 +17,7 @@ model Config {
 }
 
 model Trigger {
-  name                String   @unique
+  type                String   @unique
   id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   stringMatch         String[] @default([])
   regexMatch          String[] @default([])
