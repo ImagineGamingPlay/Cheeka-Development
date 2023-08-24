@@ -1,12 +1,12 @@
 import { EmbedBuilder } from 'discord.js';
-import { client } from '../..';
+import { client, prisma } from '../..';
 import { Button } from '../../lib/classes/Button';
 import { modifyTag } from '../../lib/functions/modifyTag';
 
 export default new Button({
     scope: 'tagModifyAccept',
     run: async ({ interaction, id }) => {
-        const tag = await client.prisma.tag.findUnique({
+        const tag = await prisma.tag.findUnique({
             where: {
                 id,
             },

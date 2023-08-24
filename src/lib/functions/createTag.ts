@@ -1,4 +1,4 @@
-import { client } from '../..';
+import { prisma } from '../..';
 import { TagProps } from '../../types';
 
 export const createTag = async ({
@@ -7,7 +7,7 @@ export const createTag = async ({
     type,
     ownerId,
 }: Omit<TagProps, 'interaction'>) => {
-    await client.prisma.tag.create({
+    await prisma.tag.create({
         data: {
             name,
             content,

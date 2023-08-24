@@ -22,7 +22,7 @@
     },
     "license": "MIT",
     "dependencies": {
-        "@prisma/client": "^5.1.1",
+        "@prisma/client": "^5.2.0",
         "axios": "^1.4.0",
         "canvas": "^2.11.2",
         "chalk": "^4.1.2",
@@ -50,7 +50,7 @@
         "husky": "^8.0.0",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.8",
-        "prisma": "^5.1.1",
+        "prisma": "^5.2.0",
         "ts-node": "^10.9.1",
         "tsup": "^7.1.0",
         "typescript": "^5.0.4"

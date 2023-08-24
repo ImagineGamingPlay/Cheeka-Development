@@ -1,12 +1,12 @@
 import { EmbedBuilder } from 'discord.js';
-import { client } from '../..';
+import { client, prisma } from '../..';
 import { ModifiedChatInputCommandInteraction } from '../../types';
 
 export const deleteTag = async (
     name: string,
     interaction: ModifiedChatInputCommandInteraction
 ) => {
-    const isTagOwner = await client.prisma.tag.findFirst({
+    const isTagOwner = await prisma.tag.findFirst({
         where: {
             name,
             ownerId: interaction.user.id,
@@ -30,7 +30,7 @@ export const deleteTag = async (
         return;
     }
 
-    const tag = await client.prisma.tag.findUnique({
+    const tag = await prisma.tag.findUnique({
         where: {
             name,
         },
@@ -47,7 +47,7 @@ export const deleteTag = async (
         return;
     }
 
-    await client.prisma.tag.delete({
+    await prisma.tag.delete({
         where: {
             name,
         },

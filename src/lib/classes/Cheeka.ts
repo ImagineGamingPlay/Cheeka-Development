@@ -92,7 +92,7 @@ export class Cheeka extends Client {
 
         await registerApplicationCommands();
         await registerButtons();
-        await this.prisma
+        await prisma
             .$connect()
             .then(() => logger.success('Database Connected!'));
         setActivityStatus(this);

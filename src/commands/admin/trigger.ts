@@ -2,19 +2,10 @@ import {
     ApplicationCommandOptionType,
     ApplicationCommandType,
 } from 'discord.js';
-import { client, prisma } from '../..';
+import { prisma } from '../..';
 import { Command } from '../../lib';
 import { cacheTriggerPatterns } from '../../lib/functions/cacheData';
 import { handleTriggerPattern, handleTriggerType } from '../../modules';
-
-const triggerTypes = await (async () => {
-    return await prisma.trigger.findMany();
-})();
-
-const triggerTypeChoiceData = triggerTypes.map(trigger => ({
-    name: trigger.type,
-    value: trigger.type,
-}));
 
 export default new Command({
     name: 'trigger',
@@ -55,7 +46,8 @@ export default new Command({
                             name: 'name',
                             description: 'Name of the type to delete',
                             type: ApplicationCommandOptionType.String,
-                            choices: triggerTypeChoiceData,
+                            // choices: triggerTypeChoiceData,
+                            autocomplete: true,
                             required: true,
                         },
                     ],
@@ -69,7 +61,8 @@ export default new Command({
                             name: 'name',
                             description: 'Name of the type to modify',
                             type: ApplicationCommandOptionType.String,
-                            choices: triggerTypeChoiceData,
+                            // choices: triggerTypeChoiceData,
+                            autocomplete: true,
                             required: true,
                         },
                         {
@@ -98,7 +91,8 @@ export default new Command({
                                 'Select the type of trigger you want to add',
                             type: ApplicationCommandOptionType.String,
                             required: true,
-                            choices: triggerTypeChoiceData,
+                            // choices: triggerTypeChoiceData,
+                            autocomplete: true,
                         },
                         {
                             name: 'pattern',
@@ -120,7 +114,8 @@ export default new Command({
                                 'Select the type of trigger you want to delete',
                             type: ApplicationCommandOptionType.String,
                             required: true,
-                            choices: triggerTypeChoiceData,
+                            // choices: triggerTypeChoiceData,
+                            autocomplete: true,
                         },
                         {
                             name: 'pattern',
@@ -136,23 +131,33 @@ export default new Command({
         },
     ],
     async autocomplete(interaction) {
-        const focused = interaction.options.getFocused();
-        const type = interaction.options.getString('type');
-        if (!type) return;
+        const { name, value } = interaction.options.getFocused(true);
 
-        const trigger = await prisma.trigger.findUnique({
-            where: {
-                type,
-            },
-        });
-        if (!trigger) return;
+        if (name === 'pattern') {
+            const triggers = await prisma.trigger.findMany();
+            if (!triggers) return;
 
-        const choices = [...trigger.regexMatch, ...trigger.stringMatch];
+            const choices = triggers.reduce((acc, cur) => {
+                return [...acc, ...cur.regexMatch, ...cur.stringMatch];
+            }, [] as string[]);
 
-        const filtered = choices.filter(c => c.includes(focused));
-        await interaction.respond(filtered.map(c => ({ name: c, value: c })));
+            const filtered = choices.filter(c => c.includes(value));
+            await interaction.respond(
+                filtered.map(c => ({ name: c, value: c }))
+            );
+        }
+        if (name === 'name' || name === 'type') {
+            const triggers = await prisma.trigger.findMany();
+            const choices = triggers.map(trigger => ({
+                name: trigger.type,
+                value: trigger.type,
+            }));
+
+            const filtered = choices.filter(c => c.name.includes(value));
+            await interaction.respond(filtered);
+        }
     },
-    run: async ({ interaction, options }) => {
+    run: async ({ interaction }) => {
         await interaction.deferReply();
         const subcommandGroup = interaction.options.getSubcommandGroup();
         if (!subcommandGroup) return;
@@ -161,68 +166,7 @@ export default new Command({
         if (subcommandGroup === 'pattern') {
             await handleTriggerPattern(interaction);
         }
-
-        const pattern = options?.getString('pattern');
-        if (!pattern) return;
-
-        const type = options?.getString('type');
-        if (!type) return;
-
-        const msg =
-            options?.getString('msg') ??
-            'No trigger message content. Add one by `/trigger add type:type msg:content_here`';
-        const isRegex = pattern.startsWith('/');
-
-        const config = await client.prisma.config.findFirst();
-        if (!config) return;
-
-        if (isRegex) {
-            await client.prisma.trigger.upsert({
-                where: {
-                    type,
-                },
-                create: {
-                    type,
-                    stringMatch: [pattern],
-                    regexMatch: [],
-                    replyMessageContent: msg,
-                    config: {
-                        connect: config,
-                    },
-                },
-                update: {
-                    regexMatch: {
-                        push: pattern,
-                    },
-                },
-            });
-        } else {
-            await client.prisma.trigger.upsert({
-                where: {
-                    type,
-                },
-                create: {
-                    type,
-                    stringMatch: [pattern],
-                    regexMatch: [],
-                    replyMessageContent: msg,
-                    config: {
-                        connect: config,
-                    },
-                },
-                update: {
-                    regexMatch: {
-                        push: pattern,
-                    },
-                },
-            });
-        }
-
         // Cache the trigger patterns
         await cacheTriggerPatterns();
-
-        await interaction.reply({
-            content: `Added ${pattern} to ${type} trigger!`,
-        });
     },
 });

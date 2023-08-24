@@ -1,11 +1,11 @@
 import { EmbedBuilder } from 'discord.js';
-import { client } from '../..';
+import { client, prisma } from '../..';
 import { Button } from '../../lib/classes/Button';
 
 export default new Button({
     scope: 'tagDecline',
     run: async ({ interaction, id }) => {
-        const tag = await client.prisma.tag.findUnique({
+        const tag = await prisma.tag.findUnique({
             where: {
                 id: id,
             },
@@ -18,7 +18,7 @@ export default new Button({
             return;
         }
 
-        await client.prisma.tag.delete({
+        await prisma.tag.delete({
             where: {
                 id: id,
             },

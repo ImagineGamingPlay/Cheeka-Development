@@ -4,6 +4,7 @@ import { ModifiedChatInputCommandInteraction } from '../../types';
 export const handleTriggerPattern = async (
     interaction: ModifiedChatInputCommandInteraction
 ) => {
+    let exit = false;
     const subcommand = interaction.options.getSubcommand();
 
     const type = interaction.options.getString('type');
@@ -16,28 +17,47 @@ export const handleTriggerPattern = async (
 
     if (subcommand === 'add') {
         if (isRegex) {
-            await prisma.trigger.update({
-                where: {
-                    type,
-                },
-                data: {
-                    regexMatch: {
-                        push: pattern,
+            await prisma.trigger
+                .update({
+                    where: {
+                        type,
                     },
-                },
-            });
+                    data: {
+                        regexMatch: {
+                            push: pattern,
+                        },
+                    },
+                })
+                .catch(async () => {
+                    await interaction.followUp({
+                        content:
+                            'Error creating pattern: Make sure there are no types with the same name!',
+                    });
+                    exit = true;
+                });
+            if (exit) return;
         } else {
-            await prisma.trigger.update({
-                where: {
-                    type,
-                },
-                data: {
-                    stringMatch: {
-                        push: pattern,
+            await prisma.trigger
+                .update({
+                    where: {
+                        type,
                     },
-                },
-            });
+                    data: {
+                        stringMatch: {
+                            push: pattern,
+                        },
+                    },
+                })
+                .catch(async () => {
+                    await interaction.followUp({
+                        content:
+                            'Error creating pattern: Make sure there are no types with the same name!',
+                    });
+                    exit = true;
+                });
         }
+
+        if (exit) return;
         await interaction.followUp({
             content: `Added new **${type}** pattern: \`${pattern}\``,
         });
@@ -47,32 +67,56 @@ export const handleTriggerPattern = async (
         const array = isRegex ? trigger?.regexMatch : trigger?.stringMatch;
         const index = array?.indexOf(pattern);
 
-        if (!index || index === -1) return;
+        if (index === undefined || index === -1) {
+            await interaction.followUp({
+                content:
+                    'Error deleting pattern: Make sure the pattern for that type exists!',
+            });
+            return;
+        }
         array?.splice(index, 1);
 
         if (isRegex) {
-            await prisma.trigger.update({
-                where: {
-                    type,
-                },
-                data: {
-                    regexMatch: {
-                        set: array,
+            await prisma.trigger
+                .update({
+                    where: {
+                        type,
                     },
-                },
-            });
+                    data: {
+                        regexMatch: {
+                            set: array,
+                        },
+                    },
+                })
+                .catch(async () => {
+                    await interaction.followUp({
+                        content:
+                            'Error deleting pattern: Make sure the pattern for that type exists!',
+                    });
+                    exit = true;
+                });
+            if (exit) return;
         } else {
-            await prisma.trigger.update({
-                where: {
-                    type,
-                },
-                data: {
-                    stringMatch: {
-                        set: array,
+            await prisma.trigger
+                .update({
+                    where: {
+                        type,
                     },
-                },
-            });
+                    data: {
+                        stringMatch: {
+                            set: array,
+                        },
+                    },
+                })
+                .catch(async () => {
+                    await interaction.followUp({
+                        content:
+                            'Error deleting pattern: Make sure the pattern for that type exists!',
+                    });
+                    exit = true;
+                });
         }
+        if (exit) return;
         await interaction.followUp({
             content: `Deleted **${type}** pattern: \`${pattern}\``,
         });

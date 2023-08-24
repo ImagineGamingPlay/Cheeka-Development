@@ -1,5 +1,5 @@
 import { AttachmentBuilder, ChannelType, EmbedBuilder } from 'discord.js';
-import { client } from '../..';
+import { client, prisma } from '../..';
 import { Button } from '../../lib/classes/Button';
 import { codeblockRegex, idData, sourcebinLanguageData } from '../../data';
 import { Canvas, createCanvas, loadImage } from 'canvas';
@@ -8,7 +8,7 @@ export default new Button({
     scope: 'tagAccept',
 
     run: async ({ interaction, id }) => {
-        const tag = await client.prisma.tag.findUnique({
+        const tag = await prisma.tag.findUnique({
             where: {
                 id,
             },
@@ -22,7 +22,7 @@ export default new Button({
             return;
         }
 
-        await client.prisma.tag.update({
+        await prisma.tag.update({
             where: {
                 id,
             },

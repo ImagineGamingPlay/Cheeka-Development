@@ -8,6 +8,7 @@ import { Command } from '../../lib';
 import { addRep } from '../../modules/addRep';
 import { logRep } from '../../modules';
 import { updateRepLeaderboard } from '../../features';
+import { prisma } from '../..';
 
 export default new Command({
     name: 'rep',
@@ -90,7 +91,7 @@ export default new Command({
                 });
             }
 
-            const reputation = await client.prisma.reputation.findUnique({
+            const reputation = await prisma.reputation.findUnique({
                 where: {
                     userId: user.id,
                 },
@@ -142,7 +143,7 @@ export default new Command({
             const count = options?.getNumber('count') || 1;
             if (!member) return;
 
-            await client.prisma.reputation.update({
+            await prisma.reputation.update({
                 where: {
                     userId: member.id,
                 },
@@ -162,7 +163,7 @@ export default new Command({
             const member = options?.getMember('user') as GuildMember;
             if (!member) return;
 
-            await client.prisma.reputation.delete({
+            await prisma.reputation.delete({
                 where: {
                     userId: member.id,
                 },
@@ -182,7 +183,7 @@ export default new Command({
                 });
                 return;
             }
-            await client.prisma.reputation.deleteMany();
+            await prisma.reputation.deleteMany();
         }
         await updateRepLeaderboard();
     },

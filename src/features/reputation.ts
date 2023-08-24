@@ -6,7 +6,7 @@ import {
     GuildMember,
     TextChannel,
 } from 'discord.js';
-import { client } from '..';
+import { client, prisma } from '..';
 import { idData } from '../data';
 
 type TopReps = {
@@ -58,7 +58,7 @@ const generateRepLeaderboardBar = async (topReps: TopReps) => {
 };
 
 export const updateRepLeaderboard = async () => {
-    const reps = await client.prisma.reputation.findMany();
+    const reps = await prisma.reputation.findMany();
     const topReps: TopReps = {};
 
     const sortedTopReps = reps.sort((a, b) => b.count - a.count).slice(0, 5);
@@ -83,7 +83,7 @@ export const updateRepLeaderboard = async () => {
         },
     });
 
-    const config = await client.prisma.config.findFirst();
+    const config = await prisma.config.findFirst();
 
     const output = {
         embeds: [embed],
@@ -96,7 +96,7 @@ export const updateRepLeaderboard = async () => {
 
     if (!config || !config.repLeaderboardMsgId) {
         const msg = await channel?.send(output);
-        await client.prisma.config.create({
+        await prisma.config.create({
             data: {
                 repLeaderboardMsgId: msg?.id,
             },
@@ -115,7 +115,7 @@ export const manageRepRole = async (
     const role = await interation.guild?.roles.fetch('1136925691301072937');
     if (!role) return;
 
-    const rep = await client.prisma.reputation.findUnique({
+    const rep = await prisma.reputation.findUnique({
         where: {
             userId: member.id,
         },

@@ -1,5 +1,5 @@
 import { EmbedBuilder, GuildMember } from 'discord.js';
-import { client } from '..';
+import { client, prisma } from '..';
 import { manageRepRole } from '../features';
 import { logRep } from './logRep';
 import {
@@ -43,20 +43,20 @@ export const addRep = async (
     }
 
     try {
-        const reputation = await client.prisma.reputation.findUnique({
+        const reputation = await prisma.reputation.findUnique({
             where: {
                 userId: member.id,
             },
         });
         if (!reputation) {
-            await client.prisma.reputation.create({
+            await prisma.reputation.create({
                 data: {
                     count: 0,
                     userId: member.id,
                 },
             });
         }
-        await client.prisma.reputation.update({
+        await prisma.reputation.update({
             where: {
                 userId: member.id,
             },

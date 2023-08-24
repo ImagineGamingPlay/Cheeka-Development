@@ -5,7 +5,7 @@ import {
     ButtonStyle,
     EmbedBuilder,
 } from 'discord.js';
-import { client } from '../..';
+import { client, prisma } from '../..';
 import { codeblockRegex, idData } from '../../data';
 import { TagProps } from '../../types';
 
@@ -17,7 +17,6 @@ export const tagCreateRequest = async ({
     interaction,
 }: Omit<TagProps, 'ownerId' | 'content'>) => {
     const {
-        prisma,
         config: { colors },
     } = client;
 
@@ -124,7 +123,7 @@ export const tagCreateRequest = async ({
         });
         return;
     }
-    const tag = await client.prisma.tag.create({
+    const tag = await prisma.tag.create({
         data: {
             name,
             content,

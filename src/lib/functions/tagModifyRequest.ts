@@ -5,7 +5,7 @@ import {
     EmbedBuilder,
     PermissionFlagsBits,
 } from 'discord.js';
-import { client } from '../..';
+import { client, prisma } from '../..';
 import { TagProps } from '../../types';
 import { idData } from '../../data';
 import { logger } from 'console-wizard';
@@ -18,7 +18,7 @@ export const tagModifyRequest = async ({
     interaction,
     type,
 }: Omit<TagProps, 'options' | 'content' | 'ownerId'>) => {
-    const tag = await client.prisma.tag.findUnique({
+    const tag = await prisma.tag.findUnique({
         where: {
             name,
         },
@@ -47,7 +47,7 @@ export const tagModifyRequest = async ({
         return;
     }
 
-    const isTagOwner = await client.prisma.tag.findFirst({
+    const isTagOwner = await prisma.tag.findFirst({
         where: {
             name,
             ownerId: interaction.user.id,
@@ -134,7 +134,7 @@ export const tagModifyRequest = async ({
         return;
     }
 
-    await client.prisma.tag.update({
+    await prisma.tag.update({
         where: {
             name,
         },

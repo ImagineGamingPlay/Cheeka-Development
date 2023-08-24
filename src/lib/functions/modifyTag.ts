@@ -1,7 +1,7 @@
-import { client } from '../..';
+import { prisma } from '../..';
 
 export const modifyTag = async (name: string, newContent: string) => {
-    await client.prisma.tag.update({
+    await prisma.tag.update({
         where: {
             name,
         },
