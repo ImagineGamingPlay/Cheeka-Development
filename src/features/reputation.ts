@@ -122,7 +122,7 @@ export const manageRepRole = async (
     });
     if (!rep) return;
 
-    if (rep.count >= 10) {
+    if (rep.count >= 5) {
         await member.roles.add('1136925691301072937');
     }
 };
