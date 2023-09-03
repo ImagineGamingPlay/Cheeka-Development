@@ -5,11 +5,13 @@ import { idData } from '../data';
 import { TextChannel } from 'discord.js';
 import { boosterDM } from '../features';
 import { triggerSystem } from '../features/triggerSystem';
-
+import { modMail } from '../features';
 export default new Event('messageCreate', async message => {
     if (message.author.bot) {
         return;
     }
+
+    modMail(message);
 
     await triggerSystem(message);
 

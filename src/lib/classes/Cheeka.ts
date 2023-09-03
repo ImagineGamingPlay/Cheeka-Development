@@ -5,6 +5,7 @@ import {
     ClientOptions,
     Collection,
     GatewayIntentBits,
+    Partials,
     PresenceUpdateStatus,
 } from 'discord.js';
 import { handleEvents } from '../../handlers';
@@ -24,7 +25,7 @@ import { prisma } from '../..';
 
 const { Guilds, GuildMessages, DirectMessages, GuildMembers, MessageContent } =
     GatewayIntentBits;
-
+const { Channel } = Partials;
 const clientOptions: ClientOptions = {
     intents: [
         Guilds,
@@ -33,6 +34,7 @@ const clientOptions: ClientOptions = {
         GuildMembers,
         MessageContent,
     ],
+    partials: [Channel],
     allowedMentions: {
         repliedUser: true,
     },
