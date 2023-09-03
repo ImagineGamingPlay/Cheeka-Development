@@ -15,6 +15,9 @@ export interface ConfigType {
     devGuildId: string;
     staffRoleId: string;
     mainGuildId: string;
+    modMailCategoryId: string;
+    modMailLogsId: string;
+    modMailDiscussionId: string;
     environment: string;
     repCooldownMS?: number;
     token: string;
