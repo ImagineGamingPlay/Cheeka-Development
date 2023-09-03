@@ -115,17 +115,15 @@ export const modMail = async (message: Message) => {
                 new ActionRowBuilder<ButtonBuilder>().setComponents(
                     new ButtonBuilder()
                         .setLabel('Close')
-                        .setCustomId(`mmclose-${message.author.username}`)
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setLabel('Pause')
-                        .setCustomId(`mmpause-${message.author.username}`)
-                        .setStyle(ButtonStyle.Success)
+                        .setCustomId(`mmclose--${message.author.username}`)
+                        .setStyle(ButtonStyle.Danger)
                 );
-            mailChannel?.send({
-                embeds: [modMailThreadEmbed],
-                components: [modMailButtons],
-            });
+            mailChannel
+                ?.send({
+                    embeds: [modMailThreadEmbed],
+                    components: [modMailButtons],
+                })
+                .then(message => message.pin());
             const logsEmbed = new EmbedBuilder()
                 .setTitle('New modmail thread has been created')
                 .addFields(
