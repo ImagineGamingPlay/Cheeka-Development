@@ -65,7 +65,7 @@ export const modMail = async (message: Message) => {
             const embed = new EmbedBuilder()
                 .setTitle('Modmail has been created')
                 .setDescription(
-                    `Please wait for a staff member to join the thread to start your conversation`
+                    'Please wait for a staff member to join the thread to start your conversation'
                 )
                 .setColor('Blurple')
                 .setTimestamp()

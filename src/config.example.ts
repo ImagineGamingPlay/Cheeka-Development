@@ -7,7 +7,10 @@ export const config: ConfigType = {
 
     aiReactionChannels: ['channelId', 'channelId', '...'],
 
-    token: process.env.NODE_ENV.toLowerCase() == 'prod' ? process.env.PROD_BOT_TOKEN : process.env.DEV_BOT_TOKEN,
+    token:
+        process.env.NODE_ENV.toLowerCase() === 'prod'
+            ? process.env.PROD_BOT_TOKEN
+            : process.env.DEV_BOT_TOKEN,
     clientId: 'bot client Id (user Id)',
     guildId: "bot's guild id",
     ownerId: "bot and guiid's owner's id",

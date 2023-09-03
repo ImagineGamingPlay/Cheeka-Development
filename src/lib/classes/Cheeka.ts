@@ -34,9 +34,7 @@ const clientOptions: ClientOptions = {
         GuildMembers,
         MessageContent,
     ],
-    partials: [
-        Channel
-    ],
+    partials: [Channel],
     allowedMentions: {
         repliedUser: true,
     },
