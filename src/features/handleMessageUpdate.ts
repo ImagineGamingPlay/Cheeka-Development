@@ -8,8 +8,8 @@ export const handleMessageUpdate = async (
     const editLogChannel = (await client.channels.fetch(
         config.editLogChannelId
     )) as TextBasedChannel;
-    let oldContent = oldMessage.content;
-    let newContent = newMessage.content;
+    const oldContent = oldMessage.content;
+    const newContent = newMessage.content;
 
     if (oldContent.length > 3500) {
         oldContent.slice(0, 3500);
