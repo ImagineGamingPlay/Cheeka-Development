@@ -17,6 +17,8 @@ export interface ConfigType {
     mainGuildId: string;
     environment: string;
     repCooldownMS?: number;
+    deleteLogChannelId: string,
+    editLogChannelId: string,
     token: string;
     clientId: string;
     colors: ColorsType;

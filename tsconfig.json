@@ -15,7 +15,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
-            "@assets/": ["assets/*"]
+            "@assets/": ["./assets/*"]
         }
     },
     "include": ["src/**/*", "environment.d.ts"],
