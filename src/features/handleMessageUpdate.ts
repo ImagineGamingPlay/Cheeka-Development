@@ -8,16 +8,8 @@ export const handleMessageUpdate = async (
     const editLogChannel = (await client.channels.fetch(
         config.editLogChannelId
     )) as TextBasedChannel;
-    const oldContent = oldMessage.content;
-    const newContent = newMessage.content;
-
-    if (oldContent.length > 3500) {
-        oldContent.slice(0, 3500);
-    }
-
-    if (newContent.length > 3500) {
-        newContent.slice(0, 3500);
-    }
+    const oldContent = oldMessage.content.length > 3500 ? oldMessage.content.slice(0,3500) : oldMessage.content;
+    const newContent = newMessage.content.length > 3500 ? newMessage.content.slice(0,3500) : newMessage.content;
 
     const deleteLogEmbed = new EmbedBuilder()
         .setTitle('Message Updated')
