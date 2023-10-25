@@ -12,6 +12,8 @@ export const config: ConfigType = {
     guildId: "bot's guild id",
     ownerId: "bot and guiid's owner's id",
     staffRoleId: 'Role ID of staff role',
+    deleteLogChannelId: 'channel id',
+    editLogChannelId: 'channel id',
     repCooldownMS: 0, // Rep add cooldown in miliseconds
     devGuildId: 'development guild Id',
     mainGuildId: 'main/production guild Id',

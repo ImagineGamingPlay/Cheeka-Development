@@ -23,11 +23,11 @@ export const addRep = async (
     }
     if (member.user.bot) {
         await interaction.reply({
-            content: "You may not add reputation to bots.",
+            content: 'You may not add reputation to bots.',
             ephemeral: true,
         });
         return;
-    };
+    }
     const cooldownTimestamp = repCooldownCache.get(interaction.member.id);
 
     if (cooldownTimestamp) {
