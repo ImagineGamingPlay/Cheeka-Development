@@ -5,11 +5,7 @@ export const handleMessageDelete = async (message: Message) => {
     const deleteLogChannel = (await client.channels.fetch(
         config.deleteLogChannelId
     )) as TextBasedChannel;
-    const content = message.content;
-    if (content.length > 3500) {
-        content.slice(0, 3500);
-    }
-
+    const content = message.content.length > 3500 ? message.content.slice(0,3500) : message.content;
     const deleteLogEmbed = new EmbedBuilder()
         .setTitle('Message Deleted')
         .setDescription(
